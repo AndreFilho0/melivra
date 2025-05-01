@@ -1,0 +1,202 @@
+defmodule ShlinkedinWeb.HomeLive.Show do
+  use ShlinkedinWeb, :live_view
+  alias Shlinkedin.Timeline
+  alias Shlinkedin.Timeline.Comment
+
+  @impl true
+  def mount(%{"id" => id}, session, socket) do
+    if connected?(socket) do
+      Timeline.subscribe()
+    end
+
+    post = Timeline.get_post_preload_all(id)
+
+    socket = is_user(session, socket)
+
+    {:ok,
+     socket
+     |> assign(like_map: Timeline.like_map())
+     |> assign(comment_like_map: Timeline.comment_like_map())
+     |> assign(show_like_options: false)
+     |> assign(post: post)
+     |> assign(meta_attrs: meta_attrs(post.body, post.profile.persona_name))
+     |> assign(:page_title, "See #{post.profile.persona_name}'s post on ShlinkedIn")}
+  end
+
+  @impl true
+  def handle_params(params, _url, %{assigns: %{live_action: :show}} = socket) do
+    {:noreply, apply_action(socket, :show, params)}
+  end
+
+  @impl true
+  def handle_params(%{"id" => id, "comment_id" => comment_id} = params, _url, socket) do
+    case socket.assigns.current_user do
+      nil ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Você deve ter uma conta para fazer isso :)")
+         |> push_patch(to: Routes.home_show_path(socket, :show, id, :comment_id, comment_id))}
+
+      _user ->
+        {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+    end
+  end
+
+  @impl true
+  def handle_params(%{"id" => id} = params, _url, socket) do
+    case socket.assigns.current_user do
+      nil ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "Você deve ter uma conta para fazer isso :)")
+         |> push_patch(to: Routes.home_show_path(socket, :show, id))}
+
+      _user ->
+        {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+    end
+  end
+
+  defp apply_action(socket, :show, params) do
+    comment_highlight =
+      Map.get(params, "comment_id", nil)
+      |> case do
+        nil -> nil
+        int -> String.to_integer(int)
+      end
+
+    socket
+    |> assign(
+      from_notifications: Map.has_key?(params, "notifications"),
+      comment_highlight: comment_highlight
+    )
+  end
+
+  defp apply_action(socket, :show_comment_likes, %{"comment_id" => comment_id}) do
+    comment = Timeline.get_comment!(comment_id)
+
+    socket
+    |> assign(:page_title, "Comment Reactions")
+    |> assign(
+      :grouped_likes,
+      Timeline.list_comment_likes(comment)
+      |> Enum.group_by(&%{name: &1.name, photo_url: &1.photo_url, slug: &1.slug})
+    )
+    |> assign(:comment, comment)
+  end
+
+  defp apply_action(socket, :show_likes, %{"id" => id}) do
+    post = Timeline.get_post_preload_profile(id)
+
+    socket
+    |> assign(:page_title, "Reactions")
+    |> assign(
+      :grouped_likes,
+      Timeline.list_likes(post)
+      |> Enum.group_by(&%{name: &1.name, photo_url: &1.photo_url, slug: &1.slug})
+    )
+  end
+
+  defp apply_action(socket, :new_comment, %{"id" => id, "reply_to" => username}) do
+    post = Timeline.get_post_preload_profile(id)
+
+    socket
+    |> assign(:page_title, "Reply to #{post.profile.persona_name}'s comment")
+    |> assign(:reply_to, username)
+    |> assign(:comments, [])
+    |> assign(:comment, %Comment{})
+  end
+
+  defp apply_action(socket, :new_comment, _params) do
+    socket
+    |> assign(:page_title, "Comment")
+    |> assign(:reply_to, nil)
+    |> assign(:comments, [])
+    |> assign(:comment, %Comment{})
+  end
+
+  defp apply_action(socket, :new_action, _params) do
+    socket |> assign(action: %Shlinkedin.Moderation.Action{})
+  end
+
+  defp apply_action(socket, :edit_action, %{"action_id" => action_id}) do
+    action = Shlinkedin.Moderation.get_action!(action_id)
+    socket |> assign(action: action)
+  end
+
+  @impl true
+  def handle_event("delete", %{"id" => id}, socket) do
+    {:ok, post} = Timeline.get_allowed_change_post(socket.assigns.profile, id)
+    {:ok, _} = Timeline.delete_post(post)
+
+    {:noreply,
+     socket
+     |> put_flash(:info, "Post deleted")
+     |> push_redirect(to: Routes.home_index_path(socket, :index))}
+  end
+
+  @impl true
+  def handle_event("delete-comment", %{"id" => id}, socket) do
+    {:ok, comment} = Timeline.get_allowed_change_comment(socket.assigns.profile, id)
+    {:ok, _} = Timeline.delete_comment(comment)
+
+    {:noreply,
+     socket
+     |> put_flash(:info, "Comment deleted")
+     |> push_redirect(to: Routes.home_show_path(socket, :show, socket.assigns.post.id))}
+  end
+
+  @impl true
+  def handle_info({:post_created, _post}, socket) do
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info({:post_updated, post}, %{assigns: %{post: %{id: id}}} = socket) do
+    if id == post.id do
+      {:noreply, socket |> assign(post: post)}
+    else
+      {:noreply, socket}
+    end
+  end
+
+  @impl true
+  def handle_info({:post_deleted, _post}, socket) do
+    {:noreply, socket}
+  end
+
+  defp meta_attrs(text, name, image \\ "https://shlinked.s3.amazonaws.com/shlinkedin_logo+2.png") do
+    trimmed_text = trim_text(text)
+    url = Timeline.og_image_url()
+
+    [
+      %{
+        property: "og:image",
+        content:
+          "#{url}/\"#{trimmed_text}\"**-#{name}**.png?theme=light&md=1&fontSize=100px&images=#{image}"
+      },
+      %{
+        name: "twitter:image:src",
+        content:
+          "#{url}/\"#{trimmed_text}\"**-#{name}**.png?theme=light&md=1&fontSize=100px&images=#{image}"
+      },
+      %{
+        property: "og:image:height",
+        content: "630"
+      },
+      %{
+        property: "og:image:width",
+        content: "1200"
+      }
+    ]
+  end
+
+  defp trim_text(text) when is_binary(text) do
+    if String.length(text) <= 70 do
+      text
+    else
+      String.slice(text, 0..70) <> "..."
+    end
+  end
+
+  defp trim_text(text), do: text
+end

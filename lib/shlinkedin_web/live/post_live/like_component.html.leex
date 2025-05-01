@@ -1,0 +1,54 @@
+<div class="bg-white px-4 py-4 border-b border-gray-200 sm:px-6 rounded-t-lg">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">
+        <%= @title %>
+    </h3>
+
+</div>
+
+
+<div class="p-5 pt-2 max-h-96 overflow-y-scroll">
+    <%= for user <- @grouped_likes |> Map.keys() do %>
+
+    <div class="my-1 border-gray-100 border-b">
+        <div class="flex">
+            <span class="inline-block cursor-pointer place-self-center">
+                <img class="h-8 w-8 rounded-full object-cover"
+                    src="<%= user.photo_url %>" alt="">
+            </span>
+            <div class="ml-2 py-2 px-4 rounded-lg">
+                <div class="flex justify-between">
+                    <%= live_redirect to: Routes.profile_show_path(@socket, :show, user.slug), id: "#{user.slug}", class: "bold text-xs font-semibold hover:underline cursor-pointer" do  %>
+                    <%= user.name %>
+                    <% end %>
+                </div>
+
+                <%= for like <- @grouped_likes[user] do%>
+                <%= if @like_map[like.like_type] != nil do %>
+
+                <span
+                    class="pr-1 mt-2 mr-2 inline-flex items-center text-sm <%= @like_map[like.like_type].color %> focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+
+                    <%= if @like_map[like.like_type].is_emoji do %>
+                    <%= @like_map[like.like_type].emoji %>
+                    <% else %>
+                    <svg class="-ml-1 mr-1 h-4 w-4 sm:h-5 sm:w-5 mx-auto"
+                        fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="<%= @like_map[like.like_type].svg_path %>"
+                            fill-rule="<%=@like_map[like.like_type].fill%>">
+                        </path>
+                    </svg>
+                    <% end %>
+
+
+                    <%= like.like_type %> <span
+                        class="pl-1 text-gray-500 font-normal"><%= like.count %>x</span>
+                </span>
+                <% end %>
+                <% end %>
+            </div>
+        </div>
+    </div>
+
+    <% end %>
+</div>

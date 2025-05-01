@@ -1,0 +1,66 @@
+<%= form_for @conn, Routes.user_session_path(@conn, :create), [as: :user], fn f -> %>
+<%= if @error_message do %>
+<div class="alert alert-danger">
+    <p><%= @error_message %></p>
+</div>
+<% end %>
+<div
+    class="bg-gradient-to-r from-blue-500 to-blue-900 flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+        <div>
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-blue-200">
+                Me Livra
+            </h2>
+            <p class="mt-2 text-center text-sm text-blue-200 font-semibold">
+                Não tem uma conta ?
+                <%= link "Criar uma aqui", to: Routes.user_registration_path(@conn, :new), class: "font-semibold text-white underline hover:text-green-200"%>
+            </p>
+        </div>
+        <form class="mt-8 space-y-6">
+            <input type="hidden" name="remember" value="true">
+            <div class="rounded-md shadow-sm -space-y-px">
+                <div>
+                    <%= label f, :email, class: "sr-only" %>
+                    <%= email_input f, :email, required: true, class: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-200 focus:border-blue-200 focus:z-10 sm:text-sm",
+                        placeholder: "Email" %>
+                </div>
+                <div>
+                    <%= label f, :password, class: "sr-only" %>
+                    <%= password_input f, :password, required: true, class: "mt-2 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-200 focus:border-blue-200 focus:z-10 sm:text-sm",
+                        placeholder: "Senha"  %>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+
+                    <%= checkbox f, :remember_me, checked: true, class: "h-4 w-4 text-green-400 focus:ring-green-400 border-gray-300 rounded" %>
+                    <%= label f, :remember_me, "Lembrar de mim", class: "ml-2 block text-sm text-white font-semibold"  %>
+
+                </div>
+
+                <div class="text-sm">
+                    <%= link "Esqueceu sua Senha ?", to: Routes.user_reset_password_path(@conn, :new),  class: "font-semibold text-white underline hover:text-green-200" %>
+                </div>
+            </div>
+
+            <div>
+
+                <%= submit class: "group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-semibold rounded-md text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" do %>
+                <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                    <!-- Heroicon name: lock-closed -->
+                    <svg class="h-5 w-5 text-green-200 group-hover:text-green-300" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd"
+                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </span>
+                Entrar
+                </button>
+                <% end %>
+            </div>
+        </form>
+    </div>
+</div>
+<% end %>

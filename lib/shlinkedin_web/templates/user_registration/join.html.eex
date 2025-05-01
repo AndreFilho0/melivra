@@ -1,0 +1,182 @@
+<div class="bg-gradient-to-b from-blue-50 to-white pb-8 sm:pb-12 lg:pb-12">
+    <div class="pt-8 overflow-hidden sm:pt-12 lg:relative lg:py-48">
+        <div class="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-24">
+            <div>
+                <div class="mt-6">
+                    <div class="mt-6 sm:max-w-xl">
+                        <span class="block text-sm font-semibold uppercase tracking-wide text-blue-600 sm:text-base lg:text-sm xl:text-base">
+                            Conecte-se além da sala de aula
+                        </span>
+
+                        <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
+                            Sua rede acadêmica
+                            <span class="text-transparent bg-clip-text bg-gradient-to-br from-blue-600 to-indigo-500">
+                                colaborativa
+                            </span>
+                        </h1>
+
+                        <p class="mt-6 text-xl text-gray-600">
+                            O Me Livra é o espaço perfeito para compartilhar conhecimentos, 
+                            encontrar grupos de estudo e se conectar com colegas. 
+                            <span class="font-semibold text-blue-700">Juntos, vamos além do ensino tradicional.</span>
+                        </p>
+                    </div>
+
+                    <div class="mt-8">
+                        <a href="/register" class="inline-flex rounded-md border border-transparent px-5 py-3 bg-blue-600 hover:bg-blue-700 text-base font-medium text-white shadow focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:px-10">
+                            Comece agora →
+                        </a>
+                                            </div>
+
+                    <div class="mt-10">
+                        <div class="rounded-md bg-blue-50 p-4">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <svg class="h-5 w-5 text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <h3 class="text-sm font-medium text-blue-800">
+                                        AMBIENTE SEGURO E VERIFICADO
+                                    </h3>
+                                    <div class="mt-2 text-xs text-blue-700">
+                                        <p>
+                                            Comunidade exclusiva para estudantes com verificação acadêmica. 
+                                            Seu espaço para colaboração sem distrações.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sm:mx-auto sm:max-w-3xl sm:px-6">
+            <div class="py-12 sm:relative sm:mt-12 sm:py-16 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+                <div class="hidden sm:block">
+                    <div class="absolute inset-y-0 left-1/2 w-screen bg-blue-50 rounded-l-3xl lg:left-80 lg:right-0 lg:w-full"></div>
+                </div>
+                <div class="relative mx-4 sm:mx-auto max-w-none lg:h-full lg:pl-12">
+                    <img class="w-full rounded-lg shadow-xl ring-1 ring-black ring-opacity-5 lg:h-full lg:w-auto lg:max-w-none" 
+                         src="" 
+                         alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Seção de Destaques -->
+<div class="bg-white py-16 sm:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-3">
+            <div class="text-center">
+                <div class="bg-blue-50 rounded-full w-20 h-20 mx-auto flex items-center justify-center">
+                    <svg class="h-12 w-12 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                    </svg>
+                </div>
+                <h3 class="mt-6 text-xl font-semibold text-gray-900">Grupos de Estudo</h3>
+                <p class="mt-2 text-gray-600">Crie ou participe de grupos temáticos e colabore em tempo real</p>
+            </div>
+            
+            <div class="text-center">
+                <div class="bg-blue-50 rounded-full w-20 h-20 mx-auto flex items-center justify-center">
+                    <svg class="h-12 w-12 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                    </svg>
+                </div>
+                <h3 class="mt-6 text-xl font-semibold text-gray-900">Avisos Importantes</h3>
+                <p class="mt-2 text-gray-600">Receba alertas sobre prazos, eventos e atualizações acadêmicas</p>
+            </div>
+
+            <div class="text-center">
+                <div class="bg-blue-50 rounded-full w-20 h-20 mx-auto flex items-center justify-center">
+                    <svg class="h-12 w-12 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                    </svg>
+                </div>
+                <h3 class="mt-6 text-xl font-semibold text-gray-900">Troca de Materiais</h3>
+                <p class="mt-2 text-gray-600">Compartilhe e acesse resumos, exercícios e trabalhos acadêmicos</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Seção de Recursos -->
+<div class="bg-gray-50 py-16 sm:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="lg:text-center">
+            <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+                Tudo que você precisa para seu desenvolvimento acadêmico
+            </h2>
+            <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-600">
+                Ferramentas colaborativas desenvolvidas por estudantes para estudantes
+            </p>
+        </div>
+
+        <div class="mt-12 grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="bg-white p-6 rounded-lg shadow-sm">
+                <div class="bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center">
+                    <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    </svg>
+                </div>
+                <h3 class="mt-4 text-xl font-semibold text-gray-900">Mentorias</h3>
+                <p class="mt-2 text-gray-600">Conecte-se com estudantes veteranos e tire suas dúvidas</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-sm">
+                <div class="bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center">
+                    <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                </div>
+                <h3 class="mt-4 text-xl font-semibold text-gray-900">Calendário Unificado</h3>
+                <p class="mt-2 text-gray-600">Todas as datas importantes e eventos acadêmicos em um só lugar</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-sm">
+                <div class="bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center">
+                    <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                    </svg>
+                </div>
+                <h3 class="mt-4 text-xl font-semibold text-gray-900">Banco de Dados</h3>
+                <p class="mt-2 text-gray-600">Acesso a materiais de disciplinas de semestres anteriores</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-sm">
+                <div class="bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center">
+                    <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                    </svg>
+                </div>
+                <h3 class="mt-4 text-xl font-semibold text-gray-900">Desempenho</h3>
+                <p class="mt-2 text-gray-600">Acompanhe seu progresso acadêmico com ferramentas analíticas</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action Final -->
+<div class="bg-blue-700">
+    <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+                <span class="block">Faça parte da comunidade</span>
+            </h2>
+            <p class="mt-4 text-lg leading-6 text-blue-100">
+                Conecte-se, colabore e evolua junto com seus colegas
+            </p>
+            <div class="mt-8">
+                <a href="/register" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-blue-700 bg-white hover:bg-blue-50 transition-colors duration-200">
+                    Comece agora gratuitamente
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

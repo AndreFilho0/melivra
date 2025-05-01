@@ -1,0 +1,283 @@
+<div class="min-h-screen bg-gray-100">
+
+  <div class="relative">
+
+    <div class="h-40 md:h-56 bg-blue-500">
+        <div class="flex justify-center text-center font-semibold text-2xl p-10" > <%= @instituto %></div>
+    </div>
+
+
+    <div class="absolute top-28 left-5 md:left-10 transform -translate-y-1/2">
+        <div class="h-24 w-24 rounded-full bg-gray-300 border-4 border-white flex items-center justify-center">
+            <img src="https://www.svgrepo.com/show/496485/profile-circle.svg" alt="Foto de perfil" class="h-full w-full rounded-full object-cover">
+        </div>
+    </div>
+  </div>
+
+   <div class="mt-16 px-4">
+
+     <h1 class="text-xl md:text-2xl font-bold"><%= @professor %></h1>
+     <p class="text-gray-600"><%= @page_title %> </p>
+
+   </div>
+   <div class="flex justify-end">
+   <button type="button" phx-hook="CopyToClipboard"
+    phx-value-link="<%= "#{@base_url}/professors/#{@professor}/#{@instituto}" %>"
+    class="mt-2 w-full sm:w-auto flex-none bg-gray-50 text-gray-400 hover:text-gray-900 font-windows leading-6 py-3 sm:px-6 border border-gray-200 rounded-xl flex items-center justify-center space-x-2 sm:space-x-4 focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-gray-300 focus:outline-none transition-colors duration-200">
+    <span class="text-gray-900">
+        Copie o link e melivra mais um amigo(a)!
+    </span>
+    <span class="sr-only">(click to copy to clipboard)</span>
+    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M8 16c0 1.886 0 2.828.586 3.414C9.172 20 10.114 20 12 20h4c1.886 0 2.828 0 3.414-.586C20 18.828 20 17.886 20 16v-4c0-1.886 0-2.828-.586-3.414C18.828 8 17.886 8 16 8m-8 8h4c1.886 0 2.828 0 3.414-.586C16 14.828 16 13.886 16 12V8m-8 8c-1.886 0-2.828 0-3.414-.586C4 14.828 4 13.886 4 12V8c0-1.886 0-2.828.586-3.414C5.172 4 6.114 4 8 4h4c1.886 0 2.828 0 3.414.586C16 5.172 16 6.114 16 8">
+        </path>
+    </svg>
+    </button>
+   </div>
+
+
+  <!-- Abas de navegação -->
+  <div class="mt-8">
+    <div class="border-b border-gray-200">
+      <nav class="flex justify-around" aria-label="Tabs">
+        <!-- Aba Notas -->
+        <button phx-click="select_tab" phx-value-tab="notas"
+          class="<%= if @content_selection == "notas", do: "border-blue-500 text-blue-600", else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" %> flex-1 py-4 px-1 text-center border-b-2 font-medium">
+          Notas
+        </button>
+
+        <!-- Aba Comentários -->
+        <button phx-click="select_tab" phx-value-tab="comentarios"
+          class="<%= if @content_selection == "comentarios", do: "border-blue-500 text-blue-600", else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" %> flex-1 py-4 px-1 text-center border-b-2 font-medium">
+          Comentários
+        </button>
+
+        <!-- Aba Turmas Antigas -->
+        <button phx-click="select_tab" phx-value-tab="turmas_antigas"
+          class="<%= if @content_selection == "turmas_antigas", do: "border-blue-500 text-blue-600", else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" %> flex-1 py-4 px-1 text-center border-b-2 font-medium">
+          Turmas Antigas
+        </button>
+
+        <!-- Aba Provas Antigas -->
+        <button phx-click="select_tab" phx-value-tab="provas_antigas"
+          class="<%= if @content_selection == "provas_antigas", do: "border-blue-500 text-blue-600", else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" %> flex-1 py-4 px-1 text-center border-b-2 font-medium">
+          Provas Antigas
+        </button>
+      </nav>
+    </div>
+  </div>
+
+
+
+  <div class="p-4">
+    <%= case @content_selection do %>
+      <% "notas" -> %>
+
+
+            <div class="flex justify-end">
+                <button phx-click="open_modal" class="px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600">
+                    Dar nota
+                </button>
+            </div>
+
+
+             <div class="flex justify-center mt-6 mb-12">
+                <div class="w-full max-w-lg bg-white p-6 rounded-lg shadow-md">
+                    <dl class="space-y-3">
+                        <%= for count <- @reviews.counts do %>
+                            <div class="flex items-center text-sm">
+                                <dt class="flex flex-1 items-center">
+                                    <p class="w-3 font-medium text-gray-900">
+                                        <%= count.rating %>
+                                        <span class="sr-only"> star reviews</span>
+                                    </p>
+                                    <div aria-hidden="true" class="ml-1 flex flex-1 items-center">
+                                        <div class="relative w-full ml-3 flex-1">
+                                            <div class="h-3 rounded-full border border-gray-200 bg-gray-100"></div>
+                                            <%= if count.count > 0 do %>
+                                                <div class="absolute inset-y-0 rounded-full border border-yellow-300 bg-yellow-300"
+                                                    style="width: <%= Float.round(count.count / @reviews.totalCount * 100, 2) %>%">
+                                                </div>
+                                            <% end %>
+                                        </div>
+                                    </div>
+                                </dt>
+                                <dd class="ml-3 w-10 text-right text-sm tabular-nums font-mono font-bold">
+                                    <%= if @reviews.totalCount > 0 do %>
+                                        <%= round(count.count / @reviews.totalCount * 100) %>%
+                                        <% else %>
+                                        0%
+                                        <% end %>
+                                </dd>
+                            </div>
+                        <% end %>
+                    </dl>
+                    <p class="font-mono font-bold text-center mt-4">
+                       <%= if @nota_profs.qts_avaliacao && @nota_profs.qts_avaliacao > 0 do %>
+                            Média = <%= Float.round(@nota_profs.nota / @nota_profs.qts_avaliacao, 3) %>
+                            <% else %>
+                            Média = N/A
+                            <% end %>
+                    </p>
+                </div>
+
+
+
+
+            </div>
+
+            <div class="flex justify-center" >
+
+                <%= if @show_modal do %>
+                <%= live_component ShlinkedinWeb.ProfessorsLive.ModalDarnota, show: @show_modal , nota: @nota %>
+                <% end %>
+
+            </div>
+
+
+
+      <% "comentarios" -> %>
+
+          <div class = "flex justify-end">
+               <button phx-click="show_modal_comentario" class="px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600">
+                    Comentar
+                </button>
+          </div>
+
+      <div class="flex justify-center mt-6 mb-12">
+
+
+           <div id="posts" phx-update="append" class=" mx-auto" data-page="<%= @page %>">
+                                <%= for {post, idx} <- Enum.with_index(@posts) do %>
+                                <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
+                                id: post.id,
+                                idx: idx,
+                                page: @page,
+                                profile: @profile,
+                                post: post,
+                                deleted: post.__meta__.state == :deleted,
+                                like_map: @like_map,
+                                comment_like_map: @comment_like_map,
+                                comment_spin: false,
+                                show_post_options: false,
+                                num_show_comments: @num_show_comments,
+                                return_to: Routes.professors_show_path(@socket, :show, @professor, @instituto),
+                                comment_highlight: nil,
+                                spin: false  %>
+                                <% end %>
+            </div>
+
+
+            <div class="flex justify-center" >
+
+                <%= if @show_modal_comentario do %>
+                <%= live_component ShlinkedinWeb.ProfessorsLive.ModalDarcomentario, show: @show_modal_comentario ,
+                nota: @nota ,
+                professor: @professor ,
+                instituto: @instituto %>
+                <% end %>
+
+            </div>
+
+
+       </div>
+      <% "turmas_antigas" -> %>
+
+        <div class="flex justify-end">
+                <button phx-click="show_modal_upload_imagem" class="px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600">
+                    Compartilhar uma turma
+                </button>
+            </div>
+
+        <div class="flex justify-center mt-6 mb-10">
+        <div class="w-full max-w-4xl bg-white p-1 rounded-lg shadow-md">
+
+
+            <div class="relative">
+
+            <button phx-click="prev_slide" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white px-4 py-2 rounded-full">
+                &#8592;
+            </button>
+
+            <div class="flex justify-center items-center">
+
+                <%= for {url, index} <- Enum.with_index(@turmas_urls) do %>
+                <div class="<%= if index == @current_slide, do: "block", else: "hidden" %>" id="slide_<%= url %>">
+                    <img src="<%= url %>" alt="Turma" class="w-full">
+                </div>
+                <% end %>
+            </div>
+
+
+
+            <button phx-click="next_slide" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white px-4 py-2 rounded-full">
+                &#8594;
+            </button>
+            </div>
+
+        </div>
+        </div>
+
+        <div class="flex justify-center" >
+
+            <%= if @show_modal_upload_imagem do %>
+            <%= live_component @socket, ShlinkedinWeb.ProfessorsLive.ModalUploadImagem,
+                id: "upload-image-modal",
+                show: @show_modal_upload_imagem,
+                nota: @nota,
+                professor: @professor,
+                instituto: @instituto,
+                uploads: @uploads
+            %>
+            <% end %>
+
+            </div>
+
+      <% "provas_antigas" -> %>
+        <div class="flex justify-center items-center mt-6">
+            <div class="bg-white p-6 rounded-lg shadow-lg text-center max-w-2xl w-full">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Provas Antigas</h2>
+                <p class="text-lg text-gray-600">Em breve, você poderá acessar provas antigas de forma prática e rápida.</p>
+            </div>
+        </div>
+
+      <% _ -> %>
+        <p>Selecione uma aba para ver o conteúdo.</p>
+    <% end %>
+  </div>
+</div>
+
+
+<%= if @live_action in [:new_comment] do %>
+<%= live_modal @socket, ShlinkedinWeb.PostLive.CommentFormComponent,
+    id: :new_comment,
+    profile: @profile,
+    title: @page_title,
+    reply_to: @reply_to,
+    post: @post,
+    action: @live_action,
+    ai_loading: false,
+    comment: @comment,
+    return_to: Routes.professors_show_path(@socket, :show, @professor , @instituto) %>
+<% end %>
+
+<%= if @live_action in [:show_likes] do %>
+<%= live_modal @socket, ShlinkedinWeb.PostLive.LikeComponent,
+    profile: @profile,
+    title: @page_title,
+    like_map: @like_map,
+    action: @live_action,
+    grouped_likes:  @grouped_likes,
+    return_to: Routes.professors_show_path(@socket, :show, @professor , @instituto) %>
+<% end %>
+
+
+<%= if @live_action in [:show_comment_likes] do %>
+<%= live_modal @socket, ShlinkedinWeb.PostLive.LikeComponent,
+    profile: @profile,
+    title: @page_title,
+    like_map: @comment_like_map,
+    action: @live_action,
+    grouped_likes:  @grouped_likes,
+    return_to: Routes.professors_show_path(@socket, :show, @professor , @instituto) %>
+<% end %>

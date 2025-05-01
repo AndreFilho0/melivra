@@ -1,0 +1,567 @@
+<div class="min-h-screen bg-gray-100">
+    <div class="py-10 pt-0">
+
+        <div class="max-w-3xl mx-auto sm:max-w-7xl sm:px-8 sm:grid sm:grid-cols-12 sm:gap-8">
+            <%# Side Nav test %>
+            <div class="hidden sm:block sm:col-span-3 md:col-span-2">
+                <nav aria-label="Sidebar" class="sticky top-20 divide-y divide-gray-300">
+                    <div class="pb-8 space-y-1">
+
+                        <%= live_redirect to: Routes.home_index_path(@socket, :index) do %>
+                        <div class="bg-gray-200 text-gray-900 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
+                            aria-current="page">
+                            <!-- Heroicon name: outline/home -->
+                            <svg class="text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                            </svg>
+                            <span class="truncate">
+                                Home
+                            </span>
+                        </div>
+                        <% end %>
+
+                        <%= live_redirect to: Routes.professors_index_path(@socket, :index) do %>
+                        <div class="text-gray-600 hover:bg-gray-50 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
+                            aria-current="false">
+                            <!-- Heroicon name: outline/home -->
+                                                                 <svg xmlns="http://www.w3.org/2000/svg" 
+                                 class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                                 viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                                 <path d="M11.7 2.805a.75.75 0 0 1 .6 0A60.65 60.65 0 0 1 22.83 8.72a.75.75 0 0 1-.231 1.337 49.948 49.948 0 0 0-9.902 3.912l-.003.002c-.114.06-.227.119-.34.18a.75.75 0 0 1-.707 0A50.88 50.88 0 0 0 7.5 12.173v-.224c0-.131.067-.248.172-.311a54.615 54.615 0 0 1 4.653-2.52.75.75 0 0 0-.65-1.352 56.123 56.123 0 0 0-4.78 2.589 1.858 1.858 0 0 0-.859 1.228 49.803 49.803 0 0 0-4.634-1.527.75.75 0 0 1-.231-1.337A60.653 60.653 0 0 1 11.7 2.805Z" />
+                                 <path d="M13.06 15.473a48.45 48.45 0 0 1 7.666-3.282c.134 1.414.22 2.843.255 4.284a.75.75 0 0 1-.46.711 47.87 47.87 0 0 0-8.105 4.342.75.75 0 0 1-.832 0 47.87 47.87 0 0 0-8.104-4.342.75.75 0 0 1-.461-.71c.035-1.442.121-2.87.255-4.286.921.304 1.83.634 2.726.99v1.27a1.5 1.5 0 0 0-.14 2.508c-.09.38-.222.753-.397 1.11.452.213.901.434 1.346.66a6.727 6.727 0 0 0 .551-1.607 1.5 1.5 0 0 0 .14-2.67v-.645a48.549 48.549 0 0 1 3.44 1.667 2.25 2.25 0 0 0 2.12 0Z" />
+                                 <path d="M4.462 19.462c.42-.419.753-.89 1-1.395.453.214.902.435 1.347.662a6.742 6.742 0 0 1-1.286 1.794.75.75 0 0 1-1.06-1.06Z" />
+                                </svg>
+
+
+                                <span class="truncate">
+                                Professores
+                            </span>
+                        </div>
+                        <% end %>
+
+
+                        <%= live_redirect to: Routes.content_index_path(@socket, :index) do %>
+                        <div class="text-gray-600 hover:bg-gray-50 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
+                            aria-current="false">
+                            <!-- Heroicon name: outline/user-group -->
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                            </svg>
+
+                            <span class="truncate">
+                               News
+                            </span>
+                        </div>
+                        <% end %>
+
+
+
+                        <% if false do %>
+                        <%= live_redirect to: Routes.market_index_path(@socket, :index) do %>
+                        <div class="text-gray-600 hover:bg-gray-50 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
+                            aria-current="false">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                            </svg>
+                            <span class="truncate">
+                                Marketplace
+                            </span>
+                        </div>
+                        <% end %>
+                        <% end %>
+
+
+
+                        <% if false do %>
+                        <%= live_redirect to: Routes.leaderboard_index_path(@socket, :index) do  %>
+                        <div class="text-gray-600 hover:bg-gray-50 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
+                            aria-current="false">
+                            <!-- Heroicon name: outline/trending-up -->
+                            <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                            </svg>
+                            <span class="truncate">
+                                Rank
+                            </span>
+                        </div>
+                        <% end %>
+                        <% end %>
+
+                        <%= live_patch to: Routes.home_index_path(@socket, :new_invite) do %>
+                        <div class="text-gray-600 hover:bg-gray-50 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
+                            aria-current="false">
+                            <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
+                                fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z">
+                                </path>
+                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z">
+                                </path>
+                            </svg>
+                            <span class="truncate">
+                                Convidar
+                            </span>
+                        </div>
+                        <% end  %>
+
+
+
+
+                    </div>
+                    <div class="pt-10">
+                        <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                            id="communities-headline">
+                            Meus Grupos
+                        </p>
+
+                        <div class="mt-3 space-y-2" aria-labelledby="groups-headline">
+                            <%= for member <- @my_groups do %>
+                            <%= if !is_nil(member.group) do %>
+                            <%= live_redirect to: Routes.group_show_path(@socket, :show, member.group.id) do %>
+                            <div
+                                class="group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50">
+                                <span class="truncate">
+                                    <%= member.group.title %>
+                                </span>
+                            </div>
+                            <% end %>
+                            <% end %>
+                            <% end %>
+                            <%= live_redirect raw("Explorar grupos"), to: Routes.group_index_path(@socket, :index), class: "ml-1 px-2 bg-gray-200 rounded-lg py-1 text-gray-500 hover:underline text-xs" %>
+
+
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <main class="sm:col-span-9 md:col-span-6">
+
+                <%# Checklist Component %>
+                <%= live_component @socket, ShlinkedinWeb.ProfileLive.ChecklistComponent,
+                    id: "checkbox",
+                    profile: @profile,
+                    checklist: @checklist %>
+
+
+
+                <%# Start a Post %>
+                <div class="mx-auto p-5 pb-3 bg-white sm:rounded-lg border block mb-2">
+
+                    <%= live_patch to: Routes.home_index_path(@socket, :new) do %>
+                    <button type="button"
+                        class="w-full flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-full text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                        <svg class="-ml-1 mr-3 h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z">
+                            </path>
+                            <path fill-rule="evenodd"
+                                d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+                                clip-rule="evenodd">
+                            </path>
+                        </svg>
+                        Criar um post
+                    </button>
+                    <% end %>
+
+                    <div class="flex justify-between mt-2">
+                        <%# live_patch "📢  Criar anúncio", to: Routes.home_index_path(@socket, :new_ad), class: "items-center px-2 sm:px-4 py-2 border-gray-300 text-xs sm:text-base font-medium rounded-lg text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  %>
+                        <%= live_patch "👥  Iniciar grupo", to: Routes.group_index_path(@socket, :new), class: "items-center px-2 sm:px-4 py-2 border-gray-300 text-xs sm:text-base font-medium rounded-lg text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  %>
+                        <%# live_patch "🗞️  Escrever título", to: Routes.home_index_path(@socket, :new_article), class: "items-center px-2 sm:px-4 py-2 border-gray-300 text-xs sm:text-base font-medium rounded-lg text-gray-500 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"  %>
+                    </div>
+                </div>
+
+
+                <%# Mobile News %>
+                <div id="mobile-news" class="sm:hidden mx-auto w-screen bg-white sm:rounded-lg border-b my-2 py-5">
+
+                    <div class="block sm:w-72 w-full">
+
+                        <div class="flex justify-between px-5">
+                            <p class="font-bold">MeLivra News </p>
+                            <div class="text-right">
+                                <form phx-change="sort-headlines" id="sort-headlines"
+                                    class="mx-auto text-gray-500 text-xs flex">
+                                    <div class="mr-3">
+                                        <select id="select-headline-type" name="type"
+                                            class="text-sm bg-gray-100 px-2 py-1 pr-8 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
+                                            <%= options_for_select(["New": "new", "Claps": "reactions"], @headline_options.type) %>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <select id="select-headline-time" name="time"
+                                            class="<%= unless @headline_options.type == "reactions", do: "hidden" %> bg-gray-100 text-sm px-2 py-1 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
+
+                                            <%= options_for_select(["Hour": "hour", "Today": "today", "This Week": "week", "This Month": "month", "All Time": "all_time"], @headline_options.time) %>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="px-5 py-2">
+
+                        </div>
+
+                        <div class="h-32 overflow-y-scroll">
+                            <div class="space-y-3 px-2" phx-update="<%=@headline_update_action%>" id="news-box">
+                                <%= for a <- @articles do %>
+                                <%= live_component @socket, ShlinkedinWeb.ArticleLive.NewsBox,
+                                    id: "mobile-article-#{a.id}",
+                                    profile: @profile,
+                                    spin: false,
+                                    article: a %>
+                                <% end %>
+
+                            </div>
+                            <div class="p-5 justify-center">
+
+                                <button phx-click="more-headlines"
+                                    class="mx-auto text-xs text-gray-800 font-semibold bg-gray-100 px-2 py-1 rounded-lg hover:bg-gray-200 flex">
+
+                                    <svg class="w-3 h-3 place-self-center mr-2" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                            d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                                            clip-rule="evenodd"></path>
+                                    </svg>
+                                     </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <%# Feed Picker %>
+                <div class="">
+                    <form phx-change="sort-feed" id="sort-feed" class="mx-auto text-gray-500 text-xs flex">
+                        <div class="mr-3">
+
+                            <select id="select-feed-type" name="type"
+                                class="px-2 py-1 pr-8 bg-gray-100 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
+                                <%= options_for_select(["🆕 Novos Posts": "new", "👍 A maioria das reações": "reactions", "✨ Postagens em destaque": "featured"], @feed_options.type) %>
+                            </select>
+                        </div>
+                        <div>
+                            <select id="select-feed-time" name="time"
+                                class="<%= unless @feed_options.type == "reactions", do: "hidden" %> px-2 py-1 pr-6 bg-gray-100 border-0 shadow-none rounded-lg hover:bg-gray-200 inline-flex">
+
+                                <%= options_for_select(["Hora": "hour", "Hoje": "today", "Esta Semana": "week", "Este Mês": "month", "Todo o Tempo": "all_time"], @feed_options.time) %>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+
+
+                <div class="mt-2">
+                    <%# Posts %>
+
+                    <div id="posts" phx-update="<%=@update_action%>" data-page="<%= @page %>">
+
+
+                        <%= for {entity, _idx} <- Enum.with_index(@posts) do %>
+                        <%= case entity.type do %>
+                        <% "post" -> %>
+                        <%= live_component @socket, ShlinkedinWeb.PostLive.PostComponent,
+                                id: entity.content.id,
+                                page: @page,
+                                profile: @profile,
+                                post: entity.content,
+                                deleted: entity.content.__meta__.state == :deleted,
+                                like_map: @like_map,
+                                comment_like_map: @comment_like_map,
+                                comment_spin: false,
+                                show_post_options: false,
+                                num_show_comments: @num_show_comments,
+                                return_to: Routes.home_index_path(@socket, :index),
+                                comment_highlight: nil,
+                                spin: false  %>
+                        <% "ad" -> %>
+                        <%= live_component @socket, ShlinkedinWeb.AdLive.NewAdComponent,
+                                ad: entity.content,
+                                profile: @profile,
+                                type: :feed,
+                                id: :rand.uniform(1000000)
+                                %>
+                        <% "platinum_ad" -> %>
+                        <div id="platinum"
+                            class="bg-white relative overflow-hidden rounded-lg shadow py-4 my-2 block md:hidden">
+                            <!-- Decorative background image and gradient -->
+                            <div aria-hidden="true" class="absolute inset-0">
+                                <div class="absolute inset-0 max-w-7xl mx-auto overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2070&q=80"
+                                        alt="" class="w-full h-full object-center object-cover">
+                                </div>
+                                <div class="absolute inset-0 bg-white bg-opacity-75">
+                                </div>
+                                <div class="absolute inset-0 bg-gradient-to-t from-white via-white">
+                                </div>
+                            </div>
+
+                           <!-- Callout -->
+                            <section aria-labelledby="sale-heading"
+                                class="relative -mt-20 mx-auto pt-24 px-4 flex flex-col items-center text-center sm:px-6 lg:px-8">
+                                <div class="max-w-2xl mx-auto lg:max-w-none">
+                                    <span
+                                        class="block text-sm font-semibold uppercase tracking-wide text-gray-500 sm:text-base lg:text-sm xl:text-base">Apoie
+                                        o MeLivra</span>
+                                    <h2 id="sale-heading"
+                                        class="text-4xl font-extrabold text-gray-800 tracking-tight sm:text-5xl">
+                                        MeLivra  <span
+                                            class="text-transparent bg-clip-text bg-gradient-to-tr from-blue-500 via-teal-400 to-green-300">MeLivra +</span>
+                                    </h2>
+                                    <p class="mt-4 max-w-xl mx-auto text-sm text-gray-600 mb-4">
+                                        Um troféu exclusivo
+                                        novo no seu perfil. Adesivos.
+                                        Jabs de negócios ilimitados. Sem intervalo para anúncios. Acesso a
+                                        uma comunidade exclusiva apenas para platinum e novas
+                                        funcionalidades. Apoie-nos diretamente
+                                        e receba uma vida inteira de honra.
+                                    </p>
+
+                                    <%= live_redirect "MeLivra + - $4.99 / mês", to: Routes.platinum_index_path(@socket, :index), class: "inline-block bg-gradient-to-tr from-blue-500 via-teal-400 to-green-300 rounded-md py-3 px-8 font-medium text-white hover:from-blue-600 hover:to-green-400 w-auto" %>
+
+                                </div>
+                            </section>
+                        </div>
+
+                        <% "tribune" -> %>
+                        <%= unless is_nil(@random_tribune) do %>
+                        <% end %>
+
+
+                        <% "featured_profiles" -> %>
+
+                        <%# Featured profiles %>
+                        <div id="featured-profiles" class="mx-auto p-5 bg-white my-2 sm:rounded-lg">
+
+                            <div class="flex justify-between mb-2">
+                            <%= live_redirect raw("Explorar perfis &rarr;"), to: Routes.users_index_path(@socket, :index), class: "px-2 py-1 text-gray-500 hover:underline text-xs" %>
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-2">
+                            <%= for profile <- entity.content do %>
+                                <%= if profile.persona_name != "deleted" do %>
+                                <%= live_component @socket, ShlinkedinWeb.UsersLive.ProfileComponent,
+                                    id: "profile-#{profile.id}",
+                                    profile: @profile,
+                                    friend_status: Shlinkedin.Profiles.check_between_friend_status(@profile, profile),
+                                    show_profile: profile
+                                %>
+                                <% else %>
+
+                                <% end %>
+                            <% end %>
+                            </div>
+                        </div>
+
+                        <% "featured_groups" -> %>
+                        <%# Featured Groups %>
+                        <div id="featured-groups" class="mx-auto p-5 bg-white my-2 sm:rounded-lg ">
+
+                            <div class="flex justify-between mb-2">
+
+                                <%= live_redirect raw("Explorar grupos &rarr;"), to: Routes.group_index_path(@socket, :index), class: "px-2 py-1 text-gray-500 hover:underline text-xs" %>
+
+
+                            </div>
+
+                            <div class="flex overflow-x-scroll w-full pb-2">
+                                <%= for group <- entity.content do %>
+
+                                <%= live_component @socket, ShlinkedinWeb.GroupLive.GroupComponent,
+                                    id: "group-#{group.id}",
+                                    profile: @profile,
+                                    member_status: Shlinkedin.Groups.is_member?(@profile, group),
+                                    group: group
+                                    %>
+
+                                <% end %>
+                            </div>
+                        </div>
+
+                        <% end %>
+                        <% end %>
+                    </div>
+
+                    <footer id="footer" phx-hook="InfiniteScroll" class="mt-8 mb-3 text-center text-6xl font-bold">
+                        <span class="animate-pulse font-windows">
+                            🎓 Loading...
+                        </span>
+                        <p class="mt-4 text-sm text-gray-500">Um dia ela vai chegar...</p>
+                    </footer>
+
+                </div>
+
+
+            </main>
+
+            <aside class="hidden sm:block sm:col-span-4">
+                <div class="sticky top-20 space-y-4">
+
+
+
+
+                    <%= unless is_nil(@random_tribune) do %>
+                    <section aria-labelledby="activity-heading">
+                        <%= live_redirect to: Routes.content_show_path(@socket, :show, @random_tribune.id) do %>
+                        <div class="bg-white hover:bg-gray-50 rounded-lg shadow">
+                            <div class="p-5">
+                                <h5 class="mb-2 text-sm font-medium text-indigo-600">MeLivra Novidades </h5>
+                                <h5 class="font-bold mb-3"><%= @random_tribune.title %> &rarr;</h5>
+
+                                <p class="text-sm font-medium text-gray-900"><%= @random_tribune.author %></p>
+                            </div>
+                            <div class="">
+                                <img class="mx-auto bg-cover rounded-b-lg" src="<%= @random_tribune.header_image %>"
+                                    alt="">
+                            </div>
+                        </div>
+                        <% end %>
+                    </section>
+                    <% end %>
+
+
+
+
+                </div>
+            </aside>
+        </div>
+    </div>
+</div>
+
+
+
+<%= if is_nil(@current_user) do %>
+<div class="bg-blue-500 text-white -mb-6 fixed h-24 bottom-0 w-full">
+    <div class="flex justify-between px-6 py-2 items-center">
+        <h2 class="inline-flex text-lg font-extrabold tracking-tight sm:text-4xl">
+            <span class="">Entrar no MeLivra.</span>
+        </h2>
+        <div class="inline-flex justify-center">
+            <div class="inline-flex rounded-md shadow">
+                <%= live_redirect raw("&rarr;"), to: Routes.user_registration_path(@socket, :new), class: "ml-2 inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-blue-100"  %>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<% end %>
+
+
+<%= if @live_action in [:new_comment] do %>
+<%= live_modal @socket, ShlinkedinWeb.PostLive.CommentFormComponent,
+    id: :new_comment,
+    profile: @profile,
+    title: @page_title,
+    reply_to: @reply_to,
+    post: @post,
+    action: @live_action,
+    ai_loading: false,
+    comment: @comment,
+    return_to: Routes.home_index_path(@socket, :index) %>
+<% end %>
+
+<%= if @live_action in [:show_likes] do %>
+<%= live_modal @socket, ShlinkedinWeb.PostLive.LikeComponent,
+    profile: @profile,
+    title: @page_title,
+    like_map: @like_map,
+    action: @live_action,
+    grouped_likes:  @grouped_likes,
+    return_to: Routes.home_index_path(@socket, :index) %>
+<% end %>
+
+<%= if @live_action in [:show_comment_likes] do %>
+<%= live_modal @socket, ShlinkedinWeb.PostLive.LikeComponent,
+    profile: @profile,
+    title: @page_title,
+    like_map: @comment_like_map,
+    action: @live_action,
+    grouped_likes:  @grouped_likes,
+    return_to: Routes.home_index_path(@socket, :index) %>
+<% end %>
+
+<%= if @live_action in [:new, :edit] do %>
+<%= live_modal @socket, ShlinkedinWeb.PostLive.FormComponent,
+    profile: @profile,
+    id: @post.id || :new,
+    title: @page_title,
+    action: @live_action,
+    post: @post,
+    return_to: Routes.home_index_path(@socket, :index, type: "new", time: "week") %>
+<% end %>
+
+<%= if @live_action in [:new_story, :edit_story] do %>
+<%= live_modal @socket, ShlinkedinWeb.StoryLive.FormComponent,
+    profile: @profile,
+    id: @story.id || :new_story,
+    title: @page_title,
+    action: @live_action,
+    story: @story,
+    return_to: Routes.home_index_path(@socket, :index) %>
+<% end %>
+
+<%= if @live_action in [:new_article, :edit_article] do %>
+<%= live_modal @socket, ShlinkedinWeb.ArticleLive.FormComponent,
+    id: @article.id || :new,
+    title: @page_title,
+    action: @live_action,
+    profile: @profile,
+    article: @article,
+    return_to: Routes.home_index_path(@socket, :index) %>
+<% end %>
+
+<%= if @live_action in [:new_ad, :edit_ad] do %>
+<%= live_modal @socket, ShlinkedinWeb.AdLive.FormComponent,
+    id: @ad.id || :new,
+    title: @page_title,
+    action: @live_action,
+    profile: @profile,
+    ad: @ad,
+    return_to: Routes.home_index_path(@socket, :index) %>
+<% end %>
+
+
+<%= if @live_action in [:show_votes] do %>
+<%= live_modal @socket, ShlinkedinWeb.ArticleLive.VoteComponent,
+    profile: @profile,
+    title: @page_title,
+    article: @article,
+    votes:  @votes,
+    return_to: Routes.home_index_path(@socket, :index) %>
+<% end %>
+
+<%= if @live_action in [:new_invite] do %>
+<%= live_modal @socket, ShlinkedinWeb.ProfileLive.InviteForm,
+    id: :new_invite,
+    profile: @profile,
+    invite: @invite,
+    title: @page_title,
+    base_url: @base_url,
+    return_to: Routes.home_index_path(@socket, :index) %>
+<% end %>
+
+<%= if @live_action in [:new_feedback] do %>
+<%= live_modal @socket, ShlinkedinWeb.FeedbackLive.FeedbackForm,
+    id: :new_feedback,
+    feedback: @feedback,
+    profile: @profile,
+    caption: nil,
+    title: @page_title,
+    return_to: Routes.home_index_path(@socket, :index) %>
+<% end %>

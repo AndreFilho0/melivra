@@ -1,0 +1,96 @@
+## This is a PO Template file.
+##
+## `msgid`s here are often extracted from source code.
+## Add new translations manually only if they're dynamic
+## translations that can't be statically extracted.
+##
+## Run `mix gettext.extract` to bring this file up to
+## date. Leave `msgstr`s empty as changing them here has no
+## effect: edit them in PO (`.po`) files instead.
+
+## From Ecto.Changeset.cast/4
+## Mensagens gerais
+msgid "can't be blank"
+msgstr "não pode ficar em branco"
+
+## Restrições de unicidade
+msgid "has already been taken"
+msgstr "já está em uso"
+
+## Validação de mudanças
+msgid "is invalid"
+msgstr "é inválido"
+
+## Validação de aceitação
+msgid "must be accepted"
+msgstr "deve ser aceito"
+
+## Validação de formato
+msgid "has invalid format"
+msgstr "tem um formato inválido"
+
+## Validação de subconjunto
+msgid "has an invalid entry"
+msgstr "tem uma entrada inválida"
+
+## Validação de exclusão
+msgid "is reserved"
+msgstr "é reservado"
+
+## Validação de confirmação
+msgid "does not match confirmation"
+msgstr "não corresponde à confirmação"
+
+## Restrições de associação
+msgid "is still associated with this entry"
+msgstr "ainda está associado a esta entrada"
+
+msgid "are still associated with this entry"
+msgstr "ainda estão associados a esta entrada"
+
+## Validação de comprimento
+msgid "should be %{count} character(s)"
+msgid_plural "should be %{count} character(s)"
+msgstr[0] "deve ter %{count} caractere"
+msgstr[1] "deve ter %{count} caracteres"
+
+msgid "should have %{count} item(s)"
+msgid_plural "should have %{count} item(s)"
+msgstr[0] "deve ter %{count} item"
+msgstr[1] "deve ter %{count} itens"
+
+msgid "should be at least %{count} character(s)"
+msgid_plural "should be at least %{count} character(s)"
+msgstr[0] "deve ter pelo menos %{count} caractere"
+msgstr[1] "deve ter pelo menos %{count} caracteres"
+
+msgid "should have at least %{count} item(s)"
+msgid_plural "should have at least %{count} item(s)"
+msgstr[0] "deve ter pelo menos %{count} item"
+msgstr[1] "deve ter pelo menos %{count} itens"
+
+msgid "should be at most %{count} character(s)"
+msgid_plural "should be at most %{count} character(s)"
+msgstr[0] "deve ter no máximo %{count} caractere"
+msgstr[1] "deve ter no máximo %{count} caracteres"
+
+msgid "should have at most %{count} item(s)"
+msgid_plural "should have at most %{count} item(s)"
+msgstr[0] "deve ter no máximo %{count} item"
+msgstr[1] "deve ter no máximo %{count} itens"
+
+## Validação de números
+msgid "must be less than %{number}"
+msgstr "deve ser menor que %{number}"
+
+msgid "must be greater than %{number}"
+msgstr "deve ser maior que %{number}"
+
+msgid "must be less than or equal to %{number}"
+msgstr "deve ser menor ou igual a %{number}"
+
+msgid "must be greater than or equal to %{number}"
+msgstr "deve ser maior ou igual a %{number}"
+
+msgid "must be equal to %{number}"
+msgstr "deve ser igual a %{number}"

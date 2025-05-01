@@ -1,0 +1,88 @@
+<%= f = form_for @changeset, "#",
+  id: "group-form",
+  phx_target: @myself,
+  phx_change: "validate",
+  phx_submit: "save" %>
+
+<div class="bg-white p-4 border-b border-gray-200 sm:px-6 rounded-lg">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">
+        <%= @title %>
+    </h3>
+</div>
+
+<div class="mt-1 p-5">
+
+    <div class="">
+        <div>
+            <%= label f, "Como você quer chamar seu grupo?", class: "block text-sm font-medium text-gray-700" %>
+            <%= text_input f, :title, class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 inline-block sm:text-sm border-gray-300 rounded-md px-3", placeholder: "" %>
+            <%= error_tag f, :title %>
+        </div>
+
+        <%= if @action == :new do %>
+        <div class="mt-6">
+            <label for="public" class="block text-sm font-medium text-gray-700">Tipo de Grupo</label>
+
+            <%= error_tag f, :privacy_type %>
+            <%= select f, :privacy_type, [[key: "Público - qualquer pessoa pode entrar e ver as postagens", value: "public"],
+                [key: "Privado - você precisa ser aceito para entrar e ver as postagens", value: "private"],
+                [key: "Secreto", value: "secret"]],
+                class: "mt-1 inline-block pl-3 pr-5 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md" %>
+
+            <p class="text-xs text-gray-500">Nota: você não pode alterar o tipo do grupo após a criação.</p>
+        </div>
+        <% end %>
+
+        <div class="mt-6">
+            <%= label f, "Como você descreveria este grupo?", class: "block text-sm font-medium text-gray-700" %>
+            <%= textarea f, :about, class: "mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md px-3", rows: 3, placeholder: "..." %>
+            <p class="mt-4 text-xs"><%= error_tag f, :about %></p>
+        </div>
+
+        
+    </div>
+
+    <%= if @action == :edit_group do %>
+    <hr class="mt-8 mb-2">
+    <h5 class="font-semibold text-lg text-gray-700">Tema</h5>
+
+    <div class="mt-4">
+        <label for="font"
+            class="<%= if @changeset.changes |> Map.has_key?(:header_font), do: "font-#{@changeset.changes.header_font}" %> block text-sm font-medium text-gray-700">Fonte</label>
+
+        <%= error_tag f, :header_font %>
+        <%= select f, :header_font, ["Padrão": "default", "Memo": "times", "Creepster": "creepster", "Profissional": "ibm_plex", "Robô": "windows", "Metal": "metal", "Marcador": "marker"], class: "mt-1 inline-block pl-3 pr-5 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md" %>
+    </div>
+
+    <div class="mt-4">
+        <div class="inline-block">
+            <label for="text_color" class="mb-2 block text-sm font-medium text-gray-700">Cor do Texto</label>
+            <%= color_input f, :header_text_color, [default: "#1a0000"] %>
+            <%= error_tag f, :header_text_color %>
+        </div>
+
+        <div class="block">
+            <label for="header_background_color" class="mb-2 block text-sm font-medium text-gray-700">Cor de Fundo do Resumo</label>
+            <div class="">
+                <%= color_input f, :header_bg_color, [default: "#ffffff"]  %>
+                <%= error_tag f, :header_bg_color %>
+            </div>
+        </div>
+
+        <div class="block">
+            <label for="background_color" class="mb-2 block text-sm font-medium text-gray-700">Cor de Fundo Principal</label>
+            <div class="">
+                <%= color_input f, :bg_color, [default: "#ffffff"]  %>
+                <%= error_tag f, :bg_color %>
+            </div>
+        </div>
+    </div>
+    <% end %>
+
+    <div class="flex justify-end mt-8 bg-gray-100 -m-5 p-5 rounded-lg">
+        <%= live_patch "Cancelar", to: @return_to, class: "ml-3 inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-full text-gray-600  bg-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"%>
+        <%= submit (if @action == :new, do: "Criar Grupo", else: "Salvar"), class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Salvando..." %>
+    </div>
+
+</div>
+</form>

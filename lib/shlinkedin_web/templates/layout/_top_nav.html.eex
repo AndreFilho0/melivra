@@ -1,0 +1,298 @@
+<%= if @current_user do %>
+<nav class="bg-white shadow z-10 fixed w-full">
+    <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+        <div class="flex justify-between h-16">
+            <div class="flex px-2 lg:px-0">
+                <div class="flex-shrink-0 flex items-center">
+
+                    <!-- Mobile menu button-->
+                    <button id="nav-menu-button"
+                        class="mr-2 inline-flex items-center justify-center p-2 rounded-md text-gray-900 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                        aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <!-- Icon when menu is closed. -->
+                        <!--
+                            Heroicon name: menu
+
+                            Menu open: "hidden", Menu closed: "block"
+                        -->
+                        <svg id="menu-closed" class="w-4 h-4 " fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <!-- Icon when menu is open. -->
+                        <!--
+                                Heroicon name: x
+
+                                Menu open: "block", Menu closed: "hidden"
+                            -->
+                        <svg id="menu-open" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+
+                    </button>
+
+                    <div>
+                        <%= link "MeLivra", to: (if @current_user, do: "/home", else: "/join"), class: "text-xs text-blue-700 font-bold hidden sm:inline-flex" %>
+                        <%= if Shlinkedin.Profiles.is_platinum?(@profile) do %>
+                        <span
+                            class="font-bold text-xs hidden sm:inline-flex text-transparent bg-clip-text bg-gradient-to-tr from-blue-500 via-teal-400 to-green-300">Platinum</span>
+                        <% end %>
+                        <p class="text-xs italic text-gray-500 font-windows hidden sm:block">
+                            <%= unless is_nil(Shlinkedin.Timeline.get_random_tagline) do %>
+
+                            <%= Shlinkedin.Timeline.get_random_tagline.text %>
+                            <%  end %>
+                        </p>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+
+            <%= if @current_user != nil and @profile != nil and @profile.persona_name != nil do %>
+
+            <%# SEARCH %>
+            <div class="flex-1 flex items-center px-2 sm:ml-6 sm:justify-end" style="justify-content:left">
+                <div class="max-w-lg w-full md:max-w-md lg:max-w-xs">
+                    <%= live_render(@conn, ShlinkedinWeb.SearchLive.SearchBox, id: :search) %>
+
+                </div>
+            </div>
+
+            <%# NAV %>
+            <div class="hidden sm:ml-6 sm:flex text-xs md:text-sm text-gray-500">
+
+                <%= link to: "/home" do %>
+                <button
+                    class="text-gray-500 hover:bg-gray-100 px-2 mx-1 h-full  <%= if @conn.request_path == "/home", do: "border-gray-700 text-gray-700 "%> border-b-2 border-white  px-1 pt-1 basent-light">
+                    <svg class="mx-auto w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
+                        </path>
+                    </svg>
+                    <p class=" pt-0.5 text-xs hidden md:inline-block">HOME</p>
+                </button>
+                <% end %>
+                <% if false do %>
+                <%= if not Shlinkedin.Profiles.is_platinum?(@profile) do %>
+                <%= link to: "/platinum" do %>
+                <button
+                    class="text-gray-500 hover:bg-gray-100 px-2 mx-1 h-full  <%= if @conn.request_path == "/platinum", do: "border-gray-700 text-gray-700 "%> border-b-2 border-white  px-1 pt-1 basent-light">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-6 w-6" viewBox="0 0 20 20"
+                        fill="currentColor">
+                        <path
+                            d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z" />
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    <p class=" pt-0.5 text-xs hidden md:inline-block">MeLivra +</p>
+                </button>
+                <% end %>
+                <% end %>
+                <% end %>
+
+                <div x-data="{post_options: false}" class="relative">
+                    <% if false do%>
+                    <button @click.away="post_options=false" @click="post_options= !post_options"
+                        class="hover:bg-gray-100 px-2 mx-1 h-full relative <%= if @conn.request_path == "/updates", do: "border-gray-700 text-gray-700 "%> border-b-2 border-white  px-1 pt-1 font-base">
+
+                        <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z">
+                            </path>
+                        </svg>
+                        <%= if Shlinkedin.Profiles.get_last_read_notification_time(@profile) > @profile.last_checked_notifications do %>
+                        <span
+                            class="text-xs absolute top-3 right-2 block h-4 w-4 rounded-full ring-2 ring-white bg-red-600 text-white">
+                            <%= Shlinkedin.Profiles.get_unread_notification_count(@profile) %>
+                        </span>
+
+                        <% end %>
+                        <p class=" pt-0.5 text-xs hidden md:inline-block">notificações</p>
+                    </button>
+                    <% end %>
+                    <%# Options Menu %>
+                    <div x-show="post_options" x-transition
+                        class="origin-top-right z-10 top-12 absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                        <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                            <%= live_render @conn, ShlinkedinWeb.NotificationLive.NotificationComponent %>
+
+                            <%= live_redirect to: Routes.notification_index_path(@conn, :index), do: raw("All dinks &rarr;"), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
+                        </div>
+                    </div>
+                </div>
+
+                <% if false do %>
+                <%= link to: "/dms" do %>
+                <button
+                    class="text-gray-500 hover:bg-gray-100 px-2 mx-1 h-full relative <%= if @conn.request_path == "/dms", do: "border-gray-700 text-gray-700 "%>border-b-2 border-white  px-1 pt-1 font-base">
+                    <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+
+                    <%= if Shlinkedin.Chat.get_unread_count(@profile) > 0 do %>
+                    <span
+                        class="text-xs absolute top-3 right-0 sm:right-1 md:right-3 block h-4 w-4 rounded-full bg-gradient-to-tr from-blue-500 to-green-400 text-white">
+                        <%= Shlinkedin.Chat.get_unread_count(@profile) %>
+                    </span>
+                    <% end %>
+
+                    <p class=" pt-0.5 text-xs hidden md:inline-block">Chat
+                    </p>
+                </button>
+                <% end %>
+                <% end %>
+
+            </div>
+
+
+
+            <div class=" lg:ml-4 flex items-center">
+
+
+                <div class="ml-4 relative flex-shrink-0 sm:flex hidden">
+                    <div>
+                        <%= link to: "/sh/#{@profile.slug}" do %>
+                        <button class="mt-2">
+
+                            <span class=" sr-only">Profile</span>
+
+                            <!-- Heroicon name: Profile -->
+
+                            <img class="mx-auto h-8 w-8 object-cover rounded-full <%= if @conn.request_path == "/sh/#{@profile.slug}", do: "border-2 border-blue-500"%>"" src="
+                                <%= @profile.photo_url %>" alt="">
+                        </button>
+                        <% end %>
+
+                    </div>
+                </div>
+
+                <!--<%= link to: "/dms" do %>
+                <div class="ml-4 flex sm:hidden">
+                    <button
+                        class="hover:bg-gray-100 text-gray-500 px-3 py-3 rounded-full relative <%= if @conn.request_path == "/dms", do: "border-gray-700 text-gray-700 "%> font-base">
+                        <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+
+                        <%= if Shlinkedin.Chat.get_unread_count(@profile) > 0 do %>
+                        <span
+                            class="text-xs absolute top-1 right-0 block h-4 w-4 rounded-full bg-gradient-to-tr from-blue-500 to-green-400 text-white">
+                            <%= Shlinkedin.Chat.get_unread_count(@profile) %>
+                        </span>
+                        <% end %>
+
+                        <span class="sr-only">Chat</span>
+                    </button>
+                </div>
+                <% end %>
+            </div>
+            <% end %>
+            -->
+
+
+
+        </div>
+    </div>
+
+    <!--
+                        Mobile menu, toggle classes based on menu state.
+
+                        Menu open: "block", Menu closed: "hidden"
+                    -->
+    <div id="nav-menu" class="hidden">
+        <div class="px-2 pt-2 pb-3 space-y-1">
+            <%= if @profile != nil and @profile.admin do %>
+            <%= link "Admin", to: "/admin", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
+            <% end %>
+            <%= link "Home", to: "/home?featured", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
+            <%= link "News", to: "/news", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
+            <%# link "marketPlace", to: "/market", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
+            <%# link "Conexões", to: "/conexões", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
+            <%# link "ShlinkPoints", to: "/points", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
+            <% link "Grupos", to: "/groups", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
+            <%# link "Leaderboard", to: "/leaders", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
+            <%= link "Convidar", to: "/invite", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
+            <%= link "Explore Profiles", to: "/profiles", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
+            <%= link "Editar Profile", to: "/profile/live_edit", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
+            <%= link "Configurações", to: "/users/settings", class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
+            <%= link "Sair", to: Routes.user_session_path(@conn, :delete), method: :delete, class: "text-gray-700 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium" %>
+        </div>
+    </div>
+
+
+
+
+</nav>
+
+
+<script>
+    const btn = document.getElementById("nav-menu-button");
+    const menu = document.getElementById("nav-menu");
+    const is_closed = document.getElementById("menu-closed");
+    const is_open = document.getElementById("menu-open");
+
+    btn.addEventListener("click", (e) => {
+
+        if (menu.classList.contains("hidden")) {
+            menu.classList.remove("hidden");
+            is_open.classList.remove("hidden");
+            is_closed.classList.add("hidden");
+        } else {
+            menu.classList.add("hidden");
+            is_open.classList.add("hidden");
+            is_closed.classList.remove("hidden");
+        }
+
+
+    });
+</script>
+
+<% else %>
+
+
+<%# Anon user nav bar %>
+<nav class="bg-white shadow z-10 fixed w-full">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <div class="flex">
+                <div class="flex-shrink-0 flex items-center">
+                    <%= link "MeLivra 🎓", to: "/", class: "text-lg text-blue-700 font-bold inline-flex" %>
+                    <p class="text-sm italic text-gray-500 font-windows hidden sm:block ml-4">
+                        <%= unless is_nil(Shlinkedin.Timeline.get_random_tagline) do %>
+
+                        <%= Shlinkedin.Timeline.get_random_tagline.text %>
+                        <%  end %>
+                    </p>
+                </div>
+                <div class="hidden md:ml-6 md:flex md:space-x-8">
+                </div>
+            </div>
+            <div class="flex items-center">
+
+              <%= link raw("Entrar &rarr;"), to: "/register", class: "ml-2 sm:inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+            </div>
+        </div>
+    </div>
+
+</nav>
+
+
+<% end %>

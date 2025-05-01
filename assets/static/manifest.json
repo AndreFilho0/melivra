@@ -1,0 +1,8 @@
+{
+  "name": "melivra",
+  "short_name": "ML",
+  "start_url": "./",
+  "display": "standalone",
+  "background-color": "white",
+  "description": "A social network "
+}

@@ -1,0 +1,81 @@
+<div class="p-8 font-windows max-w-4xl mx-auto">
+
+    <!-- Título da Página -->
+    <div class="text-left mb-8">
+        <h1 class="text-4xl font-bold">Configurações</h1>
+    </div>
+
+    <!-- Formulário para Mudar Email -->
+    <div class="mt-8 border border-dashed border-gray-300 rounded-lg p-6 bg-white shadow-sm">
+        <%= form_for @email_changeset, Routes.user_settings_path(@conn, :update), fn f -> %>
+            <%= if @email_changeset.action do %>
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    <p>Oops, algo deu errado. Verifique os campos abaixo.</p>
+                </div>
+            <% end %>
+
+            <h3 class="text-2xl font-semibold mb-4">Mudar Email</h3>
+
+            <%= hidden_input f, :action, name: "action", value: "update_email" %>
+
+            <div class="mb-4">
+                <%= label f, :email, class: "block text-gray-700 text-sm font-bold mb-2" %>
+                <%= email_input f, :email, required: true, class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+                <%= error_tag f, :email %>
+            </div>
+
+            <div class="mb-4">
+                <%= label f, :current_password, "Senha Atual", class: "block text-gray-700 text-sm font-bold mb-2" %>
+                <%= password_input f, :current_password, required: true, name: "current_password", id: "current_password_for_email", class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+                <%= error_tag f, :current_password %>
+            </div>
+
+            <div>
+                <%= submit "Mudar Email", class: "w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors" %>
+            </div>
+        <% end %>
+    </div>
+
+    <!-- Formulário para Mudar Senha -->
+    <div class="mt-8 border border-dashed border-gray-300 rounded-lg p-6 bg-white shadow-sm">
+        <%= form_for @password_changeset, Routes.user_settings_path(@conn, :update), fn f -> %>
+            <%= if @password_changeset.action do %>
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    <p>Oops, algo deu errado. Verifique os campos abaixo.</p>
+                </div>
+            <% end %>
+
+            <h3 class="text-2xl font-semibold mb-4">Mudar Senha</h3>
+
+            <%= hidden_input f, :action, name: "action", value: "update_password" %>
+
+            <div class="mb-4">
+                <%= label f, :current_password, "Senha Atual", class: "block text-gray-700 text-sm font-bold mb-2" %>
+                <%= password_input f, :current_password, required: true, name: "current_password", id: "current_password_for_password", class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+                <%= error_tag f, :current_password %>
+            </div>
+
+            <div class="mb-4">
+                <%= label f, :password, "Nova Senha", class: "block text-gray-700 text-sm font-bold mb-2" %>
+                <%= password_input f, :password, required: true, class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+                <%= error_tag f, :password %>
+            </div>
+
+            <div class="mb-4">
+                <%= label f, :password_confirmation, "Confirmar Nova Senha", class: "block text-gray-700 text-sm font-bold mb-2" %>
+                <%= password_input f, :password_confirmation, required: true, class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+                <%= error_tag f, :password_confirmation %>
+            </div>
+
+            <div>
+                <%= submit "Mudar Senha", class: "w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors" %>
+            </div>
+        <% end %>
+    </div>
+
+    <!-- Botão para Sair -->
+    <div class="mt-8 text-center">
+        <%= link "Sair", to: Routes.user_session_path(@conn, :delete), method: :delete, class: "bg-gray-900 text-green-400 text-xl px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors" %>
+    </div>
+
+</div>

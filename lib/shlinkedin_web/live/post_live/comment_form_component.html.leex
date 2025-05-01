@@ -1,0 +1,146 @@
+<%= f = form_for @changeset, "#",
+  id: "comment-form",
+  phx_target: @myself,
+  phx_change: "validate",
+  phx_submit: "save" %>
+
+
+<div class="bg-white px-4 py-4 border-b border-gray-200 sm:px-6 rounded-t-lg">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">
+        <%= @title %>
+    </h3>
+</div>
+
+
+
+<div class="ml-4 mt-1 p-5">
+
+    <div class="flex justify-between">
+        <div class="flex items-center">
+            <div class="flex-shrink-0">
+                <span class="inline-block relative">
+                    <img class="h-10 w-10 object-cover rounded-full" src="<%= @profile.photo_url %>" alt="">
+                    <span
+                        class="absolute bottom-0 right-0 block h-2 w-2 rounded-full ring-2 ring-white bg-green-400"></span>
+                </span>
+            </div>
+            <div class="ml-4 hover:cursor-pointer mb-2">
+                <a href="#">
+                    <h3 class="text-lg leading-6 font-bold text-gray-900 hover:underline">
+                        <%= @profile.persona_name %>
+                    </h3>
+                </a>
+                <p class="text-xs text-gray-500">
+                    <%= @profile.persona_title %>
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+    <div class="mt-4">
+
+        <%= textarea f, :body, class: "shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md", rows:  2, placeholder: "Add a comment...", autofocus: "true" %>
+
+        <%= if @search_results != [] do %>
+        <div class="relative" id="matches">
+            <div class="absolute text-xs w-64 z-50 left-0 right-0 rounded border border-gray-100 shadow py-1 bg-white">
+                <%= for {search_result, idx} <- Enum.with_index(@search_results) do %>
+                <div id="comment-pick-<%= idx %>"
+                    class="cursor-pointer p-2 hover:bg-gray-200 focus:bg-gray-200 <%= if idx == @current_focus, do: "bg-gray-200" %>"
+                    phx-hook="CommentPickTag" phx-click="pick" phx-value-name="<%= search_result.username %>"
+                    phx-target="<%= @myself %>">
+                    <%= search_result.persona_name %> <span class="text-gray-500">@<%= search_result.username %></span>
+                </div>
+                <% end %>
+            </div>
+        </div>
+        <% end %>
+    </div>
+    <p class="mt-4 text-xs"><%= error_tag f, :body %></p>
+
+
+
+
+
+    <div class="relative pt-1">
+        <%= if @ai_loading do %>
+        <div class="flex mb-2 items-center justify-between">
+            <div>
+                <span
+                    class="font-windows text-lg font-semibold inline-block uppercase rounded-sm <%= if @progress == 100, do: "text-green-500", else: "text-gray-900" %>">
+                    <%= @loading_text %>
+                </span>
+            </div>
+            <div class="text-right">
+                <span
+                    class="text-xs font-semibold inline-block <%= if @progress == 100, do: "text-green-500", else: "text-gray-900" %> font-windows">
+                    <%=@progress%>%
+                </span>
+            </div>
+        </div>
+        <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-200">
+            <div style="width:<%=@progress%>%"
+                class=" shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center <%= if @progress == 100, do: "bg-green-500", else: "bg-blue-500" %>">
+            </div>
+        </div>
+
+        <% end %>
+
+        <button type="button" phx-click="comment-ai" phx-target="<%= @myself %>"
+            class="font-windows text-green-400 bg-white inline-flex items-center px-3 py-2 shadow-sm text-base border border-gray-300  leading-4 font-medium rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <svg class="<%= if @ai_loading and @progress != 100, do: "animate-spin" %> w-4 h-4 mr-3" fill="currentColor"
+                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                    d="M9.504 1.132a1 1 0 01.992 0l1.75 1a1 1 0 11-.992 1.736L10 3.152l-1.254.716a1 1 0 11-.992-1.736l1.75-1zM5.618 4.504a1 1 0 01-.372 1.364L5.016 6l.23.132a1 1 0 11-.992 1.736L4 7.723V8a1 1 0 01-2 0V6a.996.996 0 01.52-.878l1.734-.99a1 1 0 011.364.372zm8.764 0a1 1 0 011.364-.372l1.733.99A1.002 1.002 0 0118 6v2a1 1 0 11-2 0v-.277l-.254.145a1 1 0 11-.992-1.736l.23-.132-.23-.132a1 1 0 01-.372-1.364zm-7 4a1 1 0 011.364-.372L10 8.848l1.254-.716a1 1 0 11.992 1.736L11 10.58V12a1 1 0 11-2 0v-1.42l-1.246-.712a1 1 0 01-.372-1.364zM3 11a1 1 0 011 1v1.42l1.246.712a1 1 0 11-.992 1.736l-1.75-1A1 1 0 012 14v-2a1 1 0 011-1zm14 0a1 1 0 011 1v2a1 1 0 01-.504.868l-1.75 1a1 1 0 11-.992-1.736L16 13.42V12a1 1 0 011-1zm-9.618 5.504a1 1 0 011.364-.372l.254.145V16a1 1 0 112 0v.277l.254-.145a1 1 0 11.992 1.736l-1.735.992a.995.995 0 01-1.022 0l-1.735-.992a1 1 0 01-.372-1.364z"
+                    clip-rule="evenodd"></path>
+            </svg>
+
+            AI Assistance</button>
+
+        <%= if @tags != [] do%>
+        <div class="mt-4 w-64 flex-wrap">
+            <h5 class="font-semibold text-xs text-gray-500 ">Tags</h5>
+            <%= for tag <- @tags |> Enum.uniq() do %>
+            <span
+                class="inline-flex rounded-full items-center py-0.5 pl-2.5 pr-1 text-xs font-medium bg-indigo-100 text-indigo-700">
+
+                <%= tag %>
+                <button type="button" phx-click="remove-tag" phx-target="<%= @myself %>" phx-value-name="<%= tag %>"
+                    class="flex-shrink-0 ml-0.5 h-4 w-4 rounded-full inline-flex items-center justify-center text-indigo-400 hover:bg-indigo-200 hover:text-indigo-500 focus:outline-none focus:bg-indigo-500 focus:text-white">
+                    <span class="sr-only">Remove large option</span>
+                    <svg class="h-2 w-2" stroke="currentColor" fill="none" viewBox="0 0 8 8">
+                        <path stroke-linecap="round" stroke-width="1.5" d="M1 1l6 6m0-6L1 7" />
+                    </svg>
+                </button>
+            </span>
+            <% end %>
+        </div>
+        <% end %>
+
+    </div>
+
+
+
+    <div class="flex justify-end">
+        <%= submit "Comment", class: "ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", phx_disable_with: "Saving..." %>
+    </div>
+
+</div>
+
+
+<div>
+
+
+
+
+
+
+
+
+
+
+    </form>

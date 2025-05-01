@@ -1,0 +1,38 @@
+<div id="upload-image-modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+    <h2 class="text-xl font-bold mb-2">Faça o upload de uma turma antiga para <%= @professor %></h2>
+    <p class="text-gray-600 mb-4">Instituição: <%= @instituto %></p>
+
+    <%= f = form_for @uploads, "#",
+     id: "turmaAntiga-form",
+     phx_submit: "upload_imagem",
+     phx_change: "validate",
+     multipart: true
+    %>
+      <div class="mb-4">
+        <%= live_file_input @uploads.imagem %>
+      </div>
+
+      <%= for entry <- @uploads.imagem.entries do %>
+        <p><%= entry.client_name %></p>
+      <% end %>
+
+      <div class="mb-4">
+        <%= label f, :periodo, "Período" %>
+        <%= text_input f, :periodo, placeholder: "Exemplo : 2024.1", class: "border p-2 rounded w-full" ,require: true %>
+      </div>
+
+
+
+      <div class="flex justify-end space-x-2">
+        <button type="button" phx-click="close_modal_upload_imagem" class="px-4 py-2 bg-gray-300 rounded-lg">
+          Cancelar
+        </button>
+        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+          Enviar
+        </button>
+      </div>
+    </form>
+
+  </div>
+</div>

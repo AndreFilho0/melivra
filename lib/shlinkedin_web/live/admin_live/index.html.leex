@@ -1,0 +1,28 @@
+<div class="p-5 bg-gray-100 text-gray-900 h-screen">
+    <div class="max-w-2xl">
+        <h1 class="text-4xl mb-4">Admin</h1>
+
+
+        <div class="space-y-8  ">
+
+            <%= live_patch "+ Notification", to: Routes.admin_index_path(@socket, :new_notification), class: "px-4 py-2 bg-green-500 text-white shadow-xs rounded-full font-bold inline-block" %>
+            <%= live_patch "+ Email", to: Routes.admin_index_path(@socket, :new_email), class: "px-4 py-2 bg-green-500 text-white shadow-xs rounded-full font-bold inline-block" %>
+            <%= live_redirect "Awards", to: Routes.award_type_index_path(@socket, :index), class: "px-4 py-2 bg-yellow-600 text-white shadow-xs rounded-full font-bold inline-block" %>
+            <%= live_redirect "Message Templates", to: Routes.message_template_index_path(@socket, :index), class: "px-4 py-2 bg-blue-600 text-white shadow-xs rounded-full font-bold inline-block" %>
+            <%= live_redirect "Home Page Taglines", to: Routes.tagline_index_path(@socket, :index), class: "px-4 py-2 bg-teal-600 text-white shadow-xs rounded-full font-bold inline-block" %>
+            <%= live_redirect "Social Prompts", to: Routes.social_prompt_index_path(@socket, :index), class: "px-4 py-2 bg-teal-600 text-white shadow-xs rounded-full font-bold inline-block" %>
+            <%= live_redirect "Cubicle Reward Messages", to: Routes.reward_message_index_path(@socket, :index), class: "px-4 py-2 bg-teal-600 text-white shadow-xs rounded-full font-bold inline-block" %>
+
+        </div>
+    </div>
+</div>
+
+<%= if @live_action in [:new_notification, :new_email] do %>
+<%= live_modal @socket, ShlinkedinWeb.AdminLive.NotificationFormComponent,
+    id: :new_notification,
+    title: @page_title,
+    profile: @profile,
+    action: @live_action,
+    notification: @notification,
+    return_to: Routes.admin_index_path(@socket, :index) %>
+<% end %>

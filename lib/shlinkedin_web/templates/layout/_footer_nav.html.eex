@@ -1,0 +1,81 @@
+<div class="fixed bottom-0 w-full bg-white shadow-md py-2">
+  <div class="flex justify-center items-center w-full max-w-lg mx-auto space-x-4">
+    <%= link to: "/home", class: "flex-1 flex justify-center" do %>
+      <button class="p-4<%= if @conn.request_path == "/home", do: " text-blue-500 italic"%>">
+        <span class="sr-only">Home</span>
+        <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+        </svg>
+        <p class="pt-0.5">Home</p>
+      </button>
+    <% end %>
+
+
+    <% if false do %>
+      <%= link to: "/market", class: "flex-1 flex justify-center" do %>
+        <button class="p-4<%= if @conn.request_path == "/market", do: " text-blue-500 italic"%>">
+          <span class="sr-only">Market</span>
+          <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"></path>
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"></path>
+          </svg>
+          <p class="pt-0.5">Market</p>
+        </button>
+      <% end %>
+    <% end %>
+
+    <%= link to: "/home/posts/new", class: "flex-1 flex justify-center" do %>
+      <button class="p-4<%= if @conn.request_path == "/home/posts/new", do: " text-blue-500 italic"%>">
+        <span class="sr-only">Post</span>
+        <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path>
+          <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path>
+        </svg>
+        <p class="pt-0.5">Post</p>
+      </button>
+    <% end %>
+    <%= link to: "/professors", class: "flex-1 flex justify-center" do %>
+      <button class="p-4<%= if @conn.request_path == "/home/posts/new", do: " text-blue-500 italic"%>">
+        <span class="sr-only">Professores</span>
+        <svg xmlns="http://www.w3.org/2000/svg"
+        class="w-6 h-6 mx-auto"
+        viewBox="0 0 24 24" fill="currentColor" class="size-6">
+        <path d="M11.7 2.805a.75.75 0 0 1 .6 0A60.65 60.65 0 0 1 22.83 8.72a.75.75 0 0 1-.231 1.337 49.948 49.948 0 0 0-9.902 3.912l-.003.002c-.114.06-.227.119-.34.18a.75.75 0 0 1-.707 0A50.88 50.88 0 0 0 7.5 12.173v-.224c0-.131.067-.248.172-.311a54.615 54.615 0 0 1 4.653-2.52.75.75 0 0 0-.65-1.352 56.123 56.123 0 0 0-4.78 2.589 1.858 1.858 0 0 0-.859 1.228 49.803 49.803 0 0 0-4.634-1.527.75.75 0 0 1-.231-1.337A60.653 60.653 0 0 1 11.7 2.805Z" />
+        <path d="M13.06 15.473a48.45 48.45 0 0 1 7.666-3.282c.134 1.414.22 2.843.255 4.284a.75.75 0 0 1-.46.711 47.87 47.87 0 0 0-8.105 4.342.75.75 0 0 1-.832 0 47.87 47.87 0 0 0-8.104-4.342.75.75 0 0 1-.461-.71c.035-1.442.121-2.87.255-4.286.921.304 1.83.634 2.726.99v1.27a1.5 1.5 0 0 0-.14 2.508c-.09.38-.222.753-.397 1.11.452.213.901.434 1.346.66a6.727 6.727 0 0 0 .551-1.607 1.5 1.5 0 0 0 .14-2.67v-.645a48.549 48.549 0 0 1 3.44 1.667 2.25 2.25 0 0 0 2.12 0Z" />
+        <path d="M4.462 19.462c.42-.419.753-.89 1-1.395.453.214.902.435 1.347.662a6.742 6.742 0 0 1-1.286 1.794.75.75 0 0 1-1.06-1.06Z" />
+        </svg>
+
+
+        <span class="truncate">
+              Professores
+          </span>
+      </button>
+    <% end %>
+
+    <% if false do %>
+      <%= link to: "/updates", class: "flex-1 flex justify-center" do %>
+        <button class="p-4 relative<%= if @conn.request_path == "/updates", do: " text-blue-500 italic"%>">
+          <span class="sr-only">Updates</span>
+          <%= if Shlinkedin.Profiles.get_last_read_notification_time(@profile) > @profile.last_checked_notifications do %>
+            <span class="text-xs absolute top-2 right-2 block h-4 w-4 rounded-full ring-2 ring-white bg-red-600 text-white">
+              <%= Shlinkedin.Profiles.get_unread_notification_count(@profile) %>
+            </span>
+          <% end %>
+          <svg class="w-6 h-6 mx-auto" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path>
+          </svg>
+          <p class="pt-0.5">Notificação</p>
+        </button>
+      <% end %>
+    <% end %>
+
+    <%= link to: "/sh/#{@profile.slug}", class: "flex-1 flex justify-center" do %>
+      <button class="p-4<%= if @conn.request_path == "/sh/#{@profile.slug}", do: " text-blue-500 italic"%>">
+        <span class="sr-only">Profile</span>
+        <img class="h-6 w-6 mx-auto object-cover rounded-full <%= if @conn.request_path == "/sh/#{@profile.slug}", do: "border-2 border-blue-500"%>"
+          src="<%= @profile.photo_url %>" alt="">
+        <p class="pt-0.5">Eu</p>
+      </button>
+    <% end %>
+  </div>
+</div>

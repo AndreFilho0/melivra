@@ -1,0 +1,211 @@
+   <!-- This example requires Tailwind CSS v2.0+ -->
+   <div class="max-w-7xl mx-auto bg-white" phx-hook="Message" id="shlinkmail">
+
+       <div class="">
+           <div
+               class="inline-flex border border-gray-200 px-6 pt-4 pb-4 w-full bg-white items-center sticky top-16">
+               <%= live_redirect to: Routes.message_index_path(@socket, :index) do %>
+               <span
+                   class="mr-4 inline-flex items-center p-1 border border-transparent rounded-full text-blue-500 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                   <!-- Heroicon name: solid/plus -->
+                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
+                       viewBox="0 0 20 20" fill="currentColor">
+                       <path fill-rule="evenodd"
+                           d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+                           clip-rule="evenodd" />
+                   </svg>
+               </span>
+               <% end %>
+
+               <div class="flex -space-x-2 overflow-hidden">
+                   <%= for member <- @conversation.conversation_members do %>
+                   <%= unless member.profile.id == @profile.id do %>
+                   <!-- Link to profile -->
+                   <%= live_redirect to: Routes.profile_show_path(@socket, :show, member.profile.slug) do %>
+                   <div class="flex-shrink-0 group block">
+                       <div class="flex items-center">
+                           <div>
+                               <img class="inline-block h-9 w-9 rounded-full ring-2 ring-white"
+                                   src="<%=member.profile.photo_url%>"
+                                   alt="<%=member.profile.persona_name%>">
+                           </div>
+                           <%= if length(@conversation.conversation_members) == 2 do %>
+                           <div class="ml-3">
+                               <p
+                                   class="text-sm font-medium text-gray-700 group-hover:text-gray-900">
+                                   <%=member.profile.persona_name%>
+                               </p>
+                               <p
+                                   class="text-xs font-medium text-gray-500 group-hover:text-gray-700">
+                                   <%=member.profile.persona_title%>
+                               </p>
+                           </div>
+                           <% end %>
+                       </div>
+                   </div>
+                   <% end %>
+                   <% end %>
+                   <% end %>
+               </div>
+           </div>
+
+
+
+           <%# Messages %>
+
+           <div class="px-3 pb-24 z-0 bg-white pt-6 min-h-screen">
+               <%= if length(@messages) != 0 do %>
+               <%= if @convo_length > @limit do %>
+               <div class="text-sm text-gray-500 text-center">
+                   FYI, ShlinkMail only loads the previous <%=@limit%> messages.
+               </div>
+               <% end %>
+               <ul class="max-h-full max-w-2xl mx-auto overflow-y-scroll pb-8"
+                   id="messages" phx-update="append">
+                   <%= for message <- @messages do %>
+                   <%= if message.profile.id == @profile.id do %>
+                   <div class="flex justify-end py-2"
+                       id="message-<%=message.id%>">
+                       <li
+                           class="bg-gradient-to-tr from-blue-400 to-green-400 text-white font-medium shadow overflow-hidden <%= if String.length(message.content) > 100, do: "rounded-lg", else: "rounded-full" %> items-center justify-center px-4 py-3 text-sm">
+                           <div>
+                               <%= message.content %>
+                           </div>
+                       </li>
+                   </div>
+                   <% else %>
+                   <div id="<%=message.id%>">
+                       <span
+                           class="text-xs text-gray-500 ml-2"><%=message.profile.persona_name%></span>
+                       <div class="flex py-1">
+                           <div class="mr-4 flex-shrink-0">
+                               <span class="inline-block relative">
+                                   <img class="h-10 w-10 rounded-full"
+                                       src="<%= message.profile.photo_url %>"
+                                       alt="">
+                                   <span
+                                       class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white bg-green-400"></span>
+                               </span>
+
+
+                           </div>
+
+                           <li
+                               class="bg-gray-100 text-gray-800 shadow overflow-hidden <%= if String.length(message.content) > 100, do: "rounded-lg", else: "rounded-full" %>  items-center justify-center px-4 py-3 text-sm">
+                               <div>
+                                   <%= message.content %>
+                               </div>
+                           </li>
+                       </div>
+                   </div>
+                   <% end %>
+                   <% end %>
+               </ul>
+               <%# Message empty state %>
+               <% else %>
+               <div class="w-full justify-center px-6 pt-5 pb-6 rounded-md">
+                   <div class="w-full space-y-1 text-center">
+                       <span class="text-8xl">📪</span>
+                       <div class="mx-auto text-sm text-gray-600 py-4">
+                           <p class="font-semibold">Don't know what to say? Let
+                               our AI help.</p>
+                       </div>
+                       <button type="button" phx-click="icebreaker"
+                           id="icebreaker"
+                           class="font-windows text-green-400 bg-white inline-flex items-center px-3 py-2 shadow-sm text-base border border-gray-300  leading-4 font-medium rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                           <svg class="w-4 h-4 mr-3 animate-spin"
+                               fill="currentColor" viewBox="0 0 20 20"
+                               xmlns="http://www.w3.org/2000/svg">
+                               <path fill-rule="evenodd"
+                                   d="M9.504 1.132a1 1 0 01.992 0l1.75 1a1 1 0 11-.992 1.736L10 3.152l-1.254.716a1 1 0 11-.992-1.736l1.75-1zM5.618 4.504a1 1 0 01-.372 1.364L5.016 6l.23.132a1 1 0 11-.992 1.736L4 7.723V8a1 1 0 01-2 0V6a.996.996 0 01.52-.878l1.734-.99a1 1 0 011.364.372zm8.764 0a1 1 0 011.364-.372l1.733.99A1.002 1.002 0 0118 6v2a1 1 0 11-2 0v-.277l-.254.145a1 1 0 11-.992-1.736l.23-.132-.23-.132a1 1 0 01-.372-1.364zm-7 4a1 1 0 011.364-.372L10 8.848l1.254-.716a1 1 0 11.992 1.736L11 10.58V12a1 1 0 11-2 0v-1.42l-1.246-.712a1 1 0 01-.372-1.364zM3 11a1 1 0 011 1v1.42l1.246.712a1 1 0 11-.992 1.736l-1.75-1A1 1 0 012 14v-2a1 1 0 011-1zm14 0a1 1 0 011 1v2a1 1 0 01-.504.868l-1.75 1a1 1 0 11-.992-1.736L16 13.42V12a1 1 0 011-1zm-9.618 5.504a1 1 0 011.364-.372l.254.145V16a1 1 0 112 0v.277l.254-.145a1 1 0 11.992 1.736l-1.735.992a.995.995 0 01-1.022 0l-1.735-.992a1 1 0 01-.372-1.364z"
+                                   clip-rule="evenodd"></path>
+                           </svg>
+                           AI Generated Icebreaker</button>
+                   </div>
+               </div>
+               <% end %>
+           </div>
+       </div>
+
+
+
+       <%# Scroll down button %>
+       <%= if length(@messages) > 6 do %>
+       <div
+           class="fixed <%= if @some_text, do: "bottom-64 sm:bottom-40", else: "bottom-56 sm:bottom-36" %>  w-full text-center">
+           <button id="scroll_down" phx-hook="ScrollDown"
+               class="items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-600 text-white hover:bg-blue-500 inline-flex mb-4">
+               &darr;
+           </button>
+       </div>
+       <% end %>
+
+       <%# Templates %>
+       <%= unless @messages == [] do %>
+       <div
+           class="sticky <%= if @some_text, do: "bottom-52 sm:bottom-32", else: "bottom-44 sm:bottom-24" %> w-full text-center">
+           <div class="grid grid-cols-3 mx-4 gap-4">
+               <%= for template <- @templates do %>
+               <button id="<%=template.id%>" phx-click="template"
+                   phx-value-content="<%= template.content %>"
+                   class="items-center px-3 py-1 rounded-full text-sm font-medium bg-white border border-blue-600 text-blue-600 hover:bg-blue-50 truncate">
+                   <%= template.content %>
+               </button>
+               <% end %>
+           </div>
+       </div>
+       <% end %>
+
+
+
+       <%= f = form_for :message, "#", [phx_hook: "SendMessage", phx_change: "update_message", phx_submit: "send_message", id: "send-message", class: "w-full mt-12 sticky sm:bottom-0 bottom-20 bg-white p-2 border-t shadow-t-sm", autocomplete: "off" ] %>
+
+       <%= if @some_text do %>
+       <div class="inline-flex">
+           <button type="button" phx-hook="Bizarro" id="bizarro-mode"
+               value="message_content"
+               class="tooltip inline-flex items-center ml-2 px-2 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+               🧩
+               <span class="tooltip-text ml-3 mb-10">Bizarro</span>
+           </button>
+           <button type="button" phx-hook="Clappify" id="clappify-mode"
+               value="message_content"
+               class="tooltip inline-flex items-center ml-2 px-2 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+               👏
+               <span class="tooltip-text ml-3 mb-10">Clappify</span>
+           </button>
+           <button type="button" phx-hook="Yell" id="yell-mode"
+               value="message_content"
+               class="tooltip inline-flex items-center ml-2 px-2 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+               📢
+               <span class="tooltip-text ml-3 mb-10">Yell</span>
+           </button>
+           <button type="button" phx-hook="Emojify" id="emojify-mode"
+               value="message_content"
+               class="tooltip inline-flex items-center ml-2 px-2 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+               🧨
+               <span class="tooltip-text ml-3 mb-10">Wildcard</span>
+           </button>
+       </div>
+       <% end %>
+
+       <div class="flex justify-between">
+
+           <%= text_input f, :content, class: "flex-grow m-2 py-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md", placeholder: "Start a new ShlinkMail", required: true, autofocus: "true" %>
+           <button class="m-2" type="submit">
+               <svg class="w-12 h-12 py-2 mr-2 text-blue-500 hover:bg-gray-50 rounded-full"
+                   fill="currentColor" viewBox="0 0 20 20"
+                   xmlns="http://www.w3.org/2000/svg">
+                   <path
+                       d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z">
+                   </path>
+                   <path
+                       d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z">
+                   </path>
+               </svg>
+           </button>
+       </div>
+       </form>
+
+
+   </div>

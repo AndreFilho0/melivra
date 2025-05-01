@@ -1,0 +1,26 @@
+<div phx-window-keyup="select-page" class="p-5 font-windows bg-gray-900 text-green-400 h-screen">
+    <div class="max-w-prose">
+        <h1 class="text-4xl mb-4">Menu</h1>
+
+
+        <div class="space-y-8  ">
+
+            <%= if @admin do %>
+            <div class="text-white">
+                <%= link "[a] Admin", to: Routes.admin_index_path(@socket, :index), class: "text-lg text-white hover:underline" %>
+            </div>
+            <% end %>
+            <div class="text-white">
+                <%= link "[p] Exploit Profiles", to: Routes.users_index_path(@socket, :index), class: "text-lg text-white hover:underline" %>
+            </div>
+            <div class="text-white">
+                <%= link "[e] Change Email/Password", to: Routes.user_settings_path(@socket, :edit), class: "text-lg text-white hover:underline" %>
+            </div>
+            <div class="text-white">
+               
+            </div>
+
+
+        </div>
+    </div>
+</div>

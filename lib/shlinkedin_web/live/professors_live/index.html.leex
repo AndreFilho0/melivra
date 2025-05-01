@@ -1,0 +1,40 @@
+<div class="container mx-auto p-8">
+  <h1 class="text-2xl font-bold mb-6">Buscar Professores</h1>
+  <form phx-change="institute_selected" phx-submit="search" class="space-y-6">
+    <!-- Select de Institutos -->
+    <div>
+      <label for="institute" class="block text-gray-700 font-medium mb-2">Instituto</label>
+      <select name="institute" id="institute" class="w-full border border-gray-300 rounded p-2"
+              phx-change="load_professors">
+        <option value="">Selecione um instituto</option>
+        <%= for instituto <- @institutos do %>
+          <option value="<%= instituto %>"><%= instituto %></option>
+        <% end %>
+      </select>
+    </div>
+
+
+    <div>
+    <label for="professor" class="block text-gray-700 font-medium mb-2">Professor</label>
+    <select name="professor" id="professor" class="w-full border border-gray-300 rounded p-2"
+      <%= if Enum.empty?(@professores_instituto), do: "disabled" %>>
+      <option value="">Selecione um professor</option>
+      <%= for professor <- @professores_instituto do %>
+        <option value="<%= professor %>"><%= professor %></option>
+      <% end %>
+    </select>
+    </div>
+
+
+
+    <div>
+
+      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
+      <%= if Enum.empty?(@professores_instituto), do: "disabled" %>>
+        Buscar
+
+      </button>
+
+    </div>
+  </form>
+</div>

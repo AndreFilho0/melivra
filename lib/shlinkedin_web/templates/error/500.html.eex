@@ -1,0 +1,23 @@
+<head>
+    <link phx-track-static rel="stylesheet"
+        href="<%= Routes.static_path(@conn, "/css/app.css") %>" />
+</head>
+<div class="max-w-prose mx-auto">
+    <img src="<%= Routes.static_path(@conn, "/images/500.png") %>" alt=""
+        class="w-96 mx-auto">
+    <h2 class="text-xl font-semibold mt-8 text-center">
+
+
+        <br><br />
+
+        <a class="underline text-blue-500"
+            href="mailto:charlie@shlinkedin.com">send us a message.</a>
+
+        <br><br />
+
+        <%= link("here", to: "/home", class: "underline text-blue-500") %> to go
+       </h2>
+
+
+    
+</div>

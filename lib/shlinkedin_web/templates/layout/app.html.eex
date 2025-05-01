@@ -1,0 +1,5 @@
+<main role="main">
+    <p class="alert alert-info fixed z-50 top-5 right-5" role="alert"><%= get_flash(@conn, :info) %></p>
+    <p class="alert alert-danger fixed z-50 top-5 right-5" role="alert"><%= get_flash(@conn, :error) %></p>
+    <%= @inner_content %>
+</main>
