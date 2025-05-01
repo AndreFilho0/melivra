@@ -2,10 +2,10 @@ use Mix.Config
 
 # Configure your database
 config :shlinkedin, Shlinkedin.Repo,
-  username: "",
-  password: "",
-  database: "",
-  hostname: "",
+  username: "postgres",
+  password: "teste",
+  database: "melivra",
+  hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
@@ -74,7 +74,6 @@ config :phoenix, :stacktrace_depth, 20
 config :phoenix, :plug_init_mode, :runtime
 
 # config/config.exs
-config :shlinkedin, Shlinkedin.Mailer,
-  adapter: Bamboo.MailgunAdapter,
-  api_key: "",
-  domain: "melivra.com"
+config :shlinkedin, Shlinkedin.Mailer, adapter: Bamboo.LocalAdapter
+# api_key: "",
+# domain: "melivra.com"

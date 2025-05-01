@@ -24,10 +24,10 @@ if config_env() == :prod do
   maybe_ipv6 = if System.get_env("ECTO_IPV6") in ~w(true 1), do: [:inet6], else: []
 
   config :shlinkedin, Shlinkedin.Repo,
-    username: System.get_env("DB_USER") || "",
-    password: System.get_env("DB_PASS") || "",
-    database: System.get_env("DB_NAME") || "",
-    hostname: System.get_env("DB_HOST") || "",
+    username: System.get_env("DB_USER") || "postgres",
+    password: System.get_env("DB_PASS") || "teste",
+    database: System.get_env("DB_NAME") || "melivra",
+    hostname: System.get_env("DB_HOST") || "localhost",
     port: String.to_integer(System.get_env("DB_PORT") || "5432"),
     pool_size: 10
 end
