@@ -1,4 +1,4 @@
-# Como Rodar o Shlinkedin Localmente
+# Como Rodar o melivra Localmente
 
 Este guia é para quem deseja rodar o projeto localmente em ambiente de desenvolvimento.
 
@@ -11,33 +11,11 @@ Este guia é para quem deseja rodar o projeto localmente em ambiente de desenvol
 
 ## 1. Suba o banco de dados PostgreSQL com Docker
 
-Crie um arquivo `docker-compose.yml` com o seguinte conteúdo:
+de um up no banco de dados  `docker-compose.yml` com o seguinte comando:
 
-```yaml
-version: "3.8"
-
-services:
-  db:
-    image: postgres:15
-    container_name: postgres_db
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: teste
-      POSTGRES_DB: melivra
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-
-volumes:
-  pgdata:
-```
-
-Em seguida, rode:
 
 ```bash
-docker-compose up -d
+docker-compose up --build -d
 ```
 
 Esse comando irá subir o container do PostgreSQL e deixá-lo rodando em segundo plano.
@@ -45,7 +23,7 @@ Esse comando irá subir o container do PostgreSQL e deixá-lo rodando em segundo
 ## 2. Instale as dependências
 
 ```bash
-mix deps.get
+mix deps.unlock --all; mix deps.update --all; mix deps.get
 ```
 
 ## 3. Configure o banco de dados
