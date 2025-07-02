@@ -4,7 +4,7 @@ Este guia é para quem deseja rodar o projeto localmente em ambiente de desenvol
 
 ## Pré-requisitos
 
-* [Elixir](https://elixir-lang.org/install.html)
+* [Elixir](https://elixir-lang.org/install.html) 1.16.2 (compiled with Erlang/OTP 26)
 * [Erlang](https://www.erlang.org/downloads)
 * [Node.js](https://nodejs.org/)
 * [Docker + Docker Compose](https://docs.docker.com/compose/install/)
