@@ -63,6 +63,22 @@ config :shlinkedin, ShlinkedinWeb.Endpoint,
     ]
   ]
 
+config :ueberauth, Ueberauth,
+  providers: [
+    google:
+      {Ueberauth.Strategy.Google,
+       [
+         hd: "discente.ufg.br",
+         prompt: "select_account",
+         access_type: "offline",
+         include_granted_scopes: true
+       ]}
+  ]
+
+config :ueberauth, Ueberauth.Strategy.Google.OAuth,
+  client_id: System.get_env("GOOGLE_CLIENT_ID"),
+  client_secret: System.get_env("GOOGLE_CLIENT_SECRET")
+
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
 

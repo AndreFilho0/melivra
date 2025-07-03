@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="utf-8" />
@@ -72,8 +72,8 @@
         <%= @inner_content %>
     </div>
 
-    <%# Bottom footer %>
-    <%= if @current_user do %>
+    <%# Bottom footer celular %>
+    
     <nav class="sm:hidden bg-white border-t text-gray-500 text-base bottom-0 fixed w-full z-10">
         <div class="flex h-20 items-top text-xs">
             <%= if @profile != nil and @profile != %Shlinkedin.Profiles.Profile{} do %>
@@ -81,7 +81,7 @@
             <% end %>
         </div>
     </nav>
-    <% end %>
+    
 
 </body>
 

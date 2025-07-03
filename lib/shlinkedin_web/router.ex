@@ -76,6 +76,13 @@ defmodule ShlinkedinWeb.Router do
     put "/reset_password/:token", UserResetPasswordController, :update
   end
 
+  scope "/auth", ShlinkedinWeb do
+    pipe_through [:browser, :redirect_if_user_is_authenticated]
+
+    get "/:provider", AuthController, :request
+    get "/:provider/callback", AuthController, :callback
+  end
+
   scope "/", ShlinkedinWeb do
     pipe_through [:browser, :require_authenticated_user]
 
@@ -244,7 +251,9 @@ defmodule ShlinkedinWeb.Router do
     # professores
     live "/professors/:slug/:instituto", ProfessorsLive.Show, :show
 
-    live "/professors/:slug/:instituto/posts/:post_id/new_comment",ProfessorsLive.Show,:new_comment
+    live "/professors/:slug/:instituto/posts/:post_id/new_comment",
+         ProfessorsLive.Show,
+         :new_comment
 
     live "/professors", ProfessorsLive.Index, :index
 
