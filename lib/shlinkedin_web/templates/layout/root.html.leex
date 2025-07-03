@@ -76,7 +76,7 @@
     
     <nav class="sm:hidden bg-white border-t text-gray-500 text-base bottom-0 fixed w-full z-10">
         <div class="flex h-20 items-top text-xs">
-            <%= if @profile != nil and @profile != %Shlinkedin.Profiles.Profile{} do %>
+            <%= if  @profile != %Shlinkedin.Profiles.Profile{} do %>
             <%= render "_footer_nav.html", assigns %>
             <% end %>
         </div>

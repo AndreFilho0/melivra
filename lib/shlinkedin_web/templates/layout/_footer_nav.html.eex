@@ -68,7 +68,7 @@
         </button>
       <% end %>
     <% end %>
-
+    <%= if @profile != nil do %>
     <%= link to: "/sh/#{@profile.slug}", class: "flex-1 flex justify-center" do %>
       <button class="p-4<%= if @conn.request_path == "/sh/#{@profile.slug}", do: " text-blue-500 italic"%>">
         <span class="sr-only">Profile</span>
@@ -76,6 +76,7 @@
           src="<%= @profile.photo_url %>" alt="">
         <p class="pt-0.5">Eu</p>
       </button>
+    <% end %>
     <% end %>
   </div>
 </div>
