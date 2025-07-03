@@ -1,7 +1,7 @@
 # Como Rodar o melivra Localmente
 
 Este guia é para quem deseja rodar o projeto localmente em ambiente de desenvolvimento.
-
+Para fazer contribuições, siga as instruções em [CONTRIBUTING.md](CONTRIBUTING.md).
 ## Pré-requisitos
 
 * [Elixir](https://elixir-lang.org/install.html) 1.16.2 (compiled with Erlang/OTP 26)
