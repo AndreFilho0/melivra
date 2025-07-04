@@ -53,6 +53,7 @@ defmodule Shlinkedin.Profiles.Profile do
     has_many(:awards, Shlinkedin.Profiles.Award, on_delete: :nilify_all)
 
     field(:private_mode, :boolean, default: false)
+    field(:verificado, :boolean, default: false)
     field(:ad_frequency, :integer, default: 3)
 
     has_many(:conversation_members, Shlinkedin.Chat.ConversationMember)
@@ -82,6 +83,7 @@ defmodule Shlinkedin.Profiles.Profile do
       :username,
       :user_id,
       :slug,
+      :verificado,
       :persona_name,
       :persona_title,
       :summary,
