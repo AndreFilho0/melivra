@@ -11,9 +11,12 @@ defmodule Shlinkedin.MixProject do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
+      releases: [
+        melivra: []
+      ],
 
       # Docs
-      source_url: "https://github.com/cbh123/shlinked",
+      source_url: "https://github.com/AndreFilho0/melivra",
       extras: ["README.md"]
     ]
   end

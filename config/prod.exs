@@ -26,6 +26,18 @@ config :shlinkedin, Shlinkedin.Repo,
 # Do not print debug messages in production
 config :logger, level: :info
 
+config :ueberauth, Ueberauth,
+  providers: [
+    google:
+      {Ueberauth.Strategy.Google,
+       [
+         hd: "discente.ufg.br",
+         prompt: "select_account",
+         access_type: "offline",
+         include_granted_scopes: true
+       ]}
+  ]
+
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key
