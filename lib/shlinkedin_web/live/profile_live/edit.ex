@@ -98,8 +98,6 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
   end
 
   def handle_event("save", %{"profile" => profile_params}, socket) do
-    require IEx
-    IEx.pry()
     save_profile(socket, socket.assigns.live_action, profile_params)
   end
 
