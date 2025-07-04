@@ -13,11 +13,11 @@ if config_env() == :prod do
       """
 
   host = System.get_env("PHX_HOST") || "melivra.com"
-  porta = System.get_env("PORT") || "433"
+  port = String.to_integer(System.get_env("PORT") || "4000")
 
   config :shlinkedin, ShlinkedinWeb.Endpoint,
-    http: [port: {:system, "PORT"}],
-    url: [scheme: "https", host: host, port: porta],
+    http: [port: port],
+    url: [scheme: "https", host: host, port: 443],
     force_ssl: [rewrite_on: [:x_forwarded_proto]],
     cache_static_manifest: "priv/static/cache_manifest.json",
     secret_key_base: secret_key_base
