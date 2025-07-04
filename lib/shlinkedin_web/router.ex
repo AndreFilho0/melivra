@@ -76,6 +76,8 @@ defmodule ShlinkedinWeb.Router do
     put "/reset_password/:token", UserResetPasswordController, :update
   end
 
+  ## auth com o google
+
   scope "/auth", ShlinkedinWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 

@@ -13,26 +13,26 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
   ]
 
   @title_placeholders [
-   "Medicina",
-  "Direito",
-  "Engenharia Civil",
-  "Administração",
-  "Ciência da Computação",
-  "Psicologia",
-  "Enfermagem",
-  "Pedagogia",
-  "Economia",
-  "Contabilidade",
-  "Marketing",
-  "Publicidade e Propaganda",
-  "Jornalismo",
-  "Relações Internacionais",
-  "Design Gráfico",
-  "Arquitetura e Urbanismo",
-  "Engenharia Mecânica",
-  "Engenharia Elétrica",
-  "Farmácia",
-  "Fisioterapia"
+    "Medicina",
+    "Direito",
+    "Engenharia Civil",
+    "Administração",
+    "Ciência da Computação",
+    "Psicologia",
+    "Enfermagem",
+    "Pedagogia",
+    "Economia",
+    "Contabilidade",
+    "Marketing",
+    "Publicidade e Propaganda",
+    "Jornalismo",
+    "Relações Internacionais",
+    "Design Gráfico",
+    "Arquitetura e Urbanismo",
+    "Engenharia Mecânica",
+    "Engenharia Elétrica",
+    "Farmácia",
+    "Fisioterapia"
   ]
   def mount(_params, session, socket) do
     socket =
@@ -51,7 +51,25 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
       )
 
     profile = if is_nil(socket.assigns.profile), do: %Profile{}, else: socket.assigns.profile
-    changeset = Profiles.change_profile(profile)
+
+    user_image = session["user_image"]
+    verificado_google = session["verificado_google"]
+
+    base_changeset = Profiles.change_profile(profile)
+
+    changeset =
+      if user_image do
+        Ecto.Changeset.put_change(base_changeset, :photo_url, user_image)
+      else
+        base_changeset
+      end
+
+    changeset =
+      if verificado_google do
+        Ecto.Changeset.put_change(changeset, :verificado, true)
+      else
+        changeset
+      end
 
     {:ok,
      socket
@@ -100,7 +118,6 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
 
     {:noreply, assign(socket, :changeset, changeset)}
   end
-
 
   def handle_event("inspire", _params, socket) do
     persona_name = Shlinkedin.Timeline.Generators.full_name()
@@ -185,18 +202,15 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
 
   @bucket "melivra"
   defp s3_host, do: "https://bucket.melivra.com/melivra"
+
   defp s3_key(entry) do
     "usuario/perfil/#{entry.uuid}.#{ext(entry)}"
   end
 
   def presign_entry(entry, socket) do
+    uploads = socket.assigns.uploads
 
-
-      uploads = socket.assigns.uploads
-
-
-      key = s3_key(entry)
-      
+    key = s3_key(entry)
 
     config = %{
       scheme: "https://",
