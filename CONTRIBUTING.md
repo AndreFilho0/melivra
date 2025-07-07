@@ -5,6 +5,22 @@ Obrigado por querer contribuir com este projeto! Para garantir um fluxo de traba
 ---
 Recomendamos o uso do [asdf](https://asdf-vm.com/guide/getting-started.html) como gerenciador de versões para Elixir, Erlang e Node.js, a fim de facilitar a instalação e garantir compatibilidade entre ambientes.
 
+## Material de Apoio
+
+Como Elixir e programação funcional ainda não são temas muito explorados na faculdade como deveriam, reuni aqui alguns materiais que podem te ajudar na sua jornada de estudos com Elixir e Phoenix para desenvolvimento web — além da leitura das documentações oficiais, é claro.
+
+### Recomendações:
+
+- **Vídeo do Akita** – Uma ótima introdução ao Elixir, abordando fundamentos e a filosofia por trás da linguagem:  
+  [https://www.youtube.com/watch?v=GeGXXfNvdSA&t=941s](https://www.youtube.com/watch?v=GeGXXfNvdSA&t=941s)
+
+- **Playlist da Codemainer42** – Série de vídeos bem didática, cobrindo desde conceitos básicos até tópicos mais avançados:  
+  [https://youtube.com/playlist?list=PLUMphNAA9pmrl_SpVZblu0YZ2HC9xNR2a](https://youtube.com/playlist?list=PLUMphNAA9pmrl_SpVZblu0YZ2HC9xNR2a)
+
+- **Blog do Akita** – Pesquise por “Elixir” no blog [akitaonrails.com](https://akitaonrails.com) para encontrar mais de 15 posts com conteúdos riquíssimos, indo além da documentação básica e explorando a estrutura do framework Phoenix.  
+  Um exemplo de post recomendado:  
+  [Phoenix: 15 Minute Blog - Comparison to Ruby on Rails](https://akitaonrails.com/2015/11/20/phoenix-15-minute-blog-comparison-to-ruby-on-rails)
+
 
 
 ## 1. Faça um Fork do Repositório
