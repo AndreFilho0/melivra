@@ -15,11 +15,19 @@ Como Elixir e programação funcional ainda não são temas muito explorados na 
   [https://www.youtube.com/watch?v=GeGXXfNvdSA&t=941s](https://www.youtube.com/watch?v=GeGXXfNvdSA&t=941s)
 
 - **Playlist da Codemainer42** – Série de vídeos bem didática, cobrindo desde conceitos básicos até tópicos mais avançados:  
-  [https://youtube.com/playlist?list=PLUMphNAA9pmrl_SpVZblu0YZ2HC9xNR2a](https://youtube.com/playlist?list=PLUMphNAA9pmrl_SpVZblu0YZ2HC9xNR2a)
+  [https://youtube.com/playlist?list=PLUMphNAA9pmrl_SpVZblu0YZ2HC9xNR2a](https://youtube.com/playlist?list=PLUMphNAA9pmrl_SpVZblu0YZ2HC9xNR2a) 
 
-- **Blog do Akita** – Pesquise por “Elixir” no blog [akitaonrails.com](https://akitaonrails.com) para encontrar mais de 15 posts com conteúdos riquíssimos, indo além da documentação básica e explorando a estrutura do framework Phoenix.  
-  Um exemplo de post recomendado:  
-  [Phoenix: 15 Minute Blog - Comparison to Ruby on Rails](https://akitaonrails.com/2015/11/20/phoenix-15-minute-blog-comparison-to-ruby-on-rails)
+- **Blog do Akita** – No [akitaonrails.com](https://akitaonrails.com), pesquise por “Elixir” para encontrar mais de 15 posts com conteúdos aprofundados. Akita vai além da documentação básica e explora conceitos importantes do framework **Phoenix**, oferecendo insights valiosos para quem quer se aprofundar na stack.
+
+  Um post recomendado é:  
+  👉 [Phoenix: 15 Minute Blog - Comparison to Ruby on Rails](https://akitaonrails.com/2015/11/20/phoenix-15-minute-blog-comparison-to-ruby-on-rails)  
+  Esse artigo é especialmente útil para quem já tem experiência com **Ruby on Rails**, pois compara passo a passo a construção de um blog nos dois frameworks.
+
+  No início do post, Akita também indica um excelente tutorial em duas partes do Brandon Richey, ideal para quem quer ver um exemplo prático e completo da criação de um blog com Phoenix:
+
+  - Parte 1: [Introduction](https://medium.com/hackernoon/introduction-fe138ac6079d#.ffl48saew)  
+  - Parte 2: [Authorization](https://medium.com/hackernoon/writing-a-blog-engine-in-phoenix-part-2-authorization-814c06fa7c0)
+
 
 
 
