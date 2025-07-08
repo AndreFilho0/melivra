@@ -9,6 +9,16 @@ config :shlinkedin, Shlinkedin.Repo,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
+config :ex_aws,
+  access_key_id: "minio",
+  secret_access_key: "minio123",
+  region: "us-east-1",
+  s3: [
+    scheme: "http://",
+    host: "localhost",
+    port: 9000
+  ]
+
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #
