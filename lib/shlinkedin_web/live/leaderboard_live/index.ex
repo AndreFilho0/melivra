@@ -61,7 +61,9 @@ defmodule ShlinkedinWeb.LeaderboardLive.Index do
      socket
      |> push_patch(
        to:
-         Routes.leaderboard_index_path(socket, :index, curr_category: category |> String.to_atom())
+         Routes.leaderboard_index_path(socket, :index,
+           curr_category: category |> String.to_atom()
+         )
      )}
   end
 

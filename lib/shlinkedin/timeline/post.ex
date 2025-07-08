@@ -36,7 +36,7 @@ defmodule Shlinkedin.Timeline.Post do
     post
     |> cast(attrs, [
       :body,
-      :type,           
+      :type,
       :professor_id,
       :update_type,
       :profile_update,

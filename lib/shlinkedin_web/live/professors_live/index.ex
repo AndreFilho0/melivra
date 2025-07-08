@@ -1,5 +1,5 @@
 defmodule ShlinkedinWeb.ProfessorsLive.Index do
-alias Shlinkedin.Professors
+  alias Shlinkedin.Professors
   use ShlinkedinWeb, :live_view
   alias Shlinkedin.Professors
 
@@ -39,40 +39,31 @@ alias Shlinkedin.Professors
     {:ok,
      socket
      |> assign(:institutos, institutos)
-     |> assign(:professores_instituto, [])
-    }
+     |> assign(:professores_instituto, [])}
   end
-
 
   @impl Phoenix.LiveView
   def handle_event("institute_selected", unsigned_params, socket) do
     institute = Map.get(unsigned_params, "institute")
     professores_instituto = Professors.search_professors_instituto(institute)
 
-
     {:noreply,
      socket
      |> assign(:professores_instituto, professores_instituto)}
-
   end
 
   @impl Phoenix.LiveView
-def handle_event("search", %{"institute" => instituto, "professor" => professor}, socket) do
-  if instituto == "" or professor == "" do
-    
-
-    {:noreply,
-      push_redirect(socket,
-        to: Routes.professors_index_path(socket, :index)
-      )}
-  else
-    {:noreply,
-      push_redirect(socket,
-        to: Routes.professors_show_path(socket, :show, professor, instituto)
-      )}
+  def handle_event("search", %{"institute" => instituto, "professor" => professor}, socket) do
+    if instituto == "" or professor == "" do
+      {:noreply,
+       push_redirect(socket,
+         to: Routes.professors_index_path(socket, :index)
+       )}
+    else
+      {:noreply,
+       push_redirect(socket,
+         to: Routes.professors_show_path(socket, :show, professor, instituto)
+       )}
+    end
   end
-end
-
-
-
 end

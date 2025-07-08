@@ -70,9 +70,7 @@ defmodule Shlinkedin.ProfilesFixtures do
   def work_fixture(attrs \\ %{}) do
     {:ok, work} =
       attrs
-      |> Enum.into(%{
-
-      })
+      |> Enum.into(%{})
       |> Shlinkedin.Profiles.create_work()
 
     work

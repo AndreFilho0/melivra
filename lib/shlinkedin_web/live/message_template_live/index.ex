@@ -9,8 +9,8 @@ defmodule ShlinkedinWeb.MessageTemplateLive.Index do
     socket = is_user(session, socket)
 
     {:ok,
-      check_access(socket)
-      |> assign(:templates, list_templates())}
+     check_access(socket)
+     |> assign(:templates, list_templates())}
   end
 
   @impl true

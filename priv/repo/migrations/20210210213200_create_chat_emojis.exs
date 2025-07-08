@@ -8,6 +8,5 @@ defmodule Shlinkedin.Repo.Migrations.CreateChatEmojis do
 
       timestamps()
     end
-
   end
 end
