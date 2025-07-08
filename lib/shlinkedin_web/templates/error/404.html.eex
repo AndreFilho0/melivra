@@ -1,18 +1,24 @@
 <head>
-    <link phx-track-static rel="stylesheet"
-        href="<%= Routes.static_path(@conn, "/css/app.css") %>" />
+  <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>" />
 </head>
-<div class="max-w-prose mx-auto">
-    <img src="<%= Routes.static_path(@conn, "/images/404.gif") %>" alt=""
-        class="w-96 mx-auto">
-    <h2 class="text-3xl font-bold mt-8 text-center font-windows">
 
-        You’re not
-        supposed to see
-        this. <br /> Forget this. <br /> Forget everything. <br />
-        <%= link("Back to your cubicle, NOW!", to: "/home", class: "underline text-blue-500") %>
+<div class="min-h-screen flex flex-col items-center justify-center bg-white text-center px-4">
+  <img 
+    src="<%= Routes.static_path(@conn, "/images/404.gif") %>" 
+    alt="Página não encontrada" 
+    class="w-72 md:w-96 mb-8"
+  />
 
+  <h1 class="text-4xl font-extrabold text-gray-800">404 – Página não encontrada</h1>
 
+  <p class="mt-4 text-lg text-gray-600 font-mono">
+    Você não deveria estar vendo isso. <br />
+    Esqueça que isso aconteceu. <br />
+    Esqueça tudo.
+  </p>
 
-
+  <div class="mt-6">
+    <%= link("Volte para sua mesa. AGORA!", to: "/home", class: "text-blue-600 hover:text-blue-800 underline text-lg transition-colors") %>
+  </div>
 </div>
+

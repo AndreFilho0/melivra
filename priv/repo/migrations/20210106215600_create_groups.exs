@@ -9,6 +9,5 @@ defmodule Shlinkedin.Repo.Migrations.CreateGroups do
 
       timestamps()
     end
-
   end
 end

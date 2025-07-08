@@ -31,7 +31,6 @@ defmodule ShlinkedinWeb.PostLive.PostComponent do
   end
 
   def handle_event("new-comment", %{"id" => id}, %{assigns: %{return_to: return_to}} = socket) do
-
     case return_to do
       "/" -> {:noreply, push_patch(socket, to: "/home/posts/#{id}/new_comment")}
       other -> {:noreply, push_patch(socket, to: other <> "/posts/#{id}/new_comment")}

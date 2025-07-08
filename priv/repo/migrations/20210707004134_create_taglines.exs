@@ -8,6 +8,5 @@ defmodule Shlinkedin.Repo.Migrations.CreateTaglines do
 
       timestamps()
     end
-
   end
 end

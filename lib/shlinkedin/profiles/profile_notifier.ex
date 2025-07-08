@@ -425,8 +425,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         "Você ainda pensa nisso?"
       ],
       [
-        "Onde você se vê daqui a 100 anos?",
-      ],
+        "Onde você se vê daqui a 100 anos?"
+      ]
     ]
     |> Enum.random()
   end

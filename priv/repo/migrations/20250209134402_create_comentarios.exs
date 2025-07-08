@@ -12,7 +12,8 @@ defmodule SeuApp.Repo.Migrations.CreateComentarios do
       add :criado_by, references(:users, type: :bigint, on_delete: :delete_all), null: false
 
       # Chave estrangeira para professors
-      add :professor_id, references(:professors, type: :bigint, on_delete: :delete_all), null: false
+      add :professor_id, references(:professors, type: :bigint, on_delete: :delete_all),
+        null: false
 
       timestamps()
     end

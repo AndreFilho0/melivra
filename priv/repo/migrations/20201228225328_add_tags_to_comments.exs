@@ -5,6 +5,5 @@ defmodule Shlinkedin.Repo.Migrations.AddTagsToComments do
     alter table(:posts) do
       add :profile_tags, {:array, :string}, default: []
     end
-
   end
 end

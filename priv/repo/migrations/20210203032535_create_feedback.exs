@@ -8,6 +8,5 @@ defmodule Shlinkedin.Repo.Migrations.CreateFeedback do
       add :from_email, :string
       timestamps()
     end
-
   end
 end

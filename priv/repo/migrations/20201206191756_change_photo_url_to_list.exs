@@ -3,8 +3,8 @@ defmodule Shlinkedin.Repo.Migrations.ChangePhotoUrlToList do
 
   def change do
     alter table(:posts) do
-        add :photo_urls, {:array, :string}, default: []
-        remove :photo_url
+      add :photo_urls, {:array, :string}, default: []
+      remove :photo_url
     end
   end
 end
