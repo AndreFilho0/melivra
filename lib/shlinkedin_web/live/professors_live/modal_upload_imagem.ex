@@ -5,12 +5,7 @@ defmodule ShlinkedinWeb.ProfessorsLive.ModalUploadImagem do
     socket =
       socket
       |> assign(assigns)
-    
 
     {:ok, socket}
   end
-
-
-
-
 end

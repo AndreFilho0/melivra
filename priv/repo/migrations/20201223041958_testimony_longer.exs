@@ -5,6 +5,5 @@ defmodule Shlinkedin.Repo.Migrations.TestimonyLonger do
     alter table(:testimonials) do
       modify :body, :text
     end
-
   end
 end

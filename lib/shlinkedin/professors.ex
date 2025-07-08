@@ -132,7 +132,6 @@ defmodule Shlinkedin.Professors do
 
     object_key = directory <> Path.basename(file_path)
 
-
     ExAws.S3.put_object(@bucket, object_key, file_content)
     |> ExAws.request()
   end

@@ -208,7 +208,7 @@ defmodule Shlinkedin.Timeline do
   def list_posts(%Profile{id: nil}, criteria, _feed_options) do
     query =
       from(p in Post,
-      where: p.type == "normal",
+        where: p.type == "normal",
         order_by: [desc: p.pinned, desc: p.inserted_at]
       )
       |> viewable_posts_query()
@@ -228,6 +228,7 @@ defmodule Shlinkedin.Timeline do
     paged_query = paginate(query, criteria)
 
     IO.inspect(paged_query)
+
     from(p in paged_query,
       preload: [:profile, :likes, comments: [:profile, :likes]]
     )
@@ -248,10 +249,11 @@ defmodule Shlinkedin.Timeline do
   def get_feed_query(object, %{type: type, time: time}) do
     time_in_seconds = Helpers.parse_time(time)
     IO.inspect(object)
+
     case type do
       "new" ->
         from(p in Post,
-        where: p.type == "normal",
+          where: p.type == "normal",
           order_by: [desc: p.pinned, desc: p.id]
         )
 
@@ -287,17 +289,14 @@ defmodule Shlinkedin.Timeline do
           order_by: [desc: p.pinned, desc: p.id],
           where: p.profile_id == ^id and p.type == "normal"
         )
+
       "professor" ->
-
         %Shlinkedin.Professors.Professor{id: id} = object
-
-
 
         from(p in Post,
           order_by: [desc: p.pinned, desc: p.id],
-          where: p.professor_id == ^id and p.type =="sobre_professor"
+          where: p.professor_id == ^id and p.type == "sobre_professor"
         )
-
     end
   end
 

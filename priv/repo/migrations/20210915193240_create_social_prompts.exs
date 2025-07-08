@@ -8,6 +8,5 @@ defmodule Shlinkedin.Repo.Migrations.CreateSocialPrompts do
 
       timestamps()
     end
-
   end
 end

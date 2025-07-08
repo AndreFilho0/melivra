@@ -7,6 +7,5 @@ defmodule Shlinkedin.Repo.Migrations.CreateStatistics do
 
       timestamps()
     end
-
   end
 end

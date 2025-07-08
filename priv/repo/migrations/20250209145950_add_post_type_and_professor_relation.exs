@@ -3,8 +3,10 @@ defmodule Shlinkedin.Repo.Migrations.AddPostTypeAndProfessorRelation do
 
   def change do
     alter table(:posts) do
-      add :type, :string, null: false, default: "normal"  # Sempre terá um valor padrão
-      add :professor_id, references(:professors, on_delete: :nilify_all)  # Pode ser NULL
+      # Sempre terá um valor padrão
+      add :type, :string, null: false, default: "normal"
+      # Pode ser NULL
+      add :professor_id, references(:professors, on_delete: :nilify_all)
     end
   end
 end

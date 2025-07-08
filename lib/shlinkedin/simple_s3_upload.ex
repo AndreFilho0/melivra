@@ -43,20 +43,25 @@ defmodule Shlinkedin.SimpleS3Upload do
     credential = credential(config, expires_at)
 
     policy = %{
-      "expiration": DateTime.to_iso8601(expires_at),
-      "conditions": [
-        %{"bucket" => bucket},  # Correto: Mapa dentro da lista
+      expiration: DateTime.to_iso8601(expires_at),
+      conditions: [
+        # Correto: Mapa dentro da lista
+        %{"bucket" => bucket},
         ["eq", "$key", key],
-        %{"acl" => "public-read"}, # Correto: Mapa dentro da lista
+        # Correto: Mapa dentro da lista
+        %{"acl" => "public-read"},
         ["eq", "$Content-Type", content_type],
         ["content-length-range", 0, max_file_size],
-        %{"x-amz-credential" => credential}, # Correto: Mapa dentro da lista
-        %{"x-amz-algorithm" => "AWS4-HMAC-SHA256"}, # Correto: Mapa dentro da lista
-        %{"x-amz-date" => amz_date} # Correto: Mapa dentro da lista
+        # Correto: Mapa dentro da lista
+        %{"x-amz-credential" => credential},
+        # Correto: Mapa dentro da lista
+        %{"x-amz-algorithm" => "AWS4-HMAC-SHA256"},
+        # Correto: Mapa dentro da lista
+        %{"x-amz-date" => amz_date}
       ]
     }
 
-    encoded_policy = policy |> Jason.encode! |> Base.encode64
+    encoded_policy = policy |> Jason.encode!() |> Base.encode64()
 
     fields = %{
       "key" => key,

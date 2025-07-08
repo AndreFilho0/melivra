@@ -8,6 +8,5 @@ defmodule Shlinkedin.Repo.Migrations.CreateTemplates do
 
       timestamps()
     end
-
   end
 end

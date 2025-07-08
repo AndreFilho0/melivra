@@ -15,6 +15,5 @@ defmodule Shlinkedin.Repo.Migrations.CreateAwardTypes do
 
       timestamps()
     end
-
   end
 end

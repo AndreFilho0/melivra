@@ -104,7 +104,6 @@ defmodule Shlinkedin.Levels do
         }
       ],
       4 => [
-
         %{
           name: "Criar um grupo de estudos",
           done: Shlinkedin.Groups.count_profile_creator(profile) >= 1,
