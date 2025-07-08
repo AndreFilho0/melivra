@@ -1,23 +1,33 @@
 <head>
-    <link phx-track-static rel="stylesheet"
-        href="<%= Routes.static_path(@conn, "/css/app.css") %>" />
+  <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>" />
 </head>
-<div class="max-w-prose mx-auto">
-    <img src="<%= Routes.static_path(@conn, "/images/500.png") %>" alt=""
-        class="w-96 mx-auto">
-    <h2 class="text-xl font-semibold mt-8 text-center">
 
+<div class="min-h-screen flex flex-col items-center justify-center bg-gray-50 text-center px-4">
+  <img 
+    src="<%= Routes.static_path(@conn, "/images/500.png") %>" 
+    alt="Erro interno no servidor" 
+    class="w-72 md:w-96 mb-8"
+  />
 
-        <br><br />
+  <h1 class="text-3xl font-bold text-gray-800">Ops! Algo deu errado.</h1>
 
-        <a class="underline text-blue-500"
-            href="mailto:charlie@shlinkedin.com">send us a message.</a>
+  <p class="mt-4 text-gray-600 text-lg">
+    O Melivra encontrou um erro inesperado. Estamos trabalhando para resolver isso.
+  </p>
 
-        <br><br />
+  <div class="mt-6 space-y-4">
+    <a 
+      href="https://github.com/AndreFilho0/melivra/issues"
+      class="inline-block text-blue-600 hover:text-blue-800 underline transition-colors"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Reportar este erro no GitHub
+    </a>
 
-        <%= link("here", to: "/home", class: "underline text-blue-500") %> to go
-       </h2>
+    <br/>
 
-
-    
+    <%= link("Voltar para a página inicial", to: "/home", class: "inline-block text-blue-600 hover:text-blue-800 underline transition-colors") %>
+  </div>
 </div>
+

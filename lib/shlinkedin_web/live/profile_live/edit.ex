@@ -68,7 +68,7 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
       if verificado_google do
         Ecto.Changeset.put_change(changeset, :verificado, true)
       else
-        changeset
+        Ecto.Changeset.put_change(changeset, :verificado, false)
       end
 
     {:ok,
