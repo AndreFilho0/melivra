@@ -28,6 +28,10 @@ Como Elixir e programação funcional ainda não são temas muito explorados na 
   - Parte 1: [Introduction](https://medium.com/hackernoon/introduction-fe138ac6079d#.ffl48saew)  
   - Parte 2: [Authorization](https://medium.com/hackernoon/writing-a-blog-engine-in-phoenix-part-2-authorization-814c06fa7c0)
 
+- O **Phoenix LiveView** é amplamente utilizado neste projeto, especialmente nas áreas que exigem maior interatividade com o usuário. Ele permite construir interfaces ricas e dinâmicas com atualização em tempo real, sem a necessidade de escrever JavaScript explícito para cada interação.
+    Para mais detalhes sobre sua utilização e API, consulte a documentação oficial:  
+    [Phoenix.LiveView — v0.13.2](https://hexdocs.pm/phoenix_live_view/0.13.2/Phoenix.LiveView.html)
+
 
 
 
