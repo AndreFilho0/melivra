@@ -31,3 +31,5 @@ config :shlinkedin, Shlinkedin.Mailer, adapter: Bamboo.TestAdapter
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+config :shlinkedin, [{Oban, [testing: :manual]}]
