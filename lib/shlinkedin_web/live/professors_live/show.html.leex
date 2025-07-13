@@ -59,11 +59,14 @@
         </button>
 
         <!-- Aba Provas Antigas -->
-        <button phx-click="select_tab" phx-value-tab="provas_antigas"
-          class="<%= if @content_selection == "provas_antigas", do: "border-blue-500 text-blue-600", else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" %> flex-1 py-4 px-1 text-center border-b-2 font-medium">
-          Provas Antigas
-        </button>
-      </nav>
+        <%= if @profile && @profile.verificado do %>
+         <button phx-click="select_tab" phx-value-tab="provas_antigas"
+           class="<%= if @content_selection == "provas_antigas", do: "border-blue-500 text-blue-600", else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" %> flex-1 py-4 px-1 text-center border-b-2 font-medium">
+              Provas Antigas
+         </button>
+        <% end %>
+           
+           </nav>
     </div>
   </div>
 
@@ -240,13 +243,7 @@
                     Compartilhar uma prova antiga
                 </button>
     </div>
-    <div class="flex justify-center items-center mt-6">
-        <div class="bg-white p-6 rounded-lg shadow-lg text-center max-w-2xl w-full">
-            <h2 class="text-3xl font-bold text-gray-800 mb-4">Provas Antigas</h2>
-            <p class="text-lg text-gray-600">Em breve, você poderá acessar provas antigas de forma prática e rápida.</p>
-        </div>
-    </div>
-   <%= if @show_modal_upload_prova_antiga do %>
+         <%= if @show_modal_upload_prova_antiga do %>
   <%= live_component @socket, ShlinkedinWeb.ProfessorsLive.ModalUploadProvaAntiga,
       id: "upload-pdf-modal",
       show: @show_modal_upload_prova_antiga,

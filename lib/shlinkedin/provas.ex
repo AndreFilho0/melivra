@@ -89,6 +89,42 @@ defmodule Shlinkedin.Provas do
     end
   end
 
+  def buscar_provas_antigas_usando_file_path_no_s3(bucket, provas) when is_list(provas) do
+    Enum.reduce(provas, [], fn
+      %Shlinkedin.Provas.ProvaAntiga{
+        file_path: file_path,
+        materia: materia,
+        semestre: semestre,
+        curso_dado: curso
+      } = _prova,
+      acc
+      when is_binary(file_path) and file_path != "" ->
+        signed_url = generate_presigned_url(bucket, file_path, 180)
+
+        [
+          %{
+            url_assinada: signed_url,
+            materia: materia,
+            semestre: semestre,
+            curso_dado: curso
+          }
+          | acc
+        ]
+
+      _, acc ->
+        acc
+    end)
+  end
+
+  defp generate_presigned_url(bucket, file_key, expires_in_seconds \\ 180) do
+    ExAws.Config.new(:s3)
+    |> ExAws.S3.presigned_url(:get, bucket, file_key, expires_in: expires_in_seconds)
+    |> case do
+      {:ok, url} -> url
+      {:error, _reason} -> nil
+    end
+  end
+
   def list_provas_filtradas(params) do
     with :ok <- validate_params(params) do
       dynamic_filters = build_filters(params)
@@ -103,7 +139,6 @@ defmodule Shlinkedin.Provas do
   end
 
   defp build_filters(params) do
-    # Começa com a condição obrigatória do professor_id
     dynamic =
       dynamic([p], p.professor_id == ^params["professor_id"])
 
@@ -143,6 +178,9 @@ defmodule Shlinkedin.Provas do
       else
         dynamic
       end
+
+    dynamic =
+      dynamic([p], ^dynamic and not is_nil(p.file_path) and p.file_path != "")
 
     dynamic
   end

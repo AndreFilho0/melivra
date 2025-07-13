@@ -1,6 +1,7 @@
 defmodule ShlinkedinWeb.ProfessorsLive.Show do
   use ShlinkedinWeb, :live_view
 
+  require IEx
   alias Shlinkedin.Professors
   alias Shlinkedin.Timeline
   alias Shlinkedin.Timeline.Comment
@@ -21,6 +22,20 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
       turmas_urls = Enum.map(urls, fn {:ok, url} -> url end)
 
       dadosProfessor = Professors.search_professors(professor, inst)
+
+      provas_antigas =
+        if Map.get(socket.assigns, :profile) && socket.assigns.profile.verificado &&
+             match?(%Professor{}, dadosProfessor) do
+          fetch_provas_antigas_professor(%{"professor_id" => dadosProfessor.id})
+        else
+          []
+        end
+
+      provas_antigas =
+        Provas.buscar_provas_antigas_usando_file_path_no_s3(
+          "melivra",
+          provas_antigas
+        )
 
       reviews =
         case dadosProfessor do
@@ -88,6 +103,9 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
        |> assign(:nota_profs, nota_profs)
        |> assign(:turmas_urls, turmas_urls)
        |> assign(:show_modal_upload_prova_antiga, false)
+       |> assign(:provas_antigas, provas_antigas)
+       |> assign(:filtros, %{"materia" => "", "semestre" => "", "curso_dado" => ""})
+       |> assign(:provas_filtradas, provas_antigas)
        |> assign(:show_modal, false)
        |> assign(:show_modal_comentario, false)
        |> assign(:show_modal_upload_imagem, false)
@@ -115,6 +133,33 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
             })
         )
     end
+  end
+
+  @allowed_keys ~w(professor_id semestre curso_dado materia data_inicio data_fim)
+
+  defp fetch_provas_antigas_professor(params) do
+    filtered_params = Map.take(params, @allowed_keys)
+
+    case Provas.list_provas_filtradas(filtered_params) do
+      provas when is_list(provas) -> provas
+      _ -> []
+    end
+  end
+
+  def handle_event("filtrar", %{"filtros" => filtros}, socket) do
+    provas_filtradas =
+      Enum.filter(socket.assigns.provas_antigas, fn prova ->
+        Enum.all?(["materia", "semestre", "curso_dado"], fn campo ->
+          filtro = String.downcase(filtros[campo] || "")
+          valor = String.downcase(prova[campo] || "")
+          filtro == "" or String.contains?(valor, filtro)
+        end)
+      end)
+
+    {:noreply,
+     socket
+     |> assign(:filtros, filtros)
+     |> assign(:provas_filtradas, provas_filtradas)}
   end
 
   @impl true
