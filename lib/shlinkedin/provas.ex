@@ -5,6 +5,90 @@ defmodule Shlinkedin.Provas do
 
   @semestre_regex ~r/^\d{4}\.(1|2|3|4)$/
 
+  def create_prova_antiga(attrs \\ %{}) do
+    changeset = ProvaAntiga.changeset(%ProvaAntiga{}, attrs)
+
+    if changeset.valid? do
+      Repo.insert(changeset)
+    else
+      {:validation_error, changeset}
+    end
+  end
+
+  def change_prova_antiga(%ProvaAntiga{} = prova_antiga \\ %ProvaAntiga{}) do
+    ProvaAntiga.changeset(prova_antiga, %{})
+  end
+
+  def get_prova_antiga(id) do
+    case Repo.get(ProvaAntiga, id) do
+      nil ->
+        {:error, :not_found}
+
+      prova ->
+        prova = Repo.preload(prova, [:professor, :profile])
+
+        {:ok, prova}
+    end
+  end
+
+  def update_file_path(id, object_key) do
+    case Repo.get(ProvaAntiga, id) do
+      nil ->
+        {:error, :not_found}
+
+      %ProvaAntiga{} = prova ->
+        prova
+        |> ProvaAntiga.changeset(%{file_path: object_key, file_data: nil})
+        |> Repo.update()
+
+        {:ok, prova}
+    end
+  end
+
+  def processar_prova_antiga(%ProvaAntiga{} = prova, bucket) do
+    try do
+      file_data = prova.file_data
+
+      file_path =
+        build_file_path(%{
+          "professor_nome" => prova.professor.nome_professor,
+          "instituto" => prova.professor.instituto,
+          "semestre" => prova.semestre,
+          "curso_dado" => prova.curso_dado,
+          "materia" => prova.materia
+        })
+
+      object_key = file_path
+
+      case upload_to_s3(bucket, object_key, file_data) do
+        {:ok, _response} ->
+          update_file_path(prova.id, object_key)
+          {:ok, :uploaded}
+
+        {:error, reason} ->
+          # Se o upload falhou, retorne o erro
+          {:error, reason}
+      end
+    rescue
+      e ->
+        {:error, e}
+    end
+  end
+
+  defp upload_to_s3(bucket, object_key, file_data) do
+    case ExAws.S3.put_object(bucket, object_key, file_data) |> ExAws.request() do
+      {:ok, response} ->
+        if response.status_code == 200 do
+          {:ok, response}
+        else
+          {:error, "Upload failed with status: #{response.status_code}"}
+        end
+
+      {:error, reason} ->
+        {:error, reason}
+    end
+  end
+
   def list_provas_filtradas(params) do
     with :ok <- validate_params(params) do
       dynamic_filters = build_filters(params)
@@ -75,7 +159,7 @@ defmodule Shlinkedin.Provas do
     materia_formatada = materia |> String.downcase() |> String.replace(~r/\s+/, "_")
     uuid = Ecto.UUID.generate()
 
-    "/provas/#{instituto}/#{nome_formatado}_#{semestre}_#{curso_formatado}_#{materia_formatada}_#{uuid}.pdf"
+    "provas/#{instituto}/#{nome_formatado}_#{semestre}_#{curso_formatado}_#{materia_formatada}_#{uuid}.pdf"
   end
 
   defp validate_params(%{"professor_id" => id} = params)

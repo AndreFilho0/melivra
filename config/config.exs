@@ -63,7 +63,7 @@ config :shlinkedin, [
    [
      engine: Oban.Engines.Basic,
      notifier: Oban.Notifiers.Postgres,
-     queues: [default: 10],
+     queues: [provas: 2],
      repo: Shlinkedin.Repo
    ]}
 ]

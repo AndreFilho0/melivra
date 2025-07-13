@@ -10,6 +10,7 @@ defmodule Shlinkedin.Provas.ProvaAntiga do
     field :curso_dado, :string
     field :materia, :string
     field :file_path, :string
+    field :file_data, :binary
 
     timestamps()
   end
@@ -18,8 +19,22 @@ defmodule Shlinkedin.Provas.ProvaAntiga do
 
   def changeset(prova_antiga, attrs) do
     prova_antiga
-    |> cast(attrs, [:professor_id, :profile_id, :semestre, :curso_dado, :materia, :file_path])
-    |> validate_required([:professor_id, :profile_id, :semestre, :curso_dado, :materia])
+    |> cast(attrs, [
+      :professor_id,
+      :profile_id,
+      :semestre,
+      :curso_dado,
+      :materia,
+      :file_path,
+      :file_data
+    ])
+    |> validate_required([
+      :professor_id,
+      :profile_id,
+      :semestre,
+      :curso_dado,
+      :materia
+    ])
     |> validate_format(:semestre, ~r/^\d{4}\.(1|2|3|4)$/,
       message: "formato deve ser ano.período (ex: 2024.1 ou 2020.2)"
     )

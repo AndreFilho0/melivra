@@ -232,15 +232,41 @@
             <% end %>
 
             </div>
-
-      <% "provas_antigas" -> %>
-        <div class="flex justify-center items-center mt-6">
-            <div class="bg-white p-6 rounded-lg shadow-lg text-center max-w-2xl w-full">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4">Provas Antigas</h2>
-                <p class="text-lg text-gray-600">Em breve, você poderá acessar provas antigas de forma prática e rápida.</p>
-            </div>
+        
+     <% "provas_antigas" -> %>
+  <%= if @profile.verificado do %>
+   <div class="flex justify-end">
+                <button phx-click="show_modal_upload_prova_antiga" class="px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600">
+                    Compartilhar uma prova antiga
+                </button>
+    </div>
+    <div class="flex justify-center items-center mt-6">
+        <div class="bg-white p-6 rounded-lg shadow-lg text-center max-w-2xl w-full">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Provas Antigas</h2>
+            <p class="text-lg text-gray-600">Em breve, você poderá acessar provas antigas de forma prática e rápida.</p>
         </div>
+    </div>
+   <%= if @show_modal_upload_prova_antiga do %>
+  <%= live_component @socket, ShlinkedinWeb.ProfessorsLive.ModalUploadProvaAntiga,
+      id: "upload-pdf-modal",
+      show: @show_modal_upload_prova_antiga,
+      professor: @professor,
+      instituto: @instituto,
+      uploads: @uploads
+  %>
+<% end %>
 
+  <% else %>
+    <div class="flex justify-center items-center mt-6">
+        <div class="bg-white p-6 rounded-lg shadow-lg text-center max-w-2xl w-full">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-2">Área restrita</h2>
+            <p class="text-md text-gray-500">
+              Faça login com sua conta institucional do Google (discente) para acessar esta seção.
+             </p>
+        </div>
+    </div>
+  <% end %>
+      
       <% _ -> %>
         <p>Selecione uma aba para ver o conteúdo.</p>
     <% end %>

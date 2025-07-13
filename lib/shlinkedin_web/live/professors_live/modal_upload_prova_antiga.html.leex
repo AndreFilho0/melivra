@@ -1,0 +1,42 @@
+
+<div id="upload-pdf-modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+    <h2 class="text-xl font-bold mb-2">Envie uma prova antiga do(a) <%= @professor %></h2>
+    <p class="text-gray-600 mb-4">Instituição: <%= @instituto %></p>
+
+    <%= f = form_for :prova_antiga, "#",
+      id: "upload-pdf-form",
+      phx_submit: "upload_prova_antiga_pdf",
+      phx_change: "validate",
+      multipart: true %>
+
+      <div class="mb-4">
+        <%= live_file_input @uploads.pdf %>
+        <p class="text-sm text-gray-500 mt-1">Apenas PDFs, até 10MB.</p>
+      </div>
+
+      <div class="mb-4">
+        <%= label f, :semestre, "Semestre" %>
+        <%= text_input f, :semestre, placeholder: "Ex: 2024.1", class: "border p-2 rounded w-full", required: true %>
+      </div>
+
+      <div class="mb-4">
+        <%= label f, :curso_dado, "Curso" %>
+        <%= text_input f, :curso_dado, placeholder: "Ex: Engenharia Civil", class: "border p-2 rounded w-full", required: true %>
+      </div>
+
+      <div class="mb-4">
+        <%= label f, :materia, "Matéria" %>
+        <%= text_input f, :materia, placeholder: "Ex: Cálculo I", class: "border p-2 rounded w-full", required: true %>
+      </div>
+
+      <div class="flex justify-end space-x-2">
+        <button type="button" phx-click="close_modal_upload_pdf" class="px-4 py-2 bg-gray-300 rounded-lg">Cancelar</button>
+        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Enviar</button>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+

@@ -5,6 +5,7 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
   alias Shlinkedin.Timeline
   alias Shlinkedin.Timeline.Comment
   alias Shlinkedin.Professors.Professor
+  alias Shlinkedin.Provas
 
   @impl true
   def mount(%{"slug" => slug, "instituto" => instituto}, session, socket) do
@@ -74,6 +75,11 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
        )
        |> assign(:uploaded_files, [])
        |> allow_upload(:imagem, accept: ~w(.jpg .jpeg .png), max_entries: 1)
+       |> allow_upload(:pdf,
+         accept: ~w(.pdf),
+         max_entries: 1,
+         max_file_size: 10_000_000
+       )
        |> assign(:professor, professor)
        |> assign(:dados_professor, dadosProfessor)
        |> assign(:instituto, inst)
@@ -81,6 +87,7 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
        |> assign(:reviews, reviews)
        |> assign(:nota_profs, nota_profs)
        |> assign(:turmas_urls, turmas_urls)
+       |> assign(:show_modal_upload_prova_antiga, false)
        |> assign(:show_modal, false)
        |> assign(:show_modal_comentario, false)
        |> assign(:show_modal_upload_imagem, false)
@@ -150,6 +157,70 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
 
       _profile ->
         {:noreply, assign(socket, show_modal: true)}
+    end
+  end
+
+  def handle_event("show_modal_upload_prova_antiga", _, socket) do
+    case socket.assigns.profile do
+      nil ->
+        socket = put_flash(socket, :info, "Você precisa criar uma conta para fazer isso :)")
+        {:noreply, socket}
+
+      _profile ->
+        {:noreply, assign(socket, show_modal_upload_prova_antiga: true)}
+    end
+  end
+
+  def handle_event("close_modal_upload_pdf", _, socket) do
+    {:noreply, assign(socket, show_modal_upload_prova_antiga: false)}
+  end
+
+  def handle_event("upload_prova_antiga_pdf", %{"prova_antiga" => params}, socket) do
+    case socket.assigns.profile do
+      nil ->
+        {:noreply, put_flash(socket, :info, "Você precisa estar logado para fazer isso :)")}
+
+      %{verificado: false} ->
+        {:noreply, put_flash(socket, :info, "Você precisa ser verificado para fazer isso :)")}
+
+      %{verificado: true, id: profile_id} ->
+        professor_id = socket.assigns.dados_professor.id
+
+        pdf_binary =
+          consume_uploaded_entries(socket, :pdf, fn %{path: path}, _entry ->
+            File.read!(path)
+          end)
+          |> List.first()
+
+        attrs =
+          Map.merge(params, %{
+            "file_data" => pdf_binary,
+            "profile_id" => profile_id,
+            "professor_id" => professor_id
+          })
+
+        case Shlinkedin.Provas.create_prova_antiga(attrs) do
+          {:ok, prova} ->
+            %{prova_id: prova.id}
+            |> Shlinkedin.ProvasWorker.new()
+            |> Oban.insert()
+
+            {:noreply,
+             socket
+             |> put_flash(:info, "Prova enviada com sucesso!")
+             |> assign(:show_modal_upload_prova_antiga, false)}
+
+          {:validation_error, changeset} ->
+            {:noreply,
+             socket
+             |> put_flash(:error, "Preencha os campos corretamente.")
+             |> assign(:changeset, changeset)}
+
+          {:error, _other} ->
+            {:noreply,
+             socket
+             |> put_flash(:error, "Erro interno ao salvar a prova. Tente mais tarde.")}
+        end
     end
   end
 
