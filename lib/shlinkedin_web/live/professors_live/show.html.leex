@@ -238,12 +238,63 @@
         
      <% "provas_antigas" -> %>
   <%= if @profile.verificado do %>
-   <div class="flex justify-end">
-                <button phx-click="show_modal_upload_prova_antiga" class="px-6 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600">
-                    Compartilhar uma prova antiga
-                </button>
+     <div class="flex justify-end items-center mb-6">
+   
+    <button 
+      phx-click="show_modal_upload_prova_antiga" 
+      class="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition-colors"
+    >
+      Compartilhar prova
+    </button>
+  </div>
+ <%= if Enum.empty?(@provas_antigas) do %>
+  <div class="mt-4 text-gray-600">
+    Nenhuma prova antiga compartilhada ainda.
+  </div>
+<% else %>
+  <div class="mt-6 relative bg-white p-6 rounded-lg shadow-lg">
+    <% prova = Enum.at(@provas_antigas, @current_slide_provas_antigas) %>
+
+    <div class="mb-4">
+      <h3 class="text-xl font-semibold text-gray-800 mb-1"><%= String.capitalize(prova.materia) %></h3>
+      <p class="text-sm text-gray-600">
+        <strong>Semestre:</strong> <%= prova.semestre %>
+      </p>
+      <p class="text-sm text-gray-600 mb-4">
+        <strong>Curso:</strong> <%= prova.curso_dado %>
+      </p>
+
+      <iframe 
+         src="<%= prova.url_assinada %>"
+        class="w-full h-96 border rounded mb-4"
+        frameborder="0"
+        allowfullscreen
+      ></iframe>
     </div>
-         <%= if @show_modal_upload_prova_antiga do %>
+
+    <div class="flex justify-between items-center mt-4">
+      <button 
+        phx-click="current_slide_provas_antigas"
+        class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+      >
+        ◀ Anterior
+      </button>
+
+      <span class="text-sm text-gray-600">
+        <%= @current_slide_provas_antigas + 1 %> de <%= length(@provas_antigas) %>
+      </span>
+
+      <button 
+        phx-click="next_slide_provas_antigas"
+        class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+      >
+        Próximo ▶
+      </button>
+    </div>
+  </div>
+<% end %>
+
+    <%= if @show_modal_upload_prova_antiga do %>
   <%= live_component @socket, ShlinkedinWeb.ProfessorsLive.ModalUploadProvaAntiga,
       id: "upload-pdf-modal",
       show: @show_modal_upload_prova_antiga,

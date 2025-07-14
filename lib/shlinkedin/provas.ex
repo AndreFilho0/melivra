@@ -118,7 +118,13 @@ defmodule Shlinkedin.Provas do
 
   defp generate_presigned_url(bucket, file_key, expires_in_seconds \\ 180) do
     ExAws.Config.new(:s3)
-    |> ExAws.S3.presigned_url(:get, bucket, file_key, expires_in: expires_in_seconds)
+    |> ExAws.S3.presigned_url(:get, bucket, file_key,
+      expires_in: expires_in_seconds,
+      query_params: %{
+        "response-content-disposition" => "inline",
+        "response-content-type" => "application/pdf"
+      }
+    )
     |> case do
       {:ok, url} -> url
       {:error, _reason} -> nil

@@ -2,6 +2,7 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
   use ShlinkedinWeb, :live_view
 
   require IEx
+  alias Code.Identifier
   alias Shlinkedin.Professors
   alias Shlinkedin.Timeline
   alias Shlinkedin.Timeline.Comment
@@ -104,6 +105,7 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
        |> assign(:turmas_urls, turmas_urls)
        |> assign(:show_modal_upload_prova_antiga, false)
        |> assign(:provas_antigas, provas_antigas)
+       |> assign(:current_slide_provas_antigas, 0)
        |> assign(:filtros, %{"materia" => "", "semestre" => "", "curso_dado" => ""})
        |> assign(:provas_filtradas, provas_antigas)
        |> assign(:show_modal, false)
@@ -133,6 +135,18 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
             })
         )
     end
+  end
+
+  def handle_event("next_slide_provas_antigas", _, socket) do
+    total = length(socket.assigns.provas_antigas)
+    current = rem(socket.assigns.current_slide + 1, total)
+    {:noreply, assign(socket, :current_slide_provas_antigas, current)}
+  end
+
+  def handle_event("current_slide_provas_antigas", _, socket) do
+    total = length(socket.assigns.provas_antigas)
+    current = rem(socket.assigns.current_slide - 1 + total, total)
+    {:noreply, assign(socket, :current_slide_provas_antigas, current)}
   end
 
   @allowed_keys ~w(professor_id semestre curso_dado materia data_inicio data_fim)
