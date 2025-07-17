@@ -138,15 +138,30 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
   end
 
   def handle_event("next_slide_provas_antigas", _, socket) do
+    current = socket.assigns.current_slide_provas_antigas
     total = length(socket.assigns.provas_antigas)
-    current = rem(socket.assigns.current_slide + 1, total)
-    {:noreply, assign(socket, :current_slide_provas_antigas, current)}
+
+    new_current =
+      if current >= total - 1 do
+        total - 1
+      else
+        current + 1
+      end
+
+    {:noreply, assign(socket, :current_slide_provas_antigas, new_current)}
   end
 
-  def handle_event("current_slide_provas_antigas", _, socket) do
-    total = length(socket.assigns.provas_antigas)
-    current = rem(socket.assigns.current_slide - 1 + total, total)
-    {:noreply, assign(socket, :current_slide_provas_antigas, current)}
+  def handle_event("pre_slide_provas_antigas", _, socket) do
+    current = socket.assigns.current_slide_provas_antigas
+
+    new_current =
+      if current <= 0 do
+        0
+      else
+        current - 1
+      end
+
+    {:noreply, assign(socket, :current_slide_provas_antigas, new_current)}
   end
 
   @allowed_keys ~w(professor_id semestre curso_dado materia data_inicio data_fim)
