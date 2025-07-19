@@ -43,7 +43,7 @@ defmodule ShlinkedinWeb.ContentLive.Show do
   end
 
   defp linkedin_intent(id) do
-    "https://www.linkedin.com/sharing/share-offsite/?url=https://shlinkedin.com/content/show/#{id}"
+    "https://www.linkedin.com/sharing/share-offsite/?url=https://melivra.com/content/show/#{id}"
   end
 
   defp meta_attrs(_text, name, image) do
@@ -54,7 +54,7 @@ defmodule ShlinkedinWeb.ContentLive.Show do
       },
       %{
         property: "og:description",
-        content: "A ShlinkedIn article by #{name}"
+        content: "Novidade no MeLivra! Post escrito por #{name}, confira agora."
       },
       %{
         name: "twitter:image:src",
