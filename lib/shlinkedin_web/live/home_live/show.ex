@@ -20,7 +20,7 @@ defmodule ShlinkedinWeb.HomeLive.Show do
      |> assign(show_like_options: false)
      |> assign(post: post)
      |> assign(meta_attrs: meta_attrs(post.body, post.profile.persona_name))
-     |> assign(:page_title, "See #{post.profile.persona_name}'s post on ShlinkedIn")}
+     |> assign(:page_title, "Ver o que #{post.profile.persona_name} postou no  melivra")}
   end
 
   @impl true

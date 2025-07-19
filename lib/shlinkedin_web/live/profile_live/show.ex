@@ -490,8 +490,8 @@ defmodule ShlinkedinWeb.ProfileLive.Show do
 
   defp is_admin?(profile), do: Profiles.is_admin?(profile)
 
-  defp page_title(name, title), do: "#{name} | #{title} | Very Professional Profile on ShlinkedIn"
-  defp page_title(name), do: "#{name} | ShlinkedIn"
+  defp page_title(name, title), do: "#{name} | #{title} | Very Professional Profile on melivra"
+  defp page_title(name), do: "#{name} | melivra "
 
   defp tweet_intent(name, url) do
     text = page_title(name)
