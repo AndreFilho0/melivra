@@ -15,6 +15,7 @@ defmodule ShlinkedinWeb.ProvaPdfController do
             conn
             |> put_resp_header("x-frame-options", "ALLOWALL")
             |> put_resp_content_type("application/pdf")
+            |> delete_resp_header("cross-origin-window-policy")
             |> send_resp(200, body)
 
           _ ->
