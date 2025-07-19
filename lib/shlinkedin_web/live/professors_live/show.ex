@@ -79,6 +79,26 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
             }
         end
 
+      materias_unique =
+        if !Enum.empty?(provas_antigas),
+          do: provas_antigas |> Enum.map(& &1.materia) |> Enum.uniq(),
+          else: []
+
+      semestres_unique =
+        if !Enum.empty?(provas_antigas),
+          do: provas_antigas |> Enum.map(& &1.semestre) |> Enum.uniq(),
+          else: []
+
+      cursos_unique =
+        if !Enum.empty?(provas_antigas),
+          do: provas_antigas |> Enum.map(& &1.curso_dado) |> Enum.uniq(),
+          else: []
+
+      provas_unique =
+        if !Enum.empty?(provas_antigas),
+          do: provas_antigas |> Enum.map(& &1.numero_prova) |> Enum.uniq(),
+          else: []
+
       {:ok,
        socket
        |> assign(:content_selection, "notas")
@@ -105,9 +125,13 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
        |> assign(:turmas_urls, turmas_urls)
        |> assign(:show_modal_upload_prova_antiga, false)
        |> assign(:provas_antigas, provas_antigas)
+       |> assign(:filtered_provas, nil)
+       |> assign(:filters, %{})
+       |> assign(:materias_unique, materias_unique)
+       |> assign(:semestres_unique, semestres_unique)
+       |> assign(:cursos_unique, cursos_unique)
+       |> assign(:provas_unique, provas_unique)
        |> assign(:current_slide_provas_antigas, 0)
-       |> assign(:filtros, %{"materia" => "", "semestre" => "", "curso_dado" => ""})
-       |> assign(:provas_filtradas, provas_antigas)
        |> assign(:show_modal, false)
        |> assign(:show_modal_comentario, false)
        |> assign(:show_modal_upload_imagem, false)
@@ -281,7 +305,7 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
 
             {:noreply,
              socket
-             |> put_flash(:info, "Prova enviada com sucesso!")
+             |> put_flash(:info, "Prova enviada com sucesso para analise !")
              |> assign(:show_modal_upload_prova_antiga, false)}
 
           {:validation_error, changeset} ->
@@ -490,5 +514,49 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
   defp valid_periodo?(periodo) do
     regex = ~r/^\d{4}\.\d{1,2}$/
     String.match?(periodo, regex)
+  end
+
+  def handle_event(
+        "filter_provas",
+        %{"materia" => materia, "semestre" => semestre, "curso" => curso, "prova" => prova},
+        socket
+      ) do
+    filters = %{
+      "materia" => if(materia == "", do: nil, else: materia),
+      "semestre" => if(semestre == "", do: nil, else: semestre),
+      "curso" => if(curso == "", do: nil, else: curso),
+      "prova" => if(prova == "", do: nil, else: prova)
+    }
+
+    filtered_provas = filter_provas(socket.assigns.provas_antigas, filters)
+
+    socket =
+      socket
+      |> assign(:filtered_provas, filtered_provas)
+      |> assign(:filters, filters)
+      # Resetar para o primeiro item
+      |> assign(:current_slide_provas_antigas, 0)
+
+    {:noreply, socket}
+  end
+
+  def handle_event("reset_filters", _, socket) do
+    socket =
+      socket
+      |> assign(:filtered_provas, nil)
+      |> assign(:filters, %{})
+      |> assign(:current_slide_provas_antigas, 0)
+
+    {:noreply, socket}
+  end
+
+  defp filter_provas(provas, filters) do
+    provas
+    |> Enum.filter(fn prova ->
+      (is_nil(filters["materia"]) || prova.materia == filters["materia"]) &&
+        (is_nil(filters["semestre"]) || prova.semestre == filters["semestre"]) &&
+        (is_nil(filters["curso"]) || prova.curso_dado == filters["curso"]) &&
+        (is_nil(filters["prova"]) || prova.numero_prova == filters["prova"])
+    end)
   end
 end
