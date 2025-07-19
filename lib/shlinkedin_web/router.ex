@@ -90,7 +90,7 @@ defmodule ShlinkedinWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     # pdfs 
-    get "/pdf/*file_key", ProvaPdfController, :show
+
     # user settings
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update
@@ -287,6 +287,8 @@ defmodule ShlinkedinWeb.Router do
     # resume generator
     live "/resume", ResumeLive.Index, :index
     live "/resume/show", ResumeLive.Show, :show
+
+    get "/pdf/*file_key", ProvaPdfController, :show
 
     # error
     get "/error", ErrorController, :index
