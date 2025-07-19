@@ -1,10 +1,13 @@
 defmodule ShlinkedinWeb.ProfessorsLive.Show do
   use ShlinkedinWeb, :live_view
 
+  require IEx
+  alias Code.Identifier
   alias Shlinkedin.Professors
   alias Shlinkedin.Timeline
   alias Shlinkedin.Timeline.Comment
   alias Shlinkedin.Professors.Professor
+  alias Shlinkedin.Provas
 
   @impl true
   def mount(%{"slug" => slug, "instituto" => instituto}, session, socket) do
@@ -20,6 +23,20 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
       turmas_urls = Enum.map(urls, fn {:ok, url} -> url end)
 
       dadosProfessor = Professors.search_professors(professor, inst)
+
+      provas_antigas =
+        if Map.get(socket.assigns, :profile) && socket.assigns.profile.verificado &&
+             match?(%Professor{}, dadosProfessor) do
+          fetch_provas_antigas_professor(%{"professor_id" => dadosProfessor.id})
+        else
+          []
+        end
+
+      provas_antigas =
+        Provas.buscar_provas_antigas_usando_file_path_no_s3(
+          "melivra",
+          provas_antigas
+        )
 
       reviews =
         case dadosProfessor do
@@ -62,6 +79,26 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
             }
         end
 
+      materias_unique =
+        if !Enum.empty?(provas_antigas),
+          do: provas_antigas |> Enum.map(& &1.materia) |> Enum.uniq(),
+          else: []
+
+      semestres_unique =
+        if !Enum.empty?(provas_antigas),
+          do: provas_antigas |> Enum.map(& &1.semestre) |> Enum.uniq(),
+          else: []
+
+      cursos_unique =
+        if !Enum.empty?(provas_antigas),
+          do: provas_antigas |> Enum.map(& &1.curso_dado) |> Enum.uniq(),
+          else: []
+
+      provas_unique =
+        if !Enum.empty?(provas_antigas),
+          do: provas_antigas |> Enum.map(& &1.numero_prova) |> Enum.uniq(),
+          else: []
+
       {:ok,
        socket
        |> assign(:content_selection, "notas")
@@ -74,6 +111,11 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
        )
        |> assign(:uploaded_files, [])
        |> allow_upload(:imagem, accept: ~w(.jpg .jpeg .png), max_entries: 1)
+       |> allow_upload(:pdf,
+         accept: ~w(.pdf),
+         max_entries: 1,
+         max_file_size: 10_000_000
+       )
        |> assign(:professor, professor)
        |> assign(:dados_professor, dadosProfessor)
        |> assign(:instituto, inst)
@@ -81,6 +123,15 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
        |> assign(:reviews, reviews)
        |> assign(:nota_profs, nota_profs)
        |> assign(:turmas_urls, turmas_urls)
+       |> assign(:show_modal_upload_prova_antiga, false)
+       |> assign(:provas_antigas, provas_antigas)
+       |> assign(:filtered_provas, nil)
+       |> assign(:filters, %{})
+       |> assign(:materias_unique, materias_unique)
+       |> assign(:semestres_unique, semestres_unique)
+       |> assign(:cursos_unique, cursos_unique)
+       |> assign(:provas_unique, provas_unique)
+       |> assign(:current_slide_provas_antigas, 0)
        |> assign(:show_modal, false)
        |> assign(:show_modal_comentario, false)
        |> assign(:show_modal_upload_imagem, false)
@@ -108,6 +159,60 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
             })
         )
     end
+  end
+
+  def handle_event("next_slide_provas_antigas", _, socket) do
+    current = socket.assigns.current_slide_provas_antigas
+    total = length(socket.assigns.provas_antigas)
+
+    new_current =
+      if current >= total - 1 do
+        total - 1
+      else
+        current + 1
+      end
+
+    {:noreply, assign(socket, :current_slide_provas_antigas, new_current)}
+  end
+
+  def handle_event("pre_slide_provas_antigas", _, socket) do
+    current = socket.assigns.current_slide_provas_antigas
+
+    new_current =
+      if current <= 0 do
+        0
+      else
+        current - 1
+      end
+
+    {:noreply, assign(socket, :current_slide_provas_antigas, new_current)}
+  end
+
+  @allowed_keys ~w(professor_id semestre curso_dado materia data_inicio data_fim)
+
+  defp fetch_provas_antigas_professor(params) do
+    filtered_params = Map.take(params, @allowed_keys)
+
+    case Provas.list_provas_filtradas(filtered_params) do
+      provas when is_list(provas) -> provas
+      _ -> []
+    end
+  end
+
+  def handle_event("filtrar", %{"filtros" => filtros}, socket) do
+    provas_filtradas =
+      Enum.filter(socket.assigns.provas_antigas, fn prova ->
+        Enum.all?(["materia", "semestre", "curso_dado"], fn campo ->
+          filtro = String.downcase(filtros[campo] || "")
+          valor = String.downcase(prova[campo] || "")
+          filtro == "" or String.contains?(valor, filtro)
+        end)
+      end)
+
+    {:noreply,
+     socket
+     |> assign(:filtros, filtros)
+     |> assign(:provas_filtradas, provas_filtradas)}
   end
 
   @impl true
@@ -150,6 +255,70 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
 
       _profile ->
         {:noreply, assign(socket, show_modal: true)}
+    end
+  end
+
+  def handle_event("show_modal_upload_prova_antiga", _, socket) do
+    case socket.assigns.profile do
+      nil ->
+        socket = put_flash(socket, :info, "Você precisa criar uma conta para fazer isso :)")
+        {:noreply, socket}
+
+      _profile ->
+        {:noreply, assign(socket, show_modal_upload_prova_antiga: true)}
+    end
+  end
+
+  def handle_event("close_modal_upload_pdf", _, socket) do
+    {:noreply, assign(socket, show_modal_upload_prova_antiga: false)}
+  end
+
+  def handle_event("upload_prova_antiga_pdf", %{"prova_antiga" => params}, socket) do
+    case socket.assigns.profile do
+      nil ->
+        {:noreply, put_flash(socket, :info, "Você precisa estar logado para fazer isso :)")}
+
+      %{verificado: false} ->
+        {:noreply, put_flash(socket, :info, "Você precisa ser verificado para fazer isso :)")}
+
+      %{verificado: true, id: profile_id} ->
+        professor_id = socket.assigns.dados_professor.id
+
+        pdf_binary =
+          consume_uploaded_entries(socket, :pdf, fn %{path: path}, _entry ->
+            File.read!(path)
+          end)
+          |> List.first()
+
+        attrs =
+          Map.merge(params, %{
+            "file_data" => pdf_binary,
+            "profile_id" => profile_id,
+            "professor_id" => professor_id
+          })
+
+        case Shlinkedin.Provas.create_prova_antiga(attrs) do
+          {:ok, prova} ->
+            %{prova_id: prova.id}
+            |> Shlinkedin.ProvasWorker.new()
+            |> Oban.insert()
+
+            {:noreply,
+             socket
+             |> put_flash(:info, "Prova enviada com sucesso para analise !")
+             |> assign(:show_modal_upload_prova_antiga, false)}
+
+          {:validation_error, changeset} ->
+            {:noreply,
+             socket
+             |> put_flash(:error, "Preencha os campos corretamente.")
+             |> assign(:changeset, changeset)}
+
+          {:error, _other} ->
+            {:noreply,
+             socket
+             |> put_flash(:error, "Erro interno ao salvar a prova. Tente mais tarde.")}
+        end
     end
   end
 
@@ -345,5 +514,49 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
   defp valid_periodo?(periodo) do
     regex = ~r/^\d{4}\.\d{1,2}$/
     String.match?(periodo, regex)
+  end
+
+  def handle_event(
+        "filter_provas",
+        %{"materia" => materia, "semestre" => semestre, "curso" => curso, "prova" => prova},
+        socket
+      ) do
+    filters = %{
+      "materia" => if(materia == "", do: nil, else: materia),
+      "semestre" => if(semestre == "", do: nil, else: semestre),
+      "curso" => if(curso == "", do: nil, else: curso),
+      "prova" => if(prova == "", do: nil, else: prova)
+    }
+
+    filtered_provas = filter_provas(socket.assigns.provas_antigas, filters)
+
+    socket =
+      socket
+      |> assign(:filtered_provas, filtered_provas)
+      |> assign(:filters, filters)
+      # Resetar para o primeiro item
+      |> assign(:current_slide_provas_antigas, 0)
+
+    {:noreply, socket}
+  end
+
+  def handle_event("reset_filters", _, socket) do
+    socket =
+      socket
+      |> assign(:filtered_provas, nil)
+      |> assign(:filters, %{})
+      |> assign(:current_slide_provas_antigas, 0)
+
+    {:noreply, socket}
+  end
+
+  defp filter_provas(provas, filters) do
+    provas
+    |> Enum.filter(fn prova ->
+      (is_nil(filters["materia"]) || prova.materia == filters["materia"]) &&
+        (is_nil(filters["semestre"]) || prova.semestre == filters["semestre"]) &&
+        (is_nil(filters["curso"]) || prova.curso_dado == filters["curso"]) &&
+        (is_nil(filters["prova"]) || prova.numero_prova == filters["prova"])
+    end)
   end
 end

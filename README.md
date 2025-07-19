@@ -50,6 +50,12 @@ mix phx.server
 
 Agora você pode acessar a aplicação em [`http://localhost:4000`](http://localhost:4000).
 
+##  Para rodar as seeds dos professores :
+
+```bash
+mix run priv/repo/professors_seed.exs
+```
+- isso vai popular o banco de dados com os professores da faculdade
 ---
 
 ## Dicas adicionais

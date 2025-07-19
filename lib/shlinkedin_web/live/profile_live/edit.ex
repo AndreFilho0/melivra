@@ -216,8 +216,8 @@ defmodule ShlinkedinWeb.ProfileLive.Edit do
       scheme: "https://",
       host: "bucket.melivra.com",
       region: "us-east-1",
-      access_key_id: "RH5HJljyfQhu3qlkCR9X",
-      secret_access_key: "FS9FfNX04020AIvM2bECnYOpHlmtP55tKy5beGBx"
+      access_key_id: System.get_env("AWS_ACCESS_KEY_ID") || "",
+      secret_access_key: System.get_env("AWS_SECRET_ACCESS_KEY") || ""
     }
 
     {:ok, fields} =

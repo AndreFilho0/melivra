@@ -11,6 +11,7 @@ defmodule Shlinkedin.Application do
       Shlinkedin.Repo,
       # Start the Telemetry supervisor
       ShlinkedinWeb.Telemetry,
+      {Oban, Application.fetch_env!(:shlinkedin, Oban)},
       # Start the PubSub system
       {Phoenix.PubSub, name: Shlinkedin.PubSub},
       # Presence
