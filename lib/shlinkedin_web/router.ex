@@ -5,6 +5,7 @@ defmodule ShlinkedinWeb.Router do
   import Phoenix.LiveDashboard.Router
   import Plug.BasicAuth
   import ShlinkedinWeb.MetaAttrs
+  import ShlinkedinWeb.ProvaPdfController
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -88,6 +89,8 @@ defmodule ShlinkedinWeb.Router do
   scope "/", ShlinkedinWeb do
     pipe_through [:browser, :require_authenticated_user]
 
+    # pdfs 
+    get "/pdf/*file_key", ProvaPdfController, :show
     # user settings
     get "/users/settings", UserSettingsController, :edit
     put "/users/settings", UserSettingsController, :update

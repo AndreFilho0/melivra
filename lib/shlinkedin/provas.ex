@@ -100,11 +100,11 @@ defmodule Shlinkedin.Provas do
       } = _prova,
       acc
       when is_binary(file_path) and file_path != "" ->
-        signed_url = generate_presigned_url(bucket, file_path, 180)
+        # signed_url = generate_presigned_url(bucket, file_path, 180)
 
         [
           %{
-            url_assinada: signed_url,
+            url_assinada: file_path,
             materia: materia,
             semestre: semestre,
             curso_dado: curso,
@@ -118,7 +118,7 @@ defmodule Shlinkedin.Provas do
     end)
   end
 
-  defp generate_presigned_url(bucket, file_key, expires_in_seconds \\ 180) do
+  def generate_presigned_url(bucket, file_key, expires_in_seconds \\ 180) do
     ExAws.Config.new(:s3)
     |> ExAws.S3.presigned_url(:get, bucket, file_key,
       expires_in: expires_in_seconds,
