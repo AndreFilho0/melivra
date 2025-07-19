@@ -59,11 +59,14 @@
         </button>
 
         <!-- Aba Provas Antigas -->
-        <button phx-click="select_tab" phx-value-tab="provas_antigas"
-          class="<%= if @content_selection == "provas_antigas", do: "border-blue-500 text-blue-600", else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" %> flex-1 py-4 px-1 text-center border-b-2 font-medium">
-          Provas Antigas
-        </button>
-      </nav>
+        <%= if @profile && @profile.verificado do %>
+         <button phx-click="select_tab" phx-value-tab="provas_antigas"
+           class="<%= if @content_selection == "provas_antigas", do: "border-blue-500 text-blue-600", else: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" %> flex-1 py-4 px-1 text-center border-b-2 font-medium">
+              Provas Antigas
+         </button>
+        <% end %>
+           
+           </nav>
     </div>
   </div>
 
@@ -232,15 +235,180 @@
             <% end %>
 
             </div>
+        
+     <% "provas_antigas" -> %>
+  <%= if @profile.verificado do %>
+     <div class="flex justify-end items-center mb-6">
+   
+    <button 
+      phx-click="show_modal_upload_prova_antiga" 
+      class="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition-colors"
+    >
+      Compartilhar prova
+    </button>
+  </div>
+ <%= if Enum.empty?(@provas_antigas) do %>
+  <div class="mt-4 text-gray-600 text-center">
+  Seja o primeiro a contribuir! Compartilhe provas antigas e ajude seus colegas a se prepararem melhor. Sua colaboração faz a diferença!
+   
+  </div>
+<% else %>
+<!-- Filtros -->
+<div class="mb-6 bg-white p-4 rounded-lg shadow">
+  <h3 class="text-lg font-medium mb-3">Filtrar provas</h3>
 
-      <% "provas_antigas" -> %>
-        <div class="flex justify-center items-center mt-6">
-            <div class="bg-white p-6 rounded-lg shadow-lg text-center max-w-2xl w-full">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4">Provas Antigas</h2>
-                <p class="text-lg text-gray-600">Em breve, você poderá acessar provas antigas de forma prática e rápida.</p>
-            </div>
+  <form phx-change="filter_provas">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Matéria</label>
+        <select 
+          name="materia" 
+          class="w-full border-gray-300 rounded-md shadow-sm"
+        >
+          <option value="">Todas</option>
+          <%= for materia <- @materias_unique do %>
+            <option value="<%= materia %>" <%= if @filters["materia"] == materia, do: "selected" %>>
+              <%= String.capitalize(materia) %>
+            </option>
+          <% end %>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Semestre</label>
+        <select 
+          name="semestre" 
+          class="w-full border-gray-300 rounded-md shadow-sm"
+        >
+          <option value="">Todos</option>
+          <%= for semestre <- @semestres_unique do %>
+            <option value="<%= semestre %>" <%= if @filters["semestre"] == semestre, do: "selected" %>>
+              <%= semestre %>
+            </option>
+          <% end %>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Curso</label>
+        <select 
+          name="curso" 
+          class="w-full border-gray-300 rounded-md shadow-sm"
+        >
+          <option value="">Todos</option>
+          <%= for curso <- @cursos_unique do %>
+            <option value="<%= curso %>" <%= if @filters["curso"] == curso, do: "selected" %>>
+              <%= curso %>
+            </option>
+          <% end %>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Prova</label>
+        <select 
+          name="prova" 
+          class="w-full border-gray-300 rounded-md shadow-sm"
+        >
+          <option value="">Todas</option>
+          <%= for prova <- @provas_unique do %>
+            <option value="<%= prova %>" <%= if @filters["prova"] == prova, do: "selected" %>>
+              <%= String.capitalize(prova) %>
+            </option>
+          <% end %>
+        </select>
+      </div>
+    </div>
+  </form>
+
+  <div class="mt-3 flex justify-end">
+    <button 
+      phx-click="reset_filters" 
+      class="text-sm text-blue-500 hover:text-blue-700"
+    >
+      Limpar filtros
+    </button>
+  </div>
+</div>
+    
+  <p class="text-gray-600 text-center mb-4">
+    Total de provas antigas disponíveis: 
+    <span class="font-bold text-blue-600"><%= length(@provas_antigas) %></span>
+  </p>
+
+  <div class="mb-4 relative bg-white p-6 rounded-lg shadow-lg">
+  <% lista = @filtered_provas || @provas_antigas %>
+<% prova = Enum.at(lista, @current_slide_provas_antigas) %>
+
+<%= if prova do %>
+  <div class="mb-4">
+    <h3 class="text-xl font-semibold text-gray-800 mb-1">Matéria : <%= String.capitalize(prova.materia) %></h3>
+    <p class="text-sm text-gray-600">
+      <strong>Semestre:</strong> <%= prova.semestre %>
+    </p>
+    <p class="text-sm text-gray-600">
+      <strong>Curso:</strong> <%= prova.curso_dado %>
+    </p>
+    <p class="text-sm text-gray-600 mb-4">
+      <strong>Prova:</strong> <%= String.capitalize(prova.numero_prova) %>
+    </p>
+
+    <div class="relative w-full pb-[120%] md:pb-[56.25%]">
+      <iframe 
+        src="<%= prova.url_assinada %>"
+        class="absolute top-0 left-0 w-full h-full border rounded mb-4"
+        frameborder="0"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </div>
+<% else %>
+  <p class="text-gray-600 italic">Nenhuma prova encontrada com esses filtros.</p>
+<% end %>
+  
+  <div class="flex justify-between items-center mt-4 mb-5">
+    <button 
+      phx-click="pre_slide_provas_antigas"
+      class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
+    >
+      ◀ Anterior
+    </button>
+
+    <span class="text-sm text-gray-600">
+      <%= @current_slide_provas_antigas + 1 %> de <%= length(@filtered_provas || @provas_antigas) %>
+    </span>
+
+    <button 
+      phx-click="next_slide_provas_antigas"
+      class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+    >
+      Próximo ▶
+    </button>
+  </div>
+</div>
+<% end %>
+
+    <%= if @show_modal_upload_prova_antiga do %>
+  <%= live_component @socket, ShlinkedinWeb.ProfessorsLive.ModalUploadProvaAntiga,
+      id: "upload-pdf-modal",
+      show: @show_modal_upload_prova_antiga,
+      professor: @professor,
+      instituto: @instituto,
+      uploads: @uploads
+  %>
+<% end %>
+
+  <% else %>
+    <div class="flex justify-center items-center mt-6">
+        <div class="bg-white p-6 rounded-lg shadow-lg text-center max-w-2xl w-full">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-2">Área restrita</h2>
+            <p class="text-md text-gray-500">
+              Faça login com sua conta institucional do Google (discente) para acessar esta seção.
+             </p>
         </div>
-
+    </div>
+  <% end %>
+      
       <% _ -> %>
         <p>Selecione uma aba para ver o conteúdo.</p>
     <% end %>

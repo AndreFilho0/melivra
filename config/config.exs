@@ -58,6 +58,16 @@ config :ex_aws,
     port: 443
   ]
 
+config :shlinkedin, [
+  {Oban,
+   [
+     engine: Oban.Engines.Basic,
+     notifier: Oban.Notifiers.Postgres,
+     queues: [provas: 2],
+     repo: Shlinkedin.Repo
+   ]}
+]
+
 config :tailwind,
   version: "3.0.22",
   default: [

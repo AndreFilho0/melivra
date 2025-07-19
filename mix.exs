@@ -51,7 +51,6 @@ defmodule Shlinkedin.MixProject do
       {:floki, ">= 0.30.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.5"},
       {:esbuild, "~> 0.2", runtime: Mix.env() == :dev},
-      {:swoosh, "~> 1.3"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.18"},
@@ -60,7 +59,7 @@ defmodule Shlinkedin.MixProject do
       {:timex, "~> 3.5"},
       {:ordinal, "~> 0.1.0"},
       {:httpoison, "~> 1.7"},
-      {:bamboo, "~> 1.6"},
+      {:bamboo, "~> 2.4"},
       {:ecto_psql_extras, "~> 0.2"},
       {:money, "~> 1.4"},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
@@ -71,7 +70,9 @@ defmodule Shlinkedin.MixProject do
       {:ex_aws_s3, "~> 2.0"},
       {:hackney, "~> 1.9"},
       {:sweet_xml, "~> 0.7"},
-      {:ueberauth_google, "~> 0.10"}
+      {:ueberauth_google, "~> 0.10"},
+      {:oban, "~> 2.19"},
+      {:igniter, "~> 0.5", only: [:dev]}
     ]
   end
 
