@@ -18,6 +18,10 @@ defmodule ShlinkedinWeb.Router do
     plug :put_meta_attrs
   end
 
+  pipeline :pdf do
+    plug :accepts, ["pdf"]
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
 
@@ -59,6 +63,11 @@ defmodule ShlinkedinWeb.Router do
   scope "/" do
     pipe_through [:browser, :admins_only]
     live_dashboard "/dashboard", metrics: ShlinkedinWeb.Telemetry, ecto_repos: [Shlinkedin.Repo]
+  end
+
+  scope "/", ShlinkedinWeb do
+    pipe_through [:pdf]
+    get "/pdf/*file_key", ProvaPdfController, :show
   end
 
   ## Authentication routes
@@ -287,8 +296,6 @@ defmodule ShlinkedinWeb.Router do
     # resume generator
     live "/resume", ResumeLive.Index, :index
     live "/resume/show", ResumeLive.Show, :show
-
-    get "/pdf/*file_key", ProvaPdfController, :show
 
     # error
     get "/error", ErrorController, :index
