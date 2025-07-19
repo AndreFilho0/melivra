@@ -11,11 +11,13 @@ defmodule Shlinkedin.Provas.ProvaAntiga do
     field :materia, :string
     field :file_path, :string
     field :file_data, :binary
+    field :numero_prova, :string
 
     timestamps()
   end
 
   @doc false
+  @allowed_numeros Enum.map(1..10, fn n -> "p#{n}" end)
 
   def changeset(prova_antiga, attrs) do
     prova_antiga
@@ -26,17 +28,23 @@ defmodule Shlinkedin.Provas.ProvaAntiga do
       :curso_dado,
       :materia,
       :file_path,
-      :file_data
+      :file_data,
+      :numero_prova
     ])
     |> validate_required([
       :professor_id,
       :profile_id,
       :semestre,
       :curso_dado,
-      :materia
+      :materia,
+      :numero_prova
     ])
     |> validate_format(:semestre, ~r/^\d{4}\.(1|2|3|4)$/,
       message: "formato deve ser ano.período (ex: 2024.1 ou 2020.2)"
+    )
+    |> update_change(:numero_prova, &String.downcase/1)
+    |> validate_inclusion(:numero_prova, @allowed_numeros,
+      message: "deve ser um dos valores: p1, p2, ..., p10"
     )
     |> update_change(:curso_dado, &String.downcase/1)
     |> update_change(:materia, &String.downcase/1)

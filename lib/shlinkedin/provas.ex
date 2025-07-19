@@ -95,7 +95,8 @@ defmodule Shlinkedin.Provas do
         file_path: file_path,
         materia: materia,
         semestre: semestre,
-        curso_dado: curso
+        curso_dado: curso,
+        numero_prova: numero_prova
       } = _prova,
       acc
       when is_binary(file_path) and file_path != "" ->
@@ -106,7 +107,8 @@ defmodule Shlinkedin.Provas do
             url_assinada: signed_url,
             materia: materia,
             semestre: semestre,
-            curso_dado: curso
+            curso_dado: curso,
+            numero_prova: numero_prova
           }
           | acc
         ]

@@ -29,6 +29,10 @@
         <%= label f, :materia, "Matéria" %>
         <%= text_input f, :materia, placeholder: "Ex: Cálculo I", class: "border p-2 rounded w-full", required: true %>
       </div>
+      <div class="mb-4">
+        <%= label f, :numero_prova, "Qual prova foi essa ?" %>
+        <%= text_input f, :numero_prova, placeholder: "p1", class: "border p-2 rounded w-full", required: true %>
+      </div>
 
       <div class="flex justify-end space-x-2">
         <button type="button" phx-click="close_modal_upload_pdf" class="px-4 py-2 bg-gray-300 rounded-lg">Cancelar</button>
