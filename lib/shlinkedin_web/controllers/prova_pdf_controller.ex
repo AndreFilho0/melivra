@@ -13,9 +13,8 @@ defmodule ShlinkedinWeb.ProvaPdfController do
         case HTTPoison.get(signed_url) do
           {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
             conn
-            |> put_resp_header("x-frame-options", "ALLOWALL")
+            |> put_resp_header("X-Frame-Options", "SAMEORIGIN")
             |> put_resp_content_type("application/pdf")
-            |> delete_resp_header("cross-origin-window-policy")
             |> send_resp(200, body)
 
           _ ->
