@@ -43,10 +43,24 @@ defmodule ShlinkedinWeb.ContentLive.Show do
   end
 
   defp linkedin_intent(id) do
-    "https://www.linkedin.com/sharing/share-offsite/?url=https://melivra.com/content/show/#{id}"
+    "https://www.linkedin.com/sharing/share-offsite/?url=https://melivra.com/content/#{id}"
   end
 
-  defp meta_attrs(_text, name, image) do
+  def whatsapp_intent(title, url) do
+    texto = "Veja isso: #{title} - #{url}"
+    "https://wa.me/?text=#{URI.encode(texto)}"
+  end
+
+  defp meta_attrs(text, name, image) do
+    short_text =
+      cond do
+        is_nil(text) or String.trim(text) == "" ->
+          "Novidade no MeLivra!"
+
+        true ->
+          String.slice(text, 0, 100)
+      end
+
     [
       %{
         property: "og:image",
@@ -54,7 +68,7 @@ defmodule ShlinkedinWeb.ContentLive.Show do
       },
       %{
         property: "og:description",
-        content: "Novidade no MeLivra! Post escrito por #{name}, confira agora."
+        content: "#{short_text}, Post escrito por #{name}, confira agora."
       },
       %{
         name: "twitter:image:src",

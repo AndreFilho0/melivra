@@ -66,7 +66,7 @@ defmodule ShlinkedinWeb.Router do
   end
 
   scope "/", ShlinkedinWeb do
-    pipe_through [:pdf]
+    pipe_through [:browser, :require_authenticated_user]
     get "/pdf/*file_key", ProvaPdfController, :show
   end
 
