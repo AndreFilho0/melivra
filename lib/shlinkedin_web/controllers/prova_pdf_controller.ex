@@ -1,5 +1,6 @@
 defmodule ShlinkedinWeb.ProvaPdfController do
   use ShlinkedinWeb, :controller
+  require IEx
   alias Shlinkedin.Provas
 
   def show(conn, %{"file_key" => file_key}) do
@@ -13,8 +14,8 @@ defmodule ShlinkedinWeb.ProvaPdfController do
         case HTTPoison.get(signed_url) do
           {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
             conn
-            |> put_resp_header("X-Frame-Options", "SAMEORIGIN")
-            |> put_resp_content_type("application/pdf")
+            |> put_resp_header("Content-Type", "application/pdf")
+            |> put_resp_header("Content-Disposition", "inline; filename=\"documento.pdf\"")
             |> send_resp(200, body)
 
           _ ->
