@@ -352,15 +352,31 @@
     <p class="text-sm text-gray-600 ">
       <strong>Prova:</strong> <%= String.capitalize(prova.numero_prova) %>
     </p>
-      <a href="/pdf/<%= prova.url_assinada %>" 
-        class="flex items-center justify-end text-blue-600 hover:underline font-semibold mb-4"
-         download
-        target="_blank" rel="noopener noreferrer">
-        <svg class="w-5 h-5 mr-2 text-red-600" fill="currentColor" viewBox="0 0 24 24">
+
+    <div class="flex justify-end gap-4 mb-4">
+    <a href="/pdf/<%= prova.url_assinada %>" 
+       class="flex items-center text-blue-600 hover:underline font-semibold"
+       download
+       target="_blank" rel="noopener noreferrer">
+      <svg class="w-5 h-5 mr-2 text-red-600" fill="currentColor" viewBox="0 0 24 24">
         <path d="M6 2a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6H6zm7 1.5L18.5 9H13V3.5zM8 12h1.5v4H8v-4zm3 0h1.25a1.75 1.75 0 010 3.5H11v-4zm3 0h2v1h-1v1h1v1h-2v-4z" />
-        </svg>
-        Baixar Prova
-       </a>
+      </svg>
+      Baixar Prova
+    </a>
+
+    <%= if prova.profile_id == @profile.id do %>
+      <button phx-click="editar_prova" phx-value-id="<%= prova.id %>"
+              class="text-yellow-600 hover:underline font-semibold">
+        ✏️ Editar
+      </button>
+
+      <button phx-click="excluir_prova" phx-value-id="<%= prova.id %>"
+              class="text-red-600 hover:underline font-semibold">
+        🗑️ Excluir
+      </button>
+    <% end %>
+  </div>
+     
     
 
     <div class="relative w-full pb-[120%] md:pb-[56.25%]">
@@ -399,12 +415,28 @@
 <% end %>
 
     <%= if @show_modal_upload_prova_antiga do %>
-  <%= live_component @socket, ShlinkedinWeb.ProfessorsLive.ModalUploadProvaAntiga,
+    <%= live_component @socket, ShlinkedinWeb.ProfessorsLive.ModalUploadProvaAntiga,
       id: "upload-pdf-modal",
       show: @show_modal_upload_prova_antiga,
       professor: @professor,
       instituto: @instituto,
       uploads: @uploads
+     %>
+    <% end %>
+
+    <%= if @show_modal_edit_prova_antiga do %>
+  <%= live_component @socket, ShlinkedinWeb.ProfessorsLive.ModalEditProvaAntiga,
+    id: "edit-prova-modal",
+    show: @show_modal_edit_prova_antiga,
+    prova: @prova_em_edicao
+  %>
+<% end %>
+
+<%= if @show_modal_confirm_delete_prova_antiga do %>
+  <%= live_component @socket, ShlinkedinWeb.ProfessorsLive.ModalConfirmDeleteProvaAntiga,
+    id: "confirm-delete-prova-modal",
+    show: @show_modal_confirm_delete_prova_antiga,
+    prova: @prova_a_excluir
   %>
 <% end %>
 
