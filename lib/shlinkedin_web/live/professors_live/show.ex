@@ -8,6 +8,7 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
   alias Shlinkedin.Timeline.Comment
   alias Shlinkedin.Professors.Professor
   alias Shlinkedin.Provas
+  alias Shlinkedin.Provas.ProvaAntiga
 
   @impl true
   def mount(%{"slug" => slug, "instituto" => instituto}, session, socket) do
@@ -125,6 +126,10 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
        |> assign(:turmas_urls, turmas_urls)
        |> assign(:show_modal_upload_prova_antiga, false)
        |> assign(:provas_antigas, provas_antigas)
+       |> assign(:show_modal_edit_prova_antiga, false)
+       |> assign(:show_modal_confirm_delete_prova_antiga, false)
+       |> assign(:prova_em_edicao, %ProvaAntiga{})
+       |> assign(:prova_a_excluir, %ProvaAntiga{})
        |> assign(:filtered_provas, nil)
        |> assign(:filters, %{})
        |> assign(:materias_unique, materias_unique)
@@ -548,6 +553,135 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
       |> assign(:current_slide_provas_antigas, 0)
 
     {:noreply, socket}
+  end
+
+  def handle_event("editar_prova", %{"id" => id}, socket) do
+    case Provas.get_prova_antiga(id) do
+      {:ok, prova} ->
+        socket =
+          socket
+          |> assign(:show_modal_edit_prova_antiga, true)
+          |> assign(:prova_em_edicao, prova)
+
+        {:noreply, socket}
+
+      {:error, :not_found} ->
+        {:noreply, put_flash(socket, :error, "Prova não encontrada.")}
+    end
+  end
+
+  def handle_event("close_modal_editar", _, socket) do
+    socket =
+      socket
+      |> assign(:show_modal_edit_prova_antiga, false)
+      |> assign(:prova_em_edicao, %ProvaAntiga{})
+
+    {:noreply, socket}
+  end
+
+  def handle_event("excluir_prova", %{"id" => id}, socket) do
+    case Provas.get_prova_antiga(id) do
+      {:ok, prova} ->
+        socket =
+          socket
+          |> assign(:show_modal_confirm_delete_prova_antiga, true)
+          |> assign(:prova_a_excluir, prova)
+
+        {:noreply, socket}
+
+      {:error, :not_found} ->
+        {:noreply, put_flash(socket, :error, "Prova não encontrada.")}
+    end
+  end
+
+  def handle_event("confirmar_exclusao_prova", %{"id" => id}, socket) do
+    Provas.delete_prova_antiga(id, socket.assigns.profile.id)
+
+    id = String.to_integer(id)
+
+    provas_antigas =
+      Enum.reject(socket.assigns.provas_antigas, fn prova ->
+        prova.id == id
+      end)
+
+    socket =
+      socket
+      |> assign(:show_modal_confirm_delete_prova_antiga, false)
+      |> assign(:provas_antigas, provas_antigas)
+      |> assign(:prova_a_excluir, %ProvaAntiga{})
+
+    {:noreply, socket}
+  end
+
+  def handle_event("close_modal_delete", _, socket) do
+    socket =
+      socket
+      |> assign(:show_modal_confirm_delete_prova_antiga, false)
+      |> assign(:prova_a_excluir, %ProvaAntiga{})
+
+    {:noreply, socket}
+  end
+
+  def handle_event("validate_edicao_prova_antiga", %{"edit_prova_antiga" => params}, socket) do
+    changeset =
+      ProvaAntiga.changeset(socket.assigns.prova_em_edicao, params)
+      |> Map.put(:action, :validate)
+
+    {:noreply, assign(socket, :form_changeset, changeset)}
+  end
+
+  def handle_event("submit_edicao_prova_antiga", %{"edit_prova_antiga" => params}, socket) do
+    prova_antiga = socket.assigns.prova_em_edicao
+
+    IO.inspect(prova_antiga, label: "Prova Antiga antes da edição")
+
+    update_params =
+      params
+      |> Enum.filter(fn {key, value} ->
+        original = Map.get(prova_antiga, String.to_existing_atom(key))
+        value != nil and value != "" and value != original
+      end)
+      |> Enum.into(%{})
+
+    IO.inspect(update_params, label: "Parâmetros de atualização")
+
+    if map_size(update_params) == 0 do
+      {:noreply,
+       socket
+       |> assign(:show_modal_edit_prova_antiga, false)
+       |> assign(:prova_em_edicao, %ProvaAntiga{})}
+    else
+      case Provas.update_prova_antiga(prova_antiga.id, socket.assigns.profile.id, update_params) do
+        {:ok, prova_atualizada} ->
+          IO.inspect(prova_atualizada, label: "Prova Antiga atualizada")
+          IO.inspect(socket.assigns.provas_antigas, label: "Provas Antigas antes da atualização")
+
+          prova_atualizada = %{
+            url_assinada: prova_atualizada.file_path,
+            materia: prova_atualizada.materia,
+            semestre: prova_atualizada.semestre,
+            curso_dado: prova_atualizada.curso_dado,
+            numero_prova: prova_atualizada.numero_prova,
+            profile_id: prova_atualizada.profile_id,
+            id: prova_atualizada.id
+          }
+
+          provas_antigas =
+            Enum.map(socket.assigns.provas_antigas, fn p ->
+              if p.id == prova_atualizada.id, do: prova_atualizada, else: p
+            end)
+
+          {:noreply,
+           socket
+           |> assign(:show_modal_edit_prova_antiga, false)
+           |> assign(:prova_em_edicao, %ProvaAntiga{})
+           |> assign(:provas_antigas, provas_antigas)}
+
+        {:error, _reason} ->
+          # Aqui você pode tratar melhor e exibir erro se quiser
+          {:noreply, socket}
+      end
+    end
   end
 
   defp filter_provas(provas, filters) do
