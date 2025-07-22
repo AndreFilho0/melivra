@@ -10,9 +10,6 @@
       <div class="mb-4">
         <%= label f, :semestre, "Semestre" %>
         <%= text_input f, :semestre, value: @prova.semestre, class: "border p-2 rounded w-full", required: true %>
-        <%= for {msg, _} <- Keyword.get_values(f.errors, :semestre) do %>
-          <p class="text-red-600 text-sm mt-1"><%= msg %></p>
-        <% end %>
       </div>
 
       <div class="mb-4">
