@@ -635,7 +635,6 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
 
     IO.inspect(prova_antiga, label: "Prova Antiga antes da edição")
 
-    # Só queremos manter os campos com valores realmente diferentes
     update_params =
       params
       |> Enum.filter(fn {key, value} ->
@@ -647,16 +646,25 @@ defmodule ShlinkedinWeb.ProfessorsLive.Show do
     IO.inspect(update_params, label: "Parâmetros de atualização")
 
     if map_size(update_params) == 0 do
-      # Nada mudou, só fecha o modal
       {:noreply,
        socket
        |> assign(:show_modal_edit_prova_antiga, false)
        |> assign(:prova_em_edicao, %ProvaAntiga{})}
     else
-      # Realiza o update com os campos modificados
       case Provas.update_prova_antiga(prova_antiga.id, socket.assigns.profile.id, update_params) do
         {:ok, prova_atualizada} ->
           IO.inspect(prova_atualizada, label: "Prova Antiga atualizada")
+          IO.inspect(socket.assigns.provas_antigas, label: "Provas Antigas antes da atualização")
+
+          prova_atualizada = %{
+            url_assinada: prova_atualizada.file_path,
+            materia: prova_atualizada.materia,
+            semestre: prova_atualizada.semestre,
+            curso_dado: prova_atualizada.curso_dado,
+            numero_prova: prova_atualizada.numero_prova,
+            profile_id: prova_atualizada.profile_id,
+            id: prova_atualizada.id
+          }
 
           provas_antigas =
             Enum.map(socket.assigns.provas_antigas, fn p ->
