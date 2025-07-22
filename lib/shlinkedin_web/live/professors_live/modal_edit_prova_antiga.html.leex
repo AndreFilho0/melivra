@@ -1,0 +1,37 @@
+<div id="edit-prova-modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+    <h2 class="text-xl font-bold mb-4">Editar Prova Antiga</h2>
+
+    <%= f = form_for :edit_prova_antiga, "#",
+      id: "edit-prova-form",
+      phx_submit: "submit_edicao_prova_antiga",
+      phx_change: "validate_edicao_prova_antiga" %>
+
+      <div class="mb-4">
+        <%= label f, :semestre, "Semestre" %>
+        <%= text_input f, :semestre, value: @prova.semestre, class: "border p-2 rounded w-full", required: true %>
+      </div>
+
+      <div class="mb-4">
+        <%= label f, :curso_dado, "Curso" %>
+        <%= text_input f, :curso_dado, value: @prova.curso_dado, class: "border p-2 rounded w-full", required: true %>
+      </div>
+
+      <div class="mb-4">
+        <%= label f, :materia, "Matéria" %>
+        <%= text_input f, :materia, value: @prova.materia, class: "border p-2 rounded w-full", required: true %>
+      </div>
+
+      <div class="mb-4">
+        <%= label f, :numero_prova, "Número da Prova" %>
+        <%= text_input f, :numero_prova, value: @prova.numero_prova, class: "border p-2 rounded w-full", required: true %>
+      </div>
+
+      <div class="flex justify-end space-x-2">
+        <button type="button" phx-click="close_modal_editar" class="px-4 py-2 bg-gray-300 rounded-lg">Cancelar</button>
+        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+

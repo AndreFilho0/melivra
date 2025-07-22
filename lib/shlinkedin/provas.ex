@@ -19,6 +19,36 @@ defmodule Shlinkedin.Provas do
     ProvaAntiga.changeset(prova_antiga, %{})
   end
 
+  def delete_prova_antiga(prova_id, profile_id) do
+    case Repo.get(ProvaAntiga, prova_id) do
+      nil ->
+        {:error, :not_found}
+
+      %ProvaAntiga{profile_id: ^profile_id} = prova ->
+        Repo.delete(prova)
+
+      _ ->
+        {:error, :unauthorized}
+    end
+  end
+
+  def update_prova_antiga(prova_id, profile_id, attrs) do
+    IO.inspect(attrs, label: "Updating Prova Antiga with attrs")
+
+    case Repo.get(ProvaAntiga, prova_id) do
+      nil ->
+        {:error, :not_found}
+
+      %ProvaAntiga{profile_id: ^profile_id} = prova ->
+        prova
+        |> ProvaAntiga.changeset(attrs)
+        |> Repo.update()
+
+      _ ->
+        {:error, :unauthorized}
+    end
+  end
+
   def get_prova_antiga(id) do
     case Repo.get(ProvaAntiga, id) do
       nil ->
@@ -92,11 +122,13 @@ defmodule Shlinkedin.Provas do
   def buscar_provas_antigas_usando_file_path_no_s3(bucket, provas) when is_list(provas) do
     Enum.reduce(provas, [], fn
       %Shlinkedin.Provas.ProvaAntiga{
+        id: id,
         file_path: file_path,
         materia: materia,
         semestre: semestre,
         curso_dado: curso,
-        numero_prova: numero_prova
+        numero_prova: numero_prova,
+        profile_id: profile_id
       } = _prova,
       acc
       when is_binary(file_path) and file_path != "" ->
@@ -108,7 +140,9 @@ defmodule Shlinkedin.Provas do
             materia: materia,
             semestre: semestre,
             curso_dado: curso,
-            numero_prova: numero_prova
+            numero_prova: numero_prova,
+            profile_id: profile_id,
+            id: id
           }
           | acc
         ]
