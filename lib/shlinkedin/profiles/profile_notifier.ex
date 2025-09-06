@@ -94,8 +94,10 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       from_profile_id: from_profile.id,
       to_profile_id: to_profile.id,
       type: "devoured_intern",
-      action: "devoured your intern, #{name}. We're sorry for your loss.",
-      body: ""
+      action:
+        "devorou seu estagiário, #{name}. Sentimos muito pela sua perda (de mão de obra barata).",
+      body:
+        "Parece que alguém não leu o manual de sobrevivência na selva acadêmica. Fique de olho nos seus próximos estagiários!"
     })
   end
 
@@ -108,9 +110,9 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       to_profile_id: to.id,
       type: "ad_click",
       ad_id: action.ad_id,
-      action: "has decided to issue you a #{action.action} on your ad. ",
+      action: "decidiu te dar um #{action.action} na sua propaganda. ",
       body:
-        "Reason: #{action.reason}. Don't feel bad! Humor sometimes requires taking some risks :)"
+        "Motivo: #{action.reason}. Não se sinta mal! O humor às vezes exige correr alguns riscos (e ser moderado por isso) :)"
     }
     |> Profiles.create_notification()
   end
@@ -121,9 +123,9 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       to_profile_id: to.id,
       type: "like",
       post_id: action.post_id,
-      action: "has decided to issue you a #{action.action} on your post. ",
+      action: "decidiu te dar um #{action.action} na sua publicação. ",
       body:
-        "Reason: #{action.reason}. Don't feel bad! Humor sometimes requires taking some risks :)"
+        "Motivo: #{action.reason}. Não se sinta mal! O humor às vezes exige correr alguns riscos (e ser moderado por isso) :)"
     }
     |> Profiles.create_notification()
   end
@@ -134,9 +136,9 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       to_profile_id: to.id,
       type: "like",
       post_id: action.post_id,
-      action: "has decided to issue you a #{action.action} on your comment. ",
+      action: "decidiu te dar um #{action.action} no seu comentário. ",
       body:
-        "Reason: #{action.reason}. Don't feel bad! Humor sometimes requires taking some risks :)"
+        "Motivo: #{action.reason}. Não se sinta mal! O humor às vezes exige correr alguns riscos (e ser moderado por isso) :)"
     }
     |> Profiles.create_notification()
   end
@@ -147,9 +149,9 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       to_profile_id: to.id,
       type: "vote",
       post_id: action.post_id,
-      action: "has decided to issue you a #{action.action} on your headline. ",
+      action: "decidiu te dar um #{action.action} na sua manchete. ",
       body:
-        "Reason: #{action.reason}. Don't feel bad! Humor sometimes requires taking some risks :)"
+        "Motivo: #{action.reason}. Não se sinta mal! O humor às vezes exige correr alguns riscos (e ser moderado por isso) :)"
     }
     |> Profiles.create_notification()
   end
@@ -174,22 +176,31 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       from_profile_id: from_profile.id,
       to_profile_id: to_profile.id,
       type: "ad_buy",
-      ad_id: ad.id,
       action:
-        "#{from_profile.persona_name} bought your ad for '#{ad.product}' for #{transaction.amount}"
+        "#{from_profile.persona_name} comprou sua propaganda para '#{ad.product}' por #{transaction.amount} pontos. Que pechincha!",
+      body:
+        "Seu produto é tão bom que até o pessoal do Melivra quer um pedaço! Continue assim, empreendedor!"
     })
 
     if to_profile.unsubscribed == false and from_profile.id != to_profile.id do
       ranking = Shlinkedin.Profiles.get_ranking(to_profile, 100_000, "Wealth")
 
       body = """
+      Olá, #{to_profile.persona_name},
 
+      Temos uma notícia que vale ouro (ou melhor, pontos)!
 
+      #{from_profile.persona_name} acabou de comprar sua propaganda para '#{ad.product}' por #{transaction.amount} pontos.
+      Isso que é ter visão de mercado!
+
+      Continue faturando no Melivra!
+
+      Obrigado, <br/> Melivra team
       """
 
       Shlinkedin.Email.new_email(
         to_profile.user.email,
-        "You made a sale!",
+        "Você fez uma venda no Melivra!",
         body
       )
       |> Shlinkedin.Mailer.deliver_later()
@@ -227,8 +238,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       to_profile_id: to_profile.id,
       group_id: group.id,
       type: "group_invite",
-      action: "Convidou você para :  #{group.title}",
-      body: ""
+      action: "Convidou você para: #{group.title}. Prepare-se para o networking!",
+      body: "Mais um grupo para chamar de seu! Quem sabe você não encontra seu próximo TCC aqui?"
     })
 
     if to_profile.unsubscribed == false do
@@ -266,14 +277,15 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       from_profile_id: from_profile.id,
       to_profile_id: to_profile.id,
       type: "jab",
-      action: "business jabbed you!",
-      body: "Obtenha alguma vingança corporativa e ataque-os de volta"
+      action: "te deu um 'jab' de negócios! Hora de revidar!",
+      body:
+        "Obtenha alguma vingança corporativa e ataque-os de volta (com um 'jab' ainda melhor, claro)!"
     })
 
     if to_profile.unsubscribed == false do
       Shlinkedin.Email.new_email(
         to_profile.user.email,
-        "#{from_profile.persona_name} !",
+        "#{from_profile.persona_name} te deu um 'jab'!",
         body
       )
       |> Shlinkedin.Mailer.deliver_later()
@@ -310,8 +322,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       from_profile_id: from_profile.id,
       to_profile_id: to_profile.id,
       type: "sent_points",
-      action: "sent you #{transaction.amount}.",
-      body: "Memo: #{transaction.note}"
+      action: "te enviou #{transaction.amount} pontos. É a sua mesada do Melivra!",
+      body: "Recado: #{transaction.note}. Use com sabedoria (ou gaste tudo em café)!"
     })
 
     if to_profile.unsubscribed == false do
@@ -333,8 +345,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       from_profile_id: from_profile.id,
       to_profile_id: to_profile.id,
       type: "new_follower",
-      action: "segiu você",
-      body: ""
+      action: "começou a te seguir. Mais um fã na sua lista!",
+      body: "Seu relacionamento está crescendo! Prepare-se para a fama acadêmica."
     })
 
     body = """
@@ -344,7 +356,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
     <br/>
 
-    <p>seu relacionamento está crescendo</p>
+    <p>Seu relacionamento está crescendo!</p>
 
     <p><a href="https://melivra.com/sh/#{from_profile.slug}">#{from_profile.persona_name}</a> seguiu você.
 
@@ -362,7 +374,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     if to_profile.unsubscribed == false do
       Shlinkedin.Email.new_email(
         to_profile.user.email,
-        "#{from_profile.persona_name} seguiu você !",
+        "#{from_profile.persona_name} seguiu você!",
         body
       )
       |> Shlinkedin.Mailer.deliver_later()
@@ -378,8 +390,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       from_profile_id: from_profile.id,
       to_profile_id: to_profile.id,
       type: "pending_shlink",
-      action: "has sent you a Shlink request!",
-      body: ""
+      action: "te enviou um pedido de amizade! É hora de expandir sua rede (ou não).",
+      body: "Alguém quer ser seu 'contato' no Melivra. O que você vai fazer?"
     })
 
     body = """
@@ -390,7 +402,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
 
     <p> #{from_profile.persona_name}
-    <a href="https://melivra.com/shlinks">here.</a>
+    <a href="https://melivra.com/shlinks">aqui.</a>
 
     </p>
 
@@ -409,7 +421,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     if to_profile.unsubscribed == false do
       Shlinkedin.Email.new_email(
         to_profile.user.email,
-        "#{from_profile.persona_name} has sent you a shlink request!",
+        "#{from_profile.persona_name} te enviou um pedido de amizade!",
         body
       )
       |> Shlinkedin.Mailer.deliver_later()
@@ -443,7 +455,7 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     <br/>
     <br/>
 
-    <p>Congratulations! #{to_profile.persona_name} #{Points.get_rule_amount(type)}. :</p>
+    <p>Parabéns! #{to_profile.persona_name} #{Points.get_rule_amount(type)}. :</p>
 
     <ul>
     #{for line <- friend_request_text(), do: "<li>#{line}</li>"}
@@ -461,14 +473,16 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       from_profile_id: to_profile.id,
       to_profile_id: from_profile.id,
       type: "accepted_shlink",
-      action: "has accepted your Shlink request! +#{Points.get_rule_amount(type)}",
-      body: ""
+      action:
+        "aceitou seu pedido de amizade! +#{Points.get_rule_amount(type)} pontos para a sua rede!",
+      body:
+        "Sua rede de contatos acadêmicos está crescendo! Quem diria que fazer amigos daria pontos?"
     })
 
     if from_profile.unsubscribed == false do
       Shlinkedin.Email.new_email(
         from_profile.user.email,
-        "#{to_profile.persona_name} has accepted your Shlink request!",
+        "#{to_profile.persona_name} aceitou seu pedido de amizade!",
         body
       )
       |> Shlinkedin.Mailer.deliver_later()
@@ -483,12 +497,12 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       ) do
     body = """
 
-    Congratulations #{to_profile.persona_name},
+    Parabéns #{to_profile.persona_name},
 
     <br/>
     <br/>
 
-    <a href="https://melivra.com/sh/#{from_profile.slug}">#{from_profile.persona_name}</a> has endorsed you for "#{endorsement.body}"! Your reward is +#{Points.get_rule_amount(type)}.
+    <a href="https://melivra.com/sh/#{from_profile.slug}">#{from_profile.persona_name}</a> te endossou para "#{endorsement.body}"! Sua recompensa é de +#{Points.get_rule_amount(type)} pontos.
 
     <br/>
     <br/>
@@ -501,12 +515,13 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         from_profile_id: from_profile.id,
         to_profile_id: to_profile.id,
         type: "endorsement",
-        action: "endorsed you for",
-        body: "#{endorsement.body}. +#{Points.get_rule_amount(type)}"
+        action: "te endossou para",
+        body:
+          "#{endorsement.body}. +#{Points.get_rule_amount(type)} pontos. Alguém reconhece seu talento!"
       })
 
       if to_profile.unsubscribed == false do
-        Shlinkedin.Email.new_email(to_profile.user.email, "You've been endorsed!", body)
+        Shlinkedin.Email.new_email(to_profile.user.email, "Você foi endossado no Melivra!", body)
         |> Shlinkedin.Mailer.deliver_later()
       end
     end
@@ -540,8 +555,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         from_profile_id: from_profile.id,
         to_profile_id: to_profile.id,
         type: "testimonial",
-        action: "wrote you a review: ",
-        body: "#{testimonial.body}"
+        action: "escreveu uma avaliação para você: ",
+        body: "#{testimonial.body}. Parece que você é uma estrela!"
       })
 
       if to_profile.unsubscribed == false do
@@ -570,7 +585,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         to_profile_id: to_profile.id,
         type: "like",
         post_id: like.post_id,
-        action: "reacted \"#{like.like_type}\" to your post. +#{Points.get_rule_amount(type)}"
+        action:
+          "reagiu \"#{like.like_type}\" à sua publicação. +#{Points.get_rule_amount(type)} pontos. Alguém gostou do seu post!"
       })
     end
   end
@@ -589,7 +605,9 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         to_profile_id: to_profile.id,
         type: "ad_like",
         ad_id: like.ad_id,
-        action: get_ad_like_text(like) <> " +#{Points.get_rule_amount(type)}"
+        action:
+          get_ad_like_text(like) <>
+            " +#{Points.get_rule_amount(type)} pontos. Seu anúncio está bombando!"
       })
     end
 
@@ -599,35 +617,35 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
       body = """
 
-      Hi #{to_profile.persona_name}.
+      Olá #{to_profile.persona_name}.
 
       #{if like.like_type == "buy",
-        do: "We have great news for your company, '#{ad.company}'.",
-        else: "Times are tough at your shell company, '#{ad.company}'."}
+        do: "Temos ótimas notícias para sua empresa, '#{ad.company}'.",
+        else: "Os tempos estão difíceis para sua empresa de fachada, '#{ad.company}'."}
 
       <br/>
       <br/>
 
-      #{from_profile.persona_name} has
+      #{from_profile.persona_name}
 
-      <a href="https://melivra.com/ads/#{ad.id}">#{get_ad_like_text(like)}</a>. Your reward is +#{Points.get_rule_amount(type)}!
-
-      <br/>
-      <br/>
-      Believe it or not, with you now are the <a href="https://melivra.com/leaders?curr_category=Wealth">#{Ordinal.ordinalize(ranking)}</a> wealthiest person on ShlinkedIn.
+      <a href="https://melivra.com/ads/#{ad.id}">#{get_ad_like_text(like)}</a>. Sua recompensa é de +#{Points.get_rule_amount(type)} pontos!
 
       <br/>
       <br/>
-      Thanks, <br/>
-      melivra
+      Acredite ou não, você agora é a <a href="https://melivra.com/leaders?curr_category=Wealth">#{Ordinal.ordinalize(ranking)}</a> pessoa mais rica no Melivra.
+
+      <br/>
+      <br/>
+      Obrigado, <br/>
+      Melivra
 
       """
 
       Shlinkedin.Email.new_email(
         to_profile.user.email,
         "#{if like.like_type == "buy",
-          do: "You made a sale!",
-          else: "Uh oh. You've been sued by #{from_profile.persona_name}"}",
+          do: "Você fez uma venda!",
+          else: "Ops. Você foi processado por #{from_profile.persona_name}"}",
         body
       )
       |> Shlinkedin.Mailer.deliver_later()
@@ -638,9 +656,9 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     ad = Shlinkedin.Ads.get_ad!(like.ad_id)
 
     case like.like_type do
-      "buy" -> "bought 1 of your products: '#{ad.product}'"
-      "sue" -> "sued your company, '#{ad.company}'"
-      _ -> "clicked #{like.like_type} on your ad"
+      "buy" -> "comprou 1 dos seus produtos: '#{ad.product}'"
+      "sue" -> "processou sua empresa, '#{ad.company}'"
+      _ -> "clicou em #{like.like_type} no seu anúncio"
     end
   end
 
@@ -663,7 +681,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         to_profile_id: to_profile.id,
         type: "like",
         post_id: post.id,
-        action: "reacted \"#{like.like_type}\" to your comment. +#{Points.get_rule_amount(type)}"
+        action:
+          "reagiu \"#{like.like_type}\" ao seu comentário. +#{Points.get_rule_amount(type)} pontos. Seu comentário fez sucesso!"
       })
     end
   end
@@ -685,16 +704,23 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         to_profile_id: to_profile.id,
         type: "vote",
         article_id: vote.article_id,
-        action: "clapped your headline, \"#{article.headline}\" +#{Points.get_rule_amount(type)}"
+        action:
+          "aplaudiu sua manchete, \"#{article.headline}\" +#{Points.get_rule_amount(type)} pontos. Sua notícia é um sucesso!"
       })
     end
   end
 
   def notify_post_featured(%Profile{} = to_profile, %Post{} = post, type) do
     body = """
+    Olá #{to_profile.persona_name},
 
+    Temos uma notícia de capa para você!
 
+    Sua publicação foi destacada no Melivra. Isso significa mais visibilidade para suas ideias geniais!
 
+    Continue compartilhando seu conhecimento e humor com a comunidade.
+
+    Obrigado, <br/> Melivra team
     """
 
     Shlinkedin.Profiles.create_notification(%Notification{
@@ -702,13 +728,14 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       to_profile_id: to_profile.id,
       type: "featured",
       post_id: post.id,
-      action: "has decided to featured your post! +#{Points.get_rule_amount(type)}."
+      action:
+        "decidiu destacar sua publicação! +#{Points.get_rule_amount(type)} pontos. Você está no topo!"
     })
 
     if to_profile.unsubscribed == false do
       Shlinkedin.Email.new_email(
         to_profile.user.email,
-        "Your post was featured!",
+        "Sua publicação foi destacada no Melivra!",
         body
       )
       |> Shlinkedin.Mailer.deliver_later()
@@ -729,8 +756,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
 
     <br/>
     <br/>
-    Congrats! <br/>
-    melivra
+    Parabéns! <br/>
+    Melivra
 
     """
 
@@ -738,13 +765,14 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
       from_profile_id: Profiles.get_god().id,
       to_profile_id: to_profile.id,
       type: "new_badge",
-      action: "has awarded you the #{award_type.name} badge! It's been added to your trophy case."
+      action:
+        "te concedeu o distintivo #{award_type.name}! Ele foi adicionado à sua coleção de troféus. Que chique!"
     })
 
     if to_profile.unsubscribed == false do
       Shlinkedin.Email.new_email(
         to_profile.user.email,
-        "You got an award!",
+        "Você ganhou um prêmio no Melivra!",
         body
       )
       |> Shlinkedin.Mailer.deliver_later()
@@ -756,9 +784,9 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
     OI #{to_name},
     <br/>
     <br/>
-    #{from_name} has tagged you in a
+    #{from_name} te marcou em uma
      <a href="https://melivra.com/posts/#{id}">#{tag_parent}.</a>
-     Check it out, and keep our engagement metrics high!
+     Confira, e vamos manter nossas métricas de engajamento lá em cima!
     <br/>
     <br/>
     Obrigado , <br/> Melivra team
@@ -779,19 +807,19 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         to_profile_id: to_profile.id,
         type: "post_tag",
         post_id: post.id,
-        action: "tagged you: ",
-        body: "#{post.body}"
+        action: "te marcou: ",
+        body: "#{post.body}. Alguém quer sua atenção (ou sua opinião genial)!"
       })
 
       if to_profile.unsubscribed == false do
         Shlinkedin.Email.new_email(
           to_profile.user.email,
-          "#{from_profile.persona_name} tagged you in a comment",
+          "#{from_profile.persona_name} te marcou em um comentário",
           tag_email_body(
             to_profile.persona_name,
             from_profile.persona_name,
             post.id,
-            "post"
+            "publicação"
           )
         )
         |> Shlinkedin.Mailer.deliver_later()
@@ -813,8 +841,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         to_profile_id: to_profile.id,
         type: "comment",
         post_id: comment.post_id,
-        action: "tagged you in a comment: ",
-        body: "#{comment.body}"
+        action: "te marcou em um comentário: ",
+        body: "#{comment.body}. Sua presença é requisitada!"
       })
     end
 
@@ -824,8 +852,8 @@ defmodule Shlinkedin.Profiles.ProfileNotifier do
         to_profile_id: to_profile.id,
         type: "comment",
         post_id: comment.post_id,
-        action: "commented on your post: ",
-        body: "#{comment.body}"
+        action: "comentou na sua publicação: ",
+        body: "#{comment.body}. Alguém tem algo a dizer sobre o que você postou!"
       })
     end
   end

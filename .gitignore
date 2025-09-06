@@ -39,3 +39,4 @@ npm-debug.log
 
 /.elixir_ls/
 config/prod.secret.exs
+.aider*
