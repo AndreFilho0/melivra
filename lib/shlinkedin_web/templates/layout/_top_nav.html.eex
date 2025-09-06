@@ -102,7 +102,7 @@
                 <% end %>
 
                 <div x-data="{post_options: false}" class="relative">
-                    <% if false do%>
+                    
                     <button @click.away="post_options=false" @click="post_options= !post_options"
                         class="hover:bg-gray-100 px-2 mx-1 h-full relative <%= if @conn.request_path == "/updates", do: "border-gray-700 text-gray-700 "%> border-b-2 border-white  px-1 pt-1 font-base">
 
@@ -121,14 +121,14 @@
                         <% end %>
                         <p class=" pt-0.5 text-xs hidden md:inline-block">notificações</p>
                     </button>
-                    <% end %>
+                    
                     <%# Options Menu %>
                     <div x-show="post_options" x-transition
                         class="origin-top-right z-10 top-12 absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                         <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                             <%= live_render @conn, ShlinkedinWeb.NotificationLive.NotificationComponent %>
 
-                            <%= live_redirect to: Routes.notification_index_path(@conn, :index), do: raw("All dinks &rarr;"), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
+                            <%= live_redirect to: Routes.notification_index_path(@conn, :index), do: raw("Todas &rarr;"), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" %>
                         </div>
                     </div>
                 </div>

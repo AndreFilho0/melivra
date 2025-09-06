@@ -52,7 +52,7 @@
       </button>
     <% end %>
 
-    <% if false do %>
+      <%= if @profile != nil do %>
       <%= link to: "/updates", class: "flex-1 flex justify-center" do %>
         <button class="p-4 relative<%= if @conn.request_path == "/updates", do: " text-blue-500 italic"%>">
           <span class="sr-only">Updates</span>
@@ -67,7 +67,8 @@
           <p class="pt-0.5">Notificação</p>
         </button>
       <% end %>
-    <% end %>
+      <% end %>
+    
     <%= if @profile != nil do %>
     <%= link to: "/sh/#{@profile.slug}", class: "flex-1 flex justify-center" do %>
       <button class="p-4<%= if @conn.request_path == "/sh/#{@profile.slug}", do: " text-blue-500 italic"%>">
